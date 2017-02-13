@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //####################################################################################
+    //各种layout_width和layout_height的组合形式
+    <style name="match_match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="match_wrap">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="wrap_wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="wrap_match">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="match_match_v" parent="match_match">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="match_wrap_v" parent="match_wrap">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="wrap_wrap_v" parent="wrap_wrap">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="wrap_match_v" parent="wrap_match">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="match_match_h" parent="match_match">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="match_wrap_h" parent="match_wrap">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="wrap_wrap_h" parent="wrap_wrap">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="wrap_match_h" parent="wrap_match">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    //####################################################################################
+
+    //####################################################################################
+    <!-- PopupWindow窗口淡入淡出动画 -->
+    <style name="popup_animation01" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/down_to_up</item>
+        <item name="android:windowExitAnimation">@anim/up_to_down</item>
+    </style>
+    //####################################################################################
+</resources>
