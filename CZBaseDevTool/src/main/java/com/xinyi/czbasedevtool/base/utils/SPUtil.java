@@ -46,7 +46,7 @@ public class SPUtil
 	 * @param key
 	 * @param object
 	 */
-	public static void put(Context context, String key, Object object)
+	public  void put(Context context, String key, Object object)
 	{
 
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
@@ -84,7 +84,7 @@ public class SPUtil
 	 * @param defaultObject
 	 * @return
 	 */
-	public static Object get(Context context, String key, Object defaultObject)
+	public  Object get(Context context, String key, Object defaultObject)
 	{
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -115,7 +115,7 @@ public class SPUtil
 	 * @param context
 	 * @param key
 	 */
-	public static void remove(Context context, String key)
+	public  void remove(Context context, String key)
 	{
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -129,7 +129,7 @@ public class SPUtil
 	 * 
 	 * @param context
 	 */
-	public static void clear(Context context)
+	public  void clear(Context context)
 	{
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -145,7 +145,7 @@ public class SPUtil
 	 * @param key
 	 * @return
 	 */
-	public static boolean contains(Context context, String key)
+	public  boolean contains(Context context, String key)
 	{
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -158,7 +158,7 @@ public class SPUtil
 	 * @param context
 	 * @return
 	 */
-	public static Map<String, ?> getAll(Context context)
+	public  Map<String, ?> getAll(Context context)
 	{
 		SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
 				Context.MODE_PRIVATE);
