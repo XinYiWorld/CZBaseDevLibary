@@ -9,15 +9,35 @@ import android.content.SharedPreferences;
 
 public class SPUtil
 {
-	private SPUtil() {
-		/* cannot be instantiated */
-		throw new UnsupportedOperationException("cannot be instantiated");
+	private static SPUtil mInstance;
+	private  Context mContext;
+
+
+	private SPUtil(Context mContext) {
+ 		this.mContext = mContext;
 	}
+
+	public static SPUtil getInstance(Context mContext){								//所有的读写都在share_data.xml文件中
+		 return  getInstance(mContext,"share_data");
+	}
+
+	public static SPUtil getInstance(Context mContext,String fileName){				//自定义读写文件
+		FILE_NAME = fileName;
+		if(mInstance == null){
+			synchronized (SPUtil.class){
+				if(mInstance == null){
+					mInstance = new SPUtil(mContext);
+				}
+			}
+		}
+		return mInstance;
+	}
+
 
 	/**
 	 * 保存在手机里面的文件名
 	 */
-	public static final String FILE_NAME = "share_data";
+	public static  String FILE_NAME = "share_data";
 
 	/**
 	 * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
