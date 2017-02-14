@@ -3,15 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.xinyi.czbasedevtool.base.view.RoundTextView
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:bgColor="@color/aqua"
-        app:bgPressColor="@color/lightcoral"
-        app:cornerRadius="20dp"
-        app:borderWidths="1px"
-        app:borderColor="@color/black"
-        android:text="aaaaaaaaaa"
-        />
+        android:layout_height="match_parent"></FrameLayout>
 </LinearLayout>

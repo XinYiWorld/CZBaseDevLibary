@@ -59,37 +59,12 @@ public class RoundTextView  extends TextView{
         super.onFinishInflate();
 //        setBackgroundResource(android.R.drawable.bottom_bar);       //先设置一个背景，防止getBackground()得到的是null。
 //        Drawable originalBackground = getBackground();
-
-        StateListDrawable stateListDrawable = new StateListDrawable();
 //        originalBackground.setColorFilter(bgColor, PorterDuff.Mode.DARKEN);
 //        Drawable normalDrawable = ImageCommonUtil.bitmap2Drawable(ImageCommonUtil.getRoundedCornerBitmap(ImageCommonUtil.drawable2bitmap(originalBackground), cornerRadius));
 //
 //        originalBackground.setColorFilter(bgPressColor, PorterDuff.Mode.DARKEN);
 //        Drawable pressDrawable = ImageCommonUtil.bitmap2Drawable(ImageCommonUtil.getRoundedCornerBitmap(ImageCommonUtil.drawable2bitmap(originalBackground), cornerRadius + 20));
-
-
-        GradientDrawable normalGradientDrawable = new GradientDrawable();
-        normalGradientDrawable.setColor(bgColor);
-        normalGradientDrawable.setCornerRadius(cornerRadius);
-        normalGradientDrawable.setStroke((int) borderWidth,borderColor);
-
-        GradientDrawable pressGradientDrawable = new GradientDrawable();
-        if(bgPressColor != -1){
-            pressGradientDrawable.setColor(bgPressColor);
-            pressGradientDrawable.setCornerRadius(cornerRadius);
-            pressGradientDrawable.setStroke((int) borderWidth,borderColor);
-        }
-
-
-        if(bgPressColor != -1){
-            // View.PRESSED_ENABLED_STATE_SET
-            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, pressGradientDrawable);
-        }
-        // View.EMPTY_STATE_SET
-        stateListDrawable.addState(new int[] {},  normalGradientDrawable);
-
-        setBackgroundDrawable(stateListDrawable);
+        setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,bgPressColor,cornerRadius,borderColor,borderWidth,android.R.attr.state_pressed));
         setClickable(true);     //否则选择器不起作用
-
     }
 }
