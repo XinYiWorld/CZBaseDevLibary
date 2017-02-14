@@ -3,12 +3,15 @@ package com.xinyi.czbasedevtool.base.main;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xinyi.czbasedevtool.base.R;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
+import com.xinyi.czbasedevtool.base.view.TitleViewHolder;
 
 import java.io.IOException;
 
@@ -18,6 +21,9 @@ import java.io.IOException;
  * function:
  */
 public  abstract class DefaultBaseFragment extends BaseFragment {
+
+    protected TitleViewHolder titleViewHolder;
+
     @Override
     public boolean useDataBinding() {
         return true;
@@ -61,14 +67,20 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
         return rootView.findViewById(id);
     }
 
+    //标题模板方法
     @Override
     public final View getLeftWrapperView() {
         return findViewById(R.id.title_layout_left_wrapper);
     }
 
     @Override
-    public View getLeftTxtView() {
-        return findViewById(R.id.title_layout_left_txt);
+    public TextView getLeftTxtView() {
+        return (TextView) findViewById(R.id.title_layout_left_txt);
+    }
+
+    @Override
+    public ImageView getLeftImageView() {
+        return (ImageView) findViewById(R.id.title_layout_left_image);
     }
 
     @Override
@@ -87,8 +99,15 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     }
 
     @Override
+    public ImageView getRightImageView() {
+        return (ImageView) findViewById(R.id.title_layout_right_image);
+    }
+
+    @Override
     public  void initTitleLayout() {
+        titleViewHolder = new TitleViewHolder();
         View leftWrapperView = getLeftWrapperView();
+        titleViewHolder.leftWrapperView = leftWrapperView;
         if(leftWrapperView == null){
             Log.e(TAG, "initTitleLayout: getLeftWrapperView() return null ,if you use the right id in the ids.xml?");
         }else{
@@ -101,6 +120,7 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
         }
 
         View rightWrapperView = getRightWrapperView();
+        titleViewHolder.rightWrapperView = rightWrapperView;
         if(rightWrapperView == null){
             Log.e(TAG, "initTitleLayout: getRightWrapperView() return null,if you use the right id in the ids.xml?");
         }else{
@@ -113,6 +133,7 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
         }
 
         TextView titleView = getTitleView();
+        titleViewHolder.titleView = titleView;
         if(titleView == null){
             Log.e(TAG, "initTitleLayout: getTitleView() return null,if you use the right id in the ids.xml?");
         }else{
@@ -121,10 +142,50 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
 
 
         TextView rightTxtView = getRightTxtView();
+        titleViewHolder.rightTxtView = rightTxtView;
         if(rightTxtView == null){
             Log.e(TAG, "initTitleLayout: getRightTxtView() return null,if you use the right id in the ids.xml?");
         }else{
             rightTxtView.setText(getRightTextString());
+            rightTxtView.setVisibility(TextUtils.isEmpty(getRightTextString()) ? View.GONE : View.VISIBLE);
+        }
+
+        TextView leftTxtView = getLeftTxtView();
+        titleViewHolder.leftTxtView = leftTxtView;
+        if(leftTxtView == null){
+            Log.e(TAG, "initTitleLayout: getLeftTxtView() return null,if you use the right id in the ids.xml?");
+        }else{
+            leftTxtView.setText(getLeftTextString());
+            leftTxtView.setVisibility(TextUtils.isEmpty(getLeftTextString()) ? View.GONE : View.VISIBLE);
+        }
+
+
+        ImageView leftImageView = getLeftImageView();
+        titleViewHolder.leftImageView = leftImageView;
+        if(leftImageView == null){
+            Log.e(TAG, "initTitleLayout: getLeftImageView() return null,if you use the right id in the ids.xml?");
+        }else{
+            int leftImageResId = getLeftImageResId();
+            if(leftImageResId != -1){
+                leftImageView.setImageResource(leftImageResId);
+                leftImageView.setVisibility(View.VISIBLE);
+            }else{
+                leftImageView.setVisibility(View.GONE);
+            }
+        }
+
+        ImageView rightImageView = getRightImageView();
+        titleViewHolder.rightImageView = rightImageView;
+        if(rightImageView == null){
+            Log.e(TAG, "initTitleLayout: getRightImageView() return null,if you use the right id in the ids.xml?");
+        }else{
+            int rightImageResId = getRightImageResId();
+            if(rightImageResId != -1){
+                rightImageView.setImageResource(rightImageResId);
+                rightImageView.setVisibility(View.VISIBLE);
+            }else{
+                rightImageView.setVisibility(View.GONE);
+            }
         }
 
         //you can override the method and do something else here
@@ -155,4 +216,14 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
         return "";
     }
 
+
+    @Override
+    public int getLeftImageResId() {
+        return -1;
+    }
+
+    @Override
+    public int getRightImageResId() {
+        return -1;
+    }
 }

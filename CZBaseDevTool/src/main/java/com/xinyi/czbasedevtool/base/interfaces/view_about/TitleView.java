@@ -12,9 +12,11 @@ public interface TitleView {
     //find view
     View getLeftWrapperView();
     View getLeftTxtView();
+    View getLeftImageView();
     TextView getTitleView();
     View getRightWrapperView();
     View getRightTxtView();
+    View getRightImageView();
     void initTitleLayout();
 
     //bind event
@@ -25,4 +27,8 @@ public interface TitleView {
     String getTitleString();
     String getLeftTextString();
     String getRightTextString();
+
+    //init image
+    int getLeftImageResId();
+    int getRightImageResId();
 }
