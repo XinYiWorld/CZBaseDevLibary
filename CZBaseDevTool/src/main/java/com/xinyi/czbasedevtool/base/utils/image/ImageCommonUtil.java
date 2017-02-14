@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -255,7 +256,7 @@ public class ImageCommonUtil {
      */
 
     public static Bitmap drawable2bitmap(Drawable drawable) {
-
+        Log.i(TAG, "drawable2bitmap: drawable name = " + drawable.getClass().getName());
         if (null == drawable) {
 
             return null;
@@ -416,9 +417,11 @@ public class ImageCommonUtil {
      * @param bitmap
      * @param roundPx
      * @return
+     * http://www.cnblogs.com/liyan-blogs/p/5535071.html
+     *
      */
 
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float roundPx) {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, float roundPx ) {
         if (bitmap == null) {
             return null;
         }
@@ -428,7 +431,6 @@ public class ImageCommonUtil {
 
         Canvas canvas = new Canvas(output);
 
-        final int color = 0xff424242;
 
         final Paint paint = new Paint();
 
@@ -437,7 +439,6 @@ public class ImageCommonUtil {
         final RectF rectF = new RectF(rect);
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);

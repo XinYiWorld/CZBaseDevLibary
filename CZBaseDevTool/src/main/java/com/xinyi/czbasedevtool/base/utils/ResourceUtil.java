@@ -1,6 +1,7 @@
 package com.xinyi.czbasedevtool.base.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.StringRes;
@@ -24,6 +25,9 @@ public class ResourceUtil {
         return Arrays.asList(SystemStaticInstanceManager.getmResources().getStringArray(id));
     }
 
+    public static int getColor(int colorResId){
+        return SystemStaticInstanceManager.getmResources().getColor(colorResId);
+    }
 
 
     public static String getString(@StringRes int id,Object ...obj){

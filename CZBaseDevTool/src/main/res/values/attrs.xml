@@ -8,4 +8,14 @@
         <attr name="arrow_id" format="reference" />
     </declare-styleable>
 
+
+
+    //自定义带有圆角背景的TextView
+    <declare-styleable name="RoundTextView">
+        <attr name="cornerRadius"  format="dimension|reference"/>               //圆角大小
+        <attr name="bgColor"  format="color|reference"/>                        //正常情况下的背景
+        <attr name="bgPressColor"  format="color|reference"/>                   //按下时的背景
+        <attr name="borderColor" format="color|reference"/>                     //边界颜色
+        <attr name="borderWidths" format="dimension|reference"/>                 //边界粗细(系统已定义)
+    </declare-styleable>
 </resources>
