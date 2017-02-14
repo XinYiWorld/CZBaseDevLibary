@@ -30,6 +30,18 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     }
 
 
+    //注解绑定与解绑
+    @Override
+    public void annotationBind(@NonNull Activity target, View view) {
+
+    }
+
+    @Override
+    public void annotationsUnbind(@NonNull Activity target, View view) {
+
+    }
+
+
     @Override
     public View getContentView() {
         return null;

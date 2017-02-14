@@ -24,6 +24,8 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     protected TitleViewHolder titleViewHolder;
 
+
+
     //是否使用databinding
     @Override
     public boolean useDataBinding() {
