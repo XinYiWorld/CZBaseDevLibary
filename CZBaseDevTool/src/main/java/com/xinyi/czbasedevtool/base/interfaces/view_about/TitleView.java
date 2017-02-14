@@ -11,6 +11,7 @@ import android.widget.TextView;
 public interface TitleView {
     //find view
     View getLeftWrapperView();
+    View getLeftTxtView();
     TextView getTitleView();
     View getRightWrapperView();
     View getRightTxtView();
@@ -22,5 +23,6 @@ public interface TitleView {
 
     //init title
     String getTitleString();
+    String getLeftTextString();
     String getRightTextString();
 }

@@ -78,6 +78,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     }
 
     @Override
+    public View getLeftTxtView() {
+        return findViewById(R.id.title_layout_left_txt);
+    }
+
+    @Override
     public final TextView getTitleView() {
         return (TextView) findViewById(R.id.title_layout_center_title);
     }
@@ -156,4 +161,8 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
         return "";
     }
 
+    @Override
+    public String getLeftTextString() {
+        return "";
+    }
 }

@@ -19,6 +19,7 @@ import com.xinyi.czbasedevtool.base.interfaces.view_about.BaseView;
 import com.xinyi.czbasedevtool.base.interfaces.view_about.I_BaseStrategy;
 import com.xinyi.czbasedevtool.base.interfaces.view_about.I_Navigater;
 import com.xinyi.czbasedevtool.base.interfaces.view_about.ProgressView;
+import com.xinyi.czbasedevtool.base.interfaces.view_about.TitleView;
 import com.xinyi.czbasedevtool.base.manager.net_about.HttpMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.DialogMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.NavigateMaster;
@@ -31,7 +32,7 @@ import java.util.List;
  * author:Created by ChenZhang on 2016/6/21 0021.
  * function:
  */
-public   abstract class BaseFragment<BindingObj> extends Fragment implements I_BaseStrategy,BaseView,ProgressView,I_HttpResultHandler,I_Try_RequestServer,I_Navigater{
+public   abstract class BaseFragment<BindingObj> extends Fragment implements I_BaseStrategy,TitleView,BaseView,ProgressView,I_HttpResultHandler,I_Try_RequestServer,I_Navigater{
     protected  final String TAG = this.getClass().getName();
     protected   View mWindowDecorView = null;
 
@@ -44,7 +45,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
     protected Context mContext = null;
     private NavigateMaster navigateMaster;
-    private View rootView;
+    protected View rootView;
 
     @Nullable
     @Override
