@@ -34,12 +34,12 @@ public class RoundLinearLayout extends LinearLayout{
 
     public RoundLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundTextView);
-        bgColor = typedArray.getColor(R.styleable.RoundTextView_bgColor, getResources().getColor( android.R.color.transparent));
-        bgPressColor = typedArray.getColor(R.styleable.RoundTextView_bgPressColor,-1);
-        cornerRadius = typedArray.getDimension(R.styleable.RoundTextView_cornerRadius, 0);
-        borderWidth = typedArray.getDimension(R.styleable.RoundTextView_borderWidth, 0);
-        borderColor = typedArray.getColor(R.styleable.RoundTextView_borderColor, getResources().getColor(android.R.color.transparent));
+        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundLinearLayout);
+        bgColor = typedArray.getColor(R.styleable.RoundLinearLayout_bgColor, getResources().getColor( android.R.color.transparent));
+        bgPressColor = typedArray.getColor(R.styleable.RoundLinearLayout_bgPressColor,-1);
+        cornerRadius = typedArray.getDimension(R.styleable.RoundLinearLayout_cornerRadius, 0);
+        borderWidth = typedArray.getDimension(R.styleable.RoundLinearLayout_borderWidth, 0);
+        borderColor = typedArray.getColor(R.styleable.RoundLinearLayout_borderColor, getResources().getColor(android.R.color.transparent));
     }
 
     @Override

@@ -32,5 +32,12 @@
         <attr name="borderWidth"/>                 //边界粗细(系统已定义)
     </declare-styleable>
 
+    <declare-styleable name="RoundLinearLayout">
+        <attr name="cornerRadius"   />
+        <attr name="bgColor"   />
+        <attr name="bgPressColor"   />
+        <attr name="borderColor"/>
+        <attr name="borderWidth"/>                 //边界粗细(系统已定义)
+    </declare-styleable>
 
 </resources>
