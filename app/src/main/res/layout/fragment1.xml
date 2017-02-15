@@ -4,10 +4,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.xinyi.czbasedevtool.base.view.round.RoundRadioButton
+
+        <com.xinyi.czbasedevtool.base.view.round.RoundCheckBox
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:bgColor="@color/aqua"
@@ -18,7 +16,7 @@
             android:text="aaaaaaaaaa"
             />
 
-        <com.xinyi.czbasedevtool.base.view.round.RoundRadioButton
+        <com.xinyi.czbasedevtool.base.view.round.RoundCheckBox
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:bgColor="@color/aqua"
@@ -28,7 +26,12 @@
             app:borderColor="@color/black"
             android:text="bbbbbbbbbb"
             />
-    </RadioGroup>
 
 
+        <LinearLayout
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            ></LinearLayout>
 </LinearLayout>

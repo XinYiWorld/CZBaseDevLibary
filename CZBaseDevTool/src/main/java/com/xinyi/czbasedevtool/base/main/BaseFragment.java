@@ -76,10 +76,8 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
             isOnResumeExecuted = false;
             if(useDataBinding()){
-                annotationBind(this,viewDataBinding.getRoot());
                 return viewDataBinding.getRoot();
             }else{
-                annotationBind(this,rootView);
                 return rootView;
             }
         }catch (Exception e){
@@ -95,6 +93,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
             }else{
                 viewDataBinding =DataBindingUtil.bind(getContentView());
             }
+            annotationBind(this,viewDataBinding.getRoot());
             if(viewDataBinding != null){
                 parentBinding = ((BindingObj)viewDataBinding);
                 //bind view 兼容传统方式
@@ -108,6 +107,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
             }else{
                 rootView = getContentView();
             }
+            annotationBind(this,rootView);
             bindView(new ContentViewHolder(rootView));
         }
     }
