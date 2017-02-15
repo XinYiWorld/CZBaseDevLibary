@@ -76,10 +76,10 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
             isOnResumeExecuted = false;
             if(useDataBinding()){
-                annotationBind(null,viewDataBinding.getRoot());
+                annotationBind(this,viewDataBinding.getRoot());
                 return viewDataBinding.getRoot();
             }else{
-                annotationBind(null,rootView);
+                annotationBind(this,rootView);
                 return rootView;
             }
         }catch (Exception e){
@@ -164,7 +164,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
     @Override
     public void onDestroyView() {
-        annotationsUnbind(null,null);
+        annotationsUnbind(this,null);
         super.onDestroyView();
     }
 

@@ -3,6 +3,7 @@ package com.xinyi.czbasedevtool.base.main;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +43,16 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     @Override
     public void annotationsUnbind(@NonNull Activity target, View view) {
         
+    }
+
+    @Override
+    public void annotationBind(Fragment target, View view) {
+        //do nothing here
+    }
+
+    @Override
+    public void annotationsUnbind(Fragment target, View view) {
+        //do nothing here
     }
 
     @Override
