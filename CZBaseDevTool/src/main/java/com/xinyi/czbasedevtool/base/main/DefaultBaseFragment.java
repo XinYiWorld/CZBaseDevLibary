@@ -41,7 +41,7 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     public void annotationsUnbind(@NonNull Activity target, View view) {
         //do nothing here
     }
-    
+
 
     @Override
     public void annotationBind(Fragment target, View view) {

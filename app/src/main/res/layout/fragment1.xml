@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.xinyi.czbasedevtool.base.view.RoundTextView
+    <com.xinyi.czbasedevtool.base.view.round.RoundTextView
         android:id="@id/title_layout_left_txt"
         android:layout_width="match_parent"
         android:layout_height="40dp"
