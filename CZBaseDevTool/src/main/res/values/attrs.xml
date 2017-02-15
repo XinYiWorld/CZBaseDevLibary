@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //共用属性
+    <attr name="cornerRadius"  format="dimension|reference"/>               //圆角大小
+    <attr name="bgColor"  format="color|reference"/>                        //正常情况下的背景
+    <attr name="bgPressColor"  format="color|reference"/>                   //按下时的背景
+    <attr name="borderColor" format="color|reference"/>                     //边界颜色
+
+
     //折叠控件
     <declare-styleable name="ExpandableLayout">
         <attr name="el_headerLayout" format="reference"/>
@@ -8,14 +15,22 @@
         <attr name="arrow_id" format="reference" />
     </declare-styleable>
 
-
-
     //自定义带有圆角背景的TextView
     <declare-styleable name="RoundTextView">
-        <attr name="cornerRadius"  format="dimension|reference"/>               //圆角大小
-        <attr name="bgColor"  format="color|reference"/>                        //正常情况下的背景
-        <attr name="bgPressColor"  format="color|reference"/>                   //按下时的背景
-        <attr name="borderColor" format="color|reference"/>                     //边界颜色
-        <attr name="borderWidths" format="dimension|reference"/>                 //边界粗细(系统已定义)
+        <attr name="cornerRadius"   />
+        <attr name="bgColor"   />
+        <attr name="bgPressColor"   />
+        <attr name="borderColor"/>
+        <attr name="borderWidth"/>
     </declare-styleable>
+
+    <declare-styleable name="RoundCheckBox">
+        <attr name="cornerRadius"   />
+        <attr name="bgColor"   />
+        <attr name="bgPressColor"   />
+        <attr name="borderColor"/>
+        <attr name="borderWidth"/>                 //边界粗细(系统已定义)
+    </declare-styleable>
+
+
 </resources>

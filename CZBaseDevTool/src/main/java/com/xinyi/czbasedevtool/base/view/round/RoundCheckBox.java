@@ -34,12 +34,12 @@ public class RoundCheckBox extends CheckBox{
 
     public RoundCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundTextView);
-        bgColor = typedArray.getColor(R.styleable.RoundTextView_bgColor, getResources().getColor( android.R.color.transparent));
-        bgPressColor = typedArray.getColor(R.styleable.RoundTextView_bgPressColor,-1);
-        cornerRadius = typedArray.getDimension(R.styleable.RoundTextView_cornerRadius, 0);
-        borderWidth = typedArray.getDimension(R.styleable.RoundTextView_borderWidths, 0);
-        borderColor = typedArray.getColor(R.styleable.RoundTextView_borderColor, getResources().getColor(android.R.color.transparent));
+        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundCheckBox);
+        bgColor = typedArray.getColor(R.styleable.RoundCheckBox_bgColor, getResources().getColor( android.R.color.transparent));
+        bgPressColor = typedArray.getColor(R.styleable.RoundCheckBox_bgPressColor,-1);
+        cornerRadius = typedArray.getDimension(R.styleable.RoundCheckBox_cornerRadius, 0);
+        borderWidth = typedArray.getDimension(R.styleable.RoundCheckBox_borderWidth, 0);
+        borderColor = typedArray.getColor(R.styleable.RoundCheckBox_borderColor, getResources().getColor(android.R.color.transparent));
     }
 
     @Override
@@ -54,5 +54,25 @@ public class RoundCheckBox extends CheckBox{
 //        Drawable pressDrawable = ImageCommonUtil.bitmap2Drawable(ImageCommonUtil.getRoundedCornerBitmap(ImageCommonUtil.drawable2bitmap(originalBackground), cornerRadius + 20));
         setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,bgPressColor,cornerRadius,borderColor,borderWidth,android.R.attr.state_checked));
         setClickable(true);     //否则选择器不起作用
+    }
+
+    public void setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+    }
+
+    public void setBgPressColor(int bgPressColor) {
+        this.bgPressColor = bgPressColor;
+    }
+
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public void setBorderWidth(float borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public void setCornerRadius(float cornerRadius) {
+        this.cornerRadius = cornerRadius;
     }
 }

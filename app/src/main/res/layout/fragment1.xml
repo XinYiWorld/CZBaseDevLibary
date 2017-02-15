@@ -11,7 +11,7 @@
         app:bgColor="@color/aqua"
         app:bgPressColor="@color/lightcoral"
         app:cornerRadius="20dp"
-        app:borderWidths="1px"
+        app:borderWidth="1px"
         app:borderColor="@color/black"
         android:text="aaaaaaaaaa"
         />
