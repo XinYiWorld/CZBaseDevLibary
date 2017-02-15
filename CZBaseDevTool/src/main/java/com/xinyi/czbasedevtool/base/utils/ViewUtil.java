@@ -3,6 +3,7 @@ package com.xinyi.czbasedevtool.base.utils;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.xinyi.czbasedevtool.base.manager.SystemStaticInstanceManager;
 
@@ -18,6 +19,11 @@ public class ViewUtil {
     public static View inflate(Context context, int resId){
         return LayoutInflater.from(context).inflate(resId,null,false);
     }
+
+    public static View inflate(Context context,  int resId,ViewGroup parent,boolean attachToParent){
+        return LayoutInflater.from(context).inflate(resId,parent,attachToParent);
+    }
+
 
     public static <T> T $(View view,int id){
         return (T) view.findViewById(id);

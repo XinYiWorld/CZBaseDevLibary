@@ -52,27 +52,35 @@ public class RoundRadioButton extends RadioButton{
 //
 //        originalBackground.setColorFilter(bgPressColor, PorterDuff.Mode.DARKEN);
 //        Drawable pressDrawable = ImageCommonUtil.bitmap2Drawable(ImageCommonUtil.getRoundedCornerBitmap(ImageCommonUtil.drawable2bitmap(originalBackground), cornerRadius + 20));
-        setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,bgPressColor,cornerRadius,borderColor,borderWidth,android.R.attr.state_checked));
+        refresh();
         setClickable(true);     //否则选择器不起作用
+    }
+    private void refresh(){
+        setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,bgPressColor,cornerRadius,borderColor,borderWidth,android.R.attr.state_checked));
     }
 
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
+        refresh();
     }
 
     public void setBgPressColor(int bgPressColor) {
         this.bgPressColor = bgPressColor;
+        refresh();
     }
 
     public void setBorderColor(int borderColor) {
         this.borderColor = borderColor;
+        refresh();
     }
 
     public void setBorderWidth(float borderWidth) {
         this.borderWidth = borderWidth;
+        refresh();
     }
 
     public void setCornerRadius(float cornerRadius) {
         this.cornerRadius = cornerRadius;
+        refresh();
     }
 }

@@ -138,13 +138,14 @@ public class FlowLayout extends ViewGroup{
 			}
 		}
 	}
+
 	/**
 	 * 获取指定line的是留白区域
 	 */
 	private float getLineRemainSpacing(Line line){
 		return getMeasuredWidth()-getPaddingLeft()-getPaddingRight()-line.getWidth();
 	}
-	
+
 	/**
 	 * 封装每一行的数据
 	 * @author Administrator
