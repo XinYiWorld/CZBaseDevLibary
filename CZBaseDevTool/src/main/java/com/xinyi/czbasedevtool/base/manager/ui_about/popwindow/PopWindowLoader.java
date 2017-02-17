@@ -124,7 +124,7 @@ public class PopWindowLoader {
             throw new NullPointerException("PopupWindow is null,please call the init(Context context) before this.");
         }
         popupWindow.showAtLocation(view, gravity, x, y);
-        executeOnShow();
+//        executeOnShow();
     }
 
     /**
@@ -141,7 +141,7 @@ public class PopWindowLoader {
             throw new NullPointerException("PopupWindow is null,please call the init(Context context) before this.");
         }
         popupWindow.showAsDropDown(anchor, xoff, yoff);
-        executeOnShow();
+//        executeOnShow();
     }
 
     /**
@@ -153,7 +153,7 @@ public class PopWindowLoader {
             throw new NullPointerException("PopupWindow is null,please call the init(Context context) before this.");
         }
         popupWindow.showAsDropDown(anchor);
-        executeOnShow();
+//        executeOnShow();
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -162,7 +162,7 @@ public class PopWindowLoader {
             throw new NullPointerException("PopupWindow is null,please call the init(Context context) before this.");
         }
         popupWindow.showAsDropDown(anchor, xoff, yoff, gravity);
-        executeOnShow();
+//        executeOnShow();
     }
 
     /**
@@ -170,9 +170,9 @@ public class PopWindowLoader {
      */
     public void dismiss() {
         popupWindow.dismiss();
-        executeOnDismiss();
+//        executeOnDismiss();
     }
-    
+
 
     /**
      * 取消窗口，取消之前先执行一段代码。
