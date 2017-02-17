@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.StyleRes;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 
@@ -25,13 +26,14 @@ public class PopWindowLoader {
     private View mView;
     private PopupWindow popupWindow;
     private Map<Integer,View> viewCache;
-
+    private Activity attachedActivity;
     public PopWindowLoader(View mView) {
         this.mView = mView;
         viewCache  = new HashMap<>();
     }
 
     public PopWindowLoader(Context context, int viewResId){
+        attachedActivity = (Activity) context;
         this.mView = ViewUtil.inflate(context,viewResId);
         View pop_bottom_view = mView.findViewById(R.id.pop_bottom_view);
         if(pop_bottom_view != null){
@@ -122,6 +124,7 @@ public class PopWindowLoader {
             throw new NullPointerException("PopupWindow is null,please call the init(Context context) before this.");
         }
         popupWindow.showAtLocation(view, gravity, x, y);
+
     }
 
     /**
@@ -228,4 +231,17 @@ public class PopWindowLoader {
     public void setOnDismissListener(PopupWindow.OnDismissListener onDismissListener){
         popupWindow.setOnDismissListener(onDismissListener);
     }
+
+    private void executeOnShow(){
+        WindowManager.LayoutParams lp= attachedActivity.getWindow().getAttributes();
+        lp.alpha=0.3f;
+        attachedActivity.getWindow().setAttributes(lp);
+    }
+
+    private void executeOnDismiss(){
+        WindowManager.LayoutParams lp= attachedActivity.getWindow().getAttributes();
+        lp.alpha=1.0f;
+        attachedActivity.getWindow().setAttributes(lp);
+    }
+
 }
