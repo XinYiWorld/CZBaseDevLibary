@@ -93,6 +93,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
             }else{
                 viewDataBinding =DataBindingUtil.bind(getContentView());
             }
+            rootView = viewDataBinding.getRoot();
             annotationBind(this,viewDataBinding.getRoot());
             if(viewDataBinding != null){
                 parentBinding = ((BindingObj)viewDataBinding);
