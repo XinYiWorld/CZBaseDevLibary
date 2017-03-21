@@ -4,6 +4,7 @@
     <attr name="cornerRadius"  format="dimension|reference"/>               //圆角大小
     <attr name="bgColor"  format="color|reference"/>                        //正常情况下的背景
     <attr name="bgPressColor"  format="color|reference"/>                   //按下时的背景
+    <attr name="bgCheckColor"  format="color|reference"/>                   //按下时的背景
     <attr name="borderColor" format="color|reference"/>                     //边界颜色
 
 
@@ -20,6 +21,7 @@
         <attr name="cornerRadius"   />
         <attr name="bgColor"   />
         <attr name="bgPressColor"   />
+        <attr name="bgCheckColor"   />
         <attr name="borderColor"/>
         <attr name="borderWidth"/>
     </declare-styleable>

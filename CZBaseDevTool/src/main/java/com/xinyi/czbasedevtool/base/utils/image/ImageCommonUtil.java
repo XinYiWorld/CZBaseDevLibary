@@ -2,7 +2,6 @@ package com.xinyi.czbasedevtool.base.utils.image;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -29,7 +27,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -655,6 +652,35 @@ public class ImageCommonUtil {
 
     //动态创建纯色动态背景
     public static Drawable createGradientDrawable(int bgColor, int bgPressColor, float cornerRadius, int borderColor, float borderWidth, int status){
+//        StateListDrawable stateListDrawable = new StateListDrawable();
+//
+//        GradientDrawable normalGradientDrawable = new GradientDrawable();
+//        normalGradientDrawable.setColor(bgColor);
+//        normalGradientDrawable.setCornerRadius(cornerRadius);
+//        normalGradientDrawable.setStroke((int) borderWidth,borderColor);
+//
+//        GradientDrawable pressGradientDrawable = new GradientDrawable();
+//        if(bgPressColor != -1){
+//            pressGradientDrawable.setColor(bgPressColor);
+//            pressGradientDrawable.setCornerRadius(cornerRadius);
+//            pressGradientDrawable.setStroke((int) borderWidth,borderColor);
+//        }
+//
+//
+//        if(bgPressColor != -1){
+//            // View.PRESSED_ENABLED_STATE_SET
+//            stateListDrawable.addState(new int[]{status}, pressGradientDrawable);
+//        }
+//        // View.EMPTY_STATE_SET
+//        stateListDrawable.addState(new int[] {},  normalGradientDrawable);
+//
+//        return stateListDrawable;
+        return createGradientDrawable(bgColor,new int[]{bgPressColor},cornerRadius,borderColor,borderWidth,new int[]{status});
+    }
+
+
+    //动态创建纯色动态背景,可以有多种状态选择器（press、check)
+    public static Drawable createGradientDrawable(int bgColor,  int[] t2color_array,float cornerRadius, int borderColor, float borderWidth, int[] t2status){
         StateListDrawable stateListDrawable = new StateListDrawable();
 
         GradientDrawable normalGradientDrawable = new GradientDrawable();
@@ -662,21 +688,20 @@ public class ImageCommonUtil {
         normalGradientDrawable.setCornerRadius(cornerRadius);
         normalGradientDrawable.setStroke((int) borderWidth,borderColor);
 
-        GradientDrawable pressGradientDrawable = new GradientDrawable();
-        if(bgPressColor != -1){
-            pressGradientDrawable.setColor(bgPressColor);
-            pressGradientDrawable.setCornerRadius(cornerRadius);
-            pressGradientDrawable.setStroke((int) borderWidth,borderColor);
+        for (int i = 0; i <t2color_array.length ;i++){
+            GradientDrawable statusGradientDrawable = new GradientDrawable();
+            if(t2color_array[i] != -1){
+                statusGradientDrawable.setColor(t2color_array[i] );
+                statusGradientDrawable.setCornerRadius(cornerRadius);
+                statusGradientDrawable.setStroke((int) borderWidth,borderColor);
+                stateListDrawable.addState(new int[]{t2status[i]}, statusGradientDrawable);
+            }
         }
 
-
-        if(bgPressColor != -1){
-            // View.PRESSED_ENABLED_STATE_SET
-            stateListDrawable.addState(new int[]{status}, pressGradientDrawable);
-        }
         // View.EMPTY_STATE_SET
         stateListDrawable.addState(new int[] {},  normalGradientDrawable);
 
         return stateListDrawable;
     }
+
 }
