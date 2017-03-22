@@ -17,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.xinyi.czbasedevtool.base.R;
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_HttpResultHandler;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_Try_RequestServer;
@@ -112,6 +111,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
             //两种填充View方式
             if(getLayoutID() > 0){
                 viewDataBinding = DataBindingUtil.setContentView(this, getLayoutID());
+                getWindow().setBackgroundDrawable(null);    //UI优化，不给DecroView添加背景
             }else{
                 viewDataBinding = DataBindingUtil.bind(getContentView());
             }
@@ -129,6 +129,8 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
                 rootView = getContentView();
             }
             setContentView(rootView);
+            getWindow().setBackgroundDrawable(null);    //UI优化，不给DecroView添加背景
+
             annotationBind(this,null);
             bindView(new ContentViewHolder(rootView));
         }

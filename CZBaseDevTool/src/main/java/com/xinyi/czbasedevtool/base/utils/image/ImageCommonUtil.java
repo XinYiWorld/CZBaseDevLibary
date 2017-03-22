@@ -652,29 +652,6 @@ public class ImageCommonUtil {
 
     //动态创建纯色动态背景
     public static Drawable createGradientDrawable(int bgColor, int bgPressColor, float cornerRadius, int borderColor, float borderWidth, int status){
-//        StateListDrawable stateListDrawable = new StateListDrawable();
-//
-//        GradientDrawable normalGradientDrawable = new GradientDrawable();
-//        normalGradientDrawable.setColor(bgColor);
-//        normalGradientDrawable.setCornerRadius(cornerRadius);
-//        normalGradientDrawable.setStroke((int) borderWidth,borderColor);
-//
-//        GradientDrawable pressGradientDrawable = new GradientDrawable();
-//        if(bgPressColor != -1){
-//            pressGradientDrawable.setColor(bgPressColor);
-//            pressGradientDrawable.setCornerRadius(cornerRadius);
-//            pressGradientDrawable.setStroke((int) borderWidth,borderColor);
-//        }
-//
-//
-//        if(bgPressColor != -1){
-//            // View.PRESSED_ENABLED_STATE_SET
-//            stateListDrawable.addState(new int[]{status}, pressGradientDrawable);
-//        }
-//        // View.EMPTY_STATE_SET
-//        stateListDrawable.addState(new int[] {},  normalGradientDrawable);
-//
-//        return stateListDrawable;
         return createGradientDrawable(bgColor,new int[]{bgPressColor},cornerRadius,borderColor,borderWidth,new int[]{status});
     }
 
