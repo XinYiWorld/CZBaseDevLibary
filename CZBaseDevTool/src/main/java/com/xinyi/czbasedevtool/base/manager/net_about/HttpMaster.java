@@ -196,7 +196,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private <T> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final List<UploadFileWrapper> uploadFileWrappers) {
         //网络环境判断
         if (!NetUtil.isConnected(mContext)) {
-            ToastUtil.snakeShort(mWindowDecorView, "请开启网络!");
+            ToastUtil.shortT(mContext,"请开启网络!");
         } else if (!NetUtil.isWifi(mContext)) {
             SystemDialogFactory.getConfirmDialog(mContext, "您确认在非Wifi状态下请求数据吗？", new DialogInterface.OnClickListener() {
                 @Override
@@ -212,7 +212,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private <T> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final UploadFileWrapper uploadFileWrapper) {
         //网络环境判断
         if (!NetUtil.isConnected(mContext)) {
-            ToastUtil.snakeShort(mWindowDecorView, "请开启网络!");
+            ToastUtil.shortT(mContext,"请开启网络!");
         } else if (!NetUtil.isWifi(mContext)) {
             SystemDialogFactory.getConfirmDialog(mContext, "您确认在非Wifi状态下请求数据吗？", new DialogInterface.OnClickListener() {
                 @Override
@@ -228,7 +228,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private <T, K> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final Class<K> convertedClass, final Object[] params, final boolean needConvert, final boolean... isTargetBeanAsList) {
         //网络环境判断
         if (!NetUtil.isConnected(mContext)) {
-            ToastUtil.snakeShort(mWindowDecorView, "请开启网络!");
+            ToastUtil.shortT(mContext,"请开启网络!");
         } else if (!NetUtil.isWifi(mContext)) {
             SystemDialogFactory.getConfirmDialog(mContext, "您确认在非Wifi状态下请求数据吗？", new DialogInterface.OnClickListener() {
                 @Override
@@ -254,7 +254,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final String fileUrl) {
         //网络环境判断
         if (!NetUtil.isConnected(mContext)) {
-            ToastUtil.snakeShort(mWindowDecorView, "请开启网络!");
+            ToastUtil.shortT(mContext,"请开启网络!");
         } else if (!NetUtil.isWifi(mContext)) {
             SystemDialogFactory.getConfirmDialog(mContext, "您确认在非Wifi状态下请求数据吗？", new DialogInterface.OnClickListener() {
                 @Override
@@ -286,7 +286,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 TLog.i(TAG, "getObserver onError");
                 httpResultHandler.setState(executor, true);
                 hideProgressView();
-                ToastUtil.snakeShort(mWindowDecorView, "解析数据异常!");
+                ToastUtil.shortT(mContext,"解析数据异常!");
                 e.printStackTrace();
             }
 
@@ -313,7 +313,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
 
                 //如果返回的结果不合法，则程序不往后进行。
                 if (!result.OK()) {
-                    ToastUtil.snakeShort(mWindowDecorView, "请求数据失败！");
+                    ToastUtil.shortT(mContext,"请求数据失败!");
                     return null;
                 }
 

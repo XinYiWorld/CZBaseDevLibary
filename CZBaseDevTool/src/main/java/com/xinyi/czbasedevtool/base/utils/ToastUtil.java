@@ -1,9 +1,7 @@
 package com.xinyi.czbasedevtool.base.utils;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +20,13 @@ public class ToastUtil {
     }
     private static Toast toastInstance;
 
-    @Deprecated
-    public static void snakeShort(View decorView ,Object obj){
-        if(decorView != null){
-             Snackbar.make(decorView, obj.toString(), Snackbar.LENGTH_SHORT).show();
-        }else{
-             SystemToastUtil.shortT(obj.toString());
-        }
+
+    public static void shortT(Context context, String msg){
+       show(context,msg,Toast.LENGTH_SHORT);
+    }
+
+    public static void longT(Context context, String msg){
+        show(context,msg,Toast.LENGTH_LONG);
     }
 
     public static void show(Context context, String msg, int showTime){

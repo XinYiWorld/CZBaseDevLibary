@@ -1,18 +1,18 @@
 package xinyi.com.czdevmodule;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
+import com.xinyi.czbasedevtool.base.manager.PermissionManager;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundCheckBox;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by 陈章 on 2017/2/14 0014.
@@ -52,6 +52,8 @@ public class Fragment1 extends DefaultBaseFragment {
         roundTextView.setTextColor(Color.WHITE);//设置白色字体
         roundTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         test.addView(roundTextView);
+
+
     }
 
     @Override
@@ -63,4 +65,8 @@ public class Fragment1 extends DefaultBaseFragment {
     public String getLeftTextString() {
         return "232543543";
     }
+
+
+
+
 }
