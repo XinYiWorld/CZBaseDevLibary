@@ -67,6 +67,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
 
             ActivityManager.getInstance().addActivity(this);
 
+            doOnCreateInit();
             //---------------------------状态栏变色----------------------------------------------------------
             initStatusBar();
             //-------------------------------------------------------------------------------------
