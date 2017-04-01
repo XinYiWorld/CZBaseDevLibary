@@ -20,6 +20,7 @@ public class RoundTextView  extends TextView{
     private int bgColor;
     private float cornerRadius;
     private int bgPressColor;
+    private int bgLockedColor;
     private float borderWidth;
     private int borderColor;
     private int bgCheckColor;
@@ -41,6 +42,7 @@ public class RoundTextView  extends TextView{
         cornerRadius = typedArray.getDimension(R.styleable.RoundTextView_cornerRadius, 0);
         borderWidth = typedArray.getDimension(R.styleable.RoundTextView_borderWidth, 0);
         borderColor = typedArray.getColor(R.styleable.RoundTextView_borderColor, getResources().getColor(android.R.color.transparent));
+        bgLockedColor = typedArray.getColor(R.styleable.RoundTextView_bgLockedColor, getResources().getColor(android.R.color.transparent));
     }
 
     @Override
@@ -51,8 +53,9 @@ public class RoundTextView  extends TextView{
     }
 
     private void refresh(){
-        setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,new int[]{bgPressColor,bgCheckColor},cornerRadius,borderColor,borderWidth,new int[]{android.R.attr.state_pressed,android.R.attr.state_checked}));
+        setBackgroundDrawable(ImageCommonUtil.createGradientDrawable(bgColor,new int[]{bgPressColor,bgCheckColor,bgLockedColor},cornerRadius,borderColor,borderWidth,new int[]{android.R.attr.state_pressed,android.R.attr.state_checked,-android.R.attr.state_enabled}));
     }
+
 
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
@@ -61,6 +64,12 @@ public class RoundTextView  extends TextView{
 
     public void setBgPressColor(int bgPressColor) {
         this.bgPressColor = bgPressColor;
+        refresh();
+    }
+
+    //TODO 动态设置无效
+    public void setBgLockedColor(int bgLockedColor) {
+        this.bgLockedColor = bgLockedColor;
         refresh();
     }
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.xinyi.czbasedevtool.base.R;
 import com.xinyi.czbasedevtool.base.utils.image.ImageCommonUtil;
@@ -64,6 +63,7 @@ public class RoundCheckBox extends CheckBox{
         this.bgColor = bgColor;
         refresh();
     }
+
 
     public void setBgPressColor(int bgPressColor) {
         this.bgPressColor = bgPressColor;

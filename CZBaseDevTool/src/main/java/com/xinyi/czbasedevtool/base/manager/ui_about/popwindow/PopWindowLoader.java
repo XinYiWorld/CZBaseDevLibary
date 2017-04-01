@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * Describe popupwindows 窗口
  */
-@SuppressWarnings("all")
 public class PopWindowLoader {
     private View mView;
     private PopupWindow popupWindow;

@@ -1,16 +1,12 @@
 package xinyi.com.czdevmodule;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
 
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
-import com.xinyi.czbasedevtool.base.manager.PermissionManager;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
-import com.xinyi.czbasedevtool.base.view.round.RoundCheckBox;
+import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
 import java.io.IOException;
 
@@ -43,17 +39,12 @@ public class Fragment1 extends DefaultBaseFragment {
     @Override
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
         super.bindView(contentViewHolder);
-        ViewGroup test = contentViewHolder.findViewById(R.id.test);
-        RoundCheckBox roundTextView = new RoundCheckBox(mContext);
+        RoundTextView roundTextView = contentViewHolder.findViewById(R.id.test);
         roundTextView.setText("adfafaf");
-        roundTextView.setBgColor(R.color.aqua);
-        roundTextView.setBgPressColor(R.color.honeydew);
         roundTextView.setGravity(Gravity.CENTER);
         roundTextView.setTextColor(Color.WHITE);//设置白色字体
         roundTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        test.addView(roundTextView);
-
-
+        roundTextView.setEnabled(true);
     }
 
     @Override

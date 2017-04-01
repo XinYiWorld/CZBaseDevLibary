@@ -6,6 +6,7 @@
     <attr name="bgPressColor"  format="color|reference"/>                   //按下时的背景
     <attr name="bgCheckColor"  format="color|reference"/>                   //按下时的背景
     <attr name="borderColor" format="color|reference"/>                     //边界颜色
+    <attr name="bgLockedColor" format="color|reference"/>                     //控件enabled=false的背景颜色
 
 
     //折叠控件
@@ -24,6 +25,7 @@
         <attr name="bgCheckColor"   />
         <attr name="borderColor"/>
         <attr name="borderWidth"/>
+        <attr name="bgLockedColor"/>
     </declare-styleable>
 
     <declare-styleable name="RoundCheckBox">

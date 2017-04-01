@@ -4,12 +4,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-        <com.xinyi.czbasedevtool.base.view.round.RoundCheckBox
+        <!--app:bgLockedColor="@color/orchid"-->
+        <com.xinyi.czbasedevtool.base.view.round.RoundTextView
+            android:id="@+id/test"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:bgColor="@color/aqua"
             app:bgPressColor="@color/lightcoral"
+            app:bgLockedColor="@color/green"
             app:cornerRadius="20dp"
             app:borderWidth="1px"
             app:borderColor="@color/black"
@@ -29,7 +31,7 @@
 
 
         <LinearLayout
-            android:id="@+id/test"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
