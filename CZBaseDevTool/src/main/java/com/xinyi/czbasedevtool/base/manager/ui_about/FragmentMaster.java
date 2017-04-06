@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.xinyi.czbasedevtool.base.interfaces.listener.OnTaskDoneListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 陈章 on 2017/2/13 0013.
  * func:
@@ -17,10 +20,11 @@ public class FragmentMaster {
     private FragmentManager mFragmentManager;
     private Context mContext;
     private FragmentTransaction transaction;
-
+    private List<Fragment> addedFragments;
     public FragmentMaster(Context mContext, FragmentManager mFragmentManager) {
         this.mContext = mContext;
         this.mFragmentManager = mFragmentManager;
+        addedFragments = new ArrayList<>();
     }
 
     public void begin(){
@@ -48,6 +52,7 @@ public class FragmentMaster {
     public void showFragment(int fillId,Fragment fragment, OnTaskDoneListener onTaskDoneListener){
         if(!fragment.isAdded()){
             transaction.add(fillId, fragment);
+            addedFragments.add(fragment);
         }else {
             transaction.show(fragment);
         }
@@ -56,6 +61,14 @@ public class FragmentMaster {
         }
     }
 
+    //移除所有的Fragment
+    public void removeAllFragment(){
+        begin();
+        for (Fragment fragment : addedFragments){
+            transaction.remove(fragment);
+        }
+        commit();
+    }
 
     public void commit(){
         transaction.commitAllowingStateLoss();

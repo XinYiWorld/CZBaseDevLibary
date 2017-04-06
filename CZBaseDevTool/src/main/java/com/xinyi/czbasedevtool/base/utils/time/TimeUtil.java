@@ -1,7 +1,5 @@
 package com.xinyi.czbasedevtool.base.utils.time;
 
-import android.text.format.Time;
-
 import com.xinyi.czbasedevtool.base.bean.TimeDetailBean;
 
 import java.text.SimpleDateFormat;
