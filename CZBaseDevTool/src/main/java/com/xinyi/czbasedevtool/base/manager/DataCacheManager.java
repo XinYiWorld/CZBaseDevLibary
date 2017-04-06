@@ -38,37 +38,40 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * author:Created by ChenZhang on 2016/6/21 0021.
  * function:
+ *
+ * 使用ACacheManager封装的数据缓存工具类
+ *
  */
-public class CacheManager {
+public class DataCacheManager {
     public static final int TIME_HOUR = 60 * 60;
     public static final int TIME_DAY = TIME_HOUR * 24;
     private static final int MAX_SIZE = 1000 * 1000 * 50; // 50 mb
     private static final int MAX_COUNT = Integer.MAX_VALUE; // 不限制存放数据的数量
-    private static Map<String, CacheManager> mInstanceMap = new HashMap<String, CacheManager>();
+    private static Map<String, DataCacheManager> mInstanceMap = new HashMap<String, DataCacheManager>();
     private ACacheManager mCache;
 
-    public static CacheManager get(Context ctx) {
-        return get(ctx, "CacheManager");
+    public static DataCacheManager get(Context ctx) {
+        return get(ctx, "DataCacheManager");
     }
 
-    public static CacheManager get(Context ctx, String cacheName) {
+    public static DataCacheManager get(Context ctx, String cacheName) {
         File f = new File(ctx.getCacheDir(), cacheName);
         return get(f, MAX_SIZE, MAX_COUNT);
     }
 
-    public static CacheManager get(File cacheDir) {
+    public static DataCacheManager get(File cacheDir) {
         return get(cacheDir, MAX_SIZE, MAX_COUNT);
     }
 
-    public static CacheManager get(Context ctx, long max_zise, int max_count) {
-        File f = new File(ctx.getCacheDir(), "CacheManager");
+    public static DataCacheManager get(Context ctx, long max_zise, int max_count) {
+        File f = new File(ctx.getCacheDir(), "DataCacheManager");
         return get(f, max_zise, max_count);
     }
 
-    public static CacheManager get(File cacheDir, long max_zise, int max_count) {
-        CacheManager manager = mInstanceMap.get(cacheDir.getAbsoluteFile() + myPid());
+    public static DataCacheManager get(File cacheDir, long max_zise, int max_count) {
+        DataCacheManager manager = mInstanceMap.get(cacheDir.getAbsoluteFile() + myPid());
         if (manager == null) {
-            manager = new CacheManager(cacheDir, max_zise, max_count);
+            manager = new DataCacheManager(cacheDir, max_zise, max_count);
             mInstanceMap.put(cacheDir.getAbsolutePath() + myPid(), manager);
         }
         return manager;
@@ -78,7 +81,7 @@ public class CacheManager {
         return "_" + android.os.Process.myPid();
     }
 
-    private CacheManager(File cacheDir, long max_size, int max_count) {
+    private DataCacheManager(File cacheDir, long max_size, int max_count) {
         if (!cacheDir.exists() && !cacheDir.mkdirs()) {
             throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
         }
@@ -90,7 +93,7 @@ public class CacheManager {
      * Since writing about the file is complete, and its close method is called,
      * its contents will be registered in the cache. Example of use:
      *
-     * CacheManager cache = new CacheManager(this) try { OutputStream stream =
+     * DataCacheManager cache = new DataCacheManager(this) try { OutputStream stream =
      * cache.put("myFileName") stream.write("some bytes".getBytes()); // now
      * update cache! stream.close(); } catch(FileNotFoundException e){
      * e.printStackTrace() }

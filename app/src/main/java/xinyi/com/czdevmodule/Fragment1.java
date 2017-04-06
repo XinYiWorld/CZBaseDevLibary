@@ -3,8 +3,10 @@ package xinyi.com.czdevmodule;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
+import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
@@ -39,12 +41,30 @@ public class Fragment1 extends DefaultBaseFragment {
     @Override
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
         super.bindView(contentViewHolder);
-        RoundTextView roundTextView = contentViewHolder.findViewById(R.id.test);
-        roundTextView.setText("adfafaf");
+
+        final DataCleanManager dataCleanManager = DataCleanManager.getInstance(mContext);
+
+        final RoundTextView roundTextView = contentViewHolder.findViewById(R.id.test);
         roundTextView.setGravity(Gravity.CENTER);
         roundTextView.setTextColor(Color.WHITE);//设置白色字体
         roundTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         roundTextView.setEnabled(true);
+
+        roundTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roundTextView.setText(dataCleanManager.getTotalCachedSize());
+            }
+        });
+
+
+
+        contentViewHolder.findViewById(R.id.test2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataCleanManager.clean();
+            }
+        });
     }
 
     @Override
