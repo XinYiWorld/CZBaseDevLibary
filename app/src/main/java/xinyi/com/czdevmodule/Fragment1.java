@@ -5,6 +5,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 
+import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
@@ -23,10 +24,7 @@ public class Fragment1 extends DefaultBaseFragment {
         return false;
     }
 
-    @Override
-    public <T> void onSuccess(int requestCode, T successBean) {
 
-    }
 
     @Override
     public int getLayoutID() {
@@ -78,6 +76,8 @@ public class Fragment1 extends DefaultBaseFragment {
     }
 
 
+    @Override
+    public <T> void onSuccess(int requestCode, BaseHttpResponseBean codeInfoBean, T successBean) {
 
-
+    }
 }

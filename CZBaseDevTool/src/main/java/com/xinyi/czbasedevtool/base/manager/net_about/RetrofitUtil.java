@@ -6,18 +6,26 @@ import okhttp3.OkHttpClient;
 /**
  * author:Created by ChenZhang on 2016/6/21 0021.
  * function:
+ * 拦截器配置
  */
 public class RetrofitUtil {
     //得到OkHttpClient设置给Retrofit
     //可以给OkHttpClient添加各种拦截器
     public static OkHttpClient generateOkHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(new HeaderAttachInterceptor())
-                .addInterceptor(new LogInterceptor())
-                .addInterceptor(new ProgressInterceptor())
-                ;
+       return generateOkHttpClient(null);
+    }
 
-        if(RetrofitClient.isHasToken()) builder.addInterceptor(new TokenAddInterceptor());
+    public static OkHttpClient generateOkHttpClient(String token) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if(RetrofitClient.isHasToken()){
+            CommonParamsInterceptor commonParamsInterceptor = new CommonParamsInterceptor();
+            commonParamsInterceptor.addParams("token",token == null ? TokenGenerator.getToken() : token);
+             builder.addInterceptor(commonParamsInterceptor);
+        }
+        builder.addInterceptor(new HeaderAttachInterceptor());
+        builder.addInterceptor(new MyLogInterceptor());
+        builder.addInterceptor(new ProgressInterceptor());
+        builder.addInterceptor(new CacheInterceptor());
         return  builder.build();
     }
 }

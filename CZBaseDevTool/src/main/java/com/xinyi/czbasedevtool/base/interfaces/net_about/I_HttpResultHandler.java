@@ -1,10 +1,8 @@
 package com.xinyi.czbasedevtool.base.interfaces.net_about;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
-import com.xinyi.czbasedevtool.base.interfaces.view_about.ProgressView;
 
 /**
  * 网络请求结果处理
@@ -12,6 +10,6 @@ import com.xinyi.czbasedevtool.base.interfaces.view_about.ProgressView;
  * function:
  */
 public interface I_HttpResultHandler{
-    <T> void onSuccess(int requestCode, T successBean);
+    <T> void onSuccess(int requestCode, BaseHttpResponseBean codeInfoBean,T successBean);
     void setState(View v, boolean b);               //设置发起http的view是否可以点击
 }

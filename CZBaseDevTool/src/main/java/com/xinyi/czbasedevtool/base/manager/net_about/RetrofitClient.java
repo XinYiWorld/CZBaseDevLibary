@@ -12,8 +12,7 @@ import retrofit2.converter.fastjson.FastJsonConverterFactory;
  */
 public class RetrofitClient {
     private  static String BASE_URL = "http://192.168.123.1/";
-    private  static boolean hasToken = true;
-
+    private  static String token;
 
     //    private final  static String BASE_URL = "http://app.haopeixun.org/index.php/";
 
@@ -32,7 +31,6 @@ public class RetrofitClient {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create());  //添加 RxJava 适配器
         }
         retrofitInstance = retrofitBuilder.build();
-
         return retrofitInstance;
     }
 
@@ -47,17 +45,26 @@ public class RetrofitClient {
     }
 
     public static boolean isHasToken() {
-        return hasToken;
+        return token != null;
     }
 
-    public static void setHasToken(boolean hasToken2) {
-        hasToken = hasToken2;
+    public static void setHasToken(boolean hasToken){
+        if(hasToken){
+            token = TokenGenerator.getToken();
+        }else{
+            token = null;
+        }
+        onRetrofitSetChanged();
+    }
+
+    public static void setToken(String token) {
+        RetrofitClient.token = token;
         onRetrofitSetChanged();
     }
 
     public static void onRetrofitSetChanged(){
         if(retrofitBuilder == null ) return;
         retrofitBuilder.baseUrl(BASE_URL);
-        retrofitBuilder.client(RetrofitUtil.generateOkHttpClient());
+        retrofitBuilder.client(RetrofitUtil.generateOkHttpClient(token));
     }
 }

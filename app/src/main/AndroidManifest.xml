@@ -9,7 +9,8 @@
         android:theme="@style/AppTheme"
         android:name=".MApplication"
         >
-        <activity android:name="xinyi.com.czdevmodule.DefaultLaunchActivity">
+
+        <activity android:name=".net_test.NetTestActivity">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

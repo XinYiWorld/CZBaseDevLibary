@@ -10,6 +10,7 @@ import android.view.View;
 import com.alibaba.fastjson.JSON;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResultBean;
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
+import com.xinyi.czbasedevtool.base.interfaces.net_about.I_BindHttpResultHandler;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_HttpResultHandler;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_Real_RequestServer;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_Try_RequestServer;
@@ -24,12 +25,13 @@ import com.xinyi.czbasedevtool.base.utils.ToastUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -37,13 +39,13 @@ import rx.schedulers.Schedulers;
  * author:Created by ChenZhang on 2016/6/23 0023.
  * function:
  */
-public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
+public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer,I_BindHttpResultHandler {
     private String TAG = "HttpMaster";
     private Context mContext;
     private I_HttpResultHandler httpResultHandler;
     private ProgressView progressView;
     private View mWindowDecorView;
-
+    private Set<I_HttpResultHandler>  bindedHttpResultHandlers;
 
     public HttpMaster(Context mContext, I_HttpResultHandler httpResultHandler, ProgressView progressView) {
         this.mContext = mContext;
@@ -52,6 +54,8 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         TAG = mContext.getClass().getName();
         if (mContext instanceof Activity)
             mWindowDecorView = ((Activity) mContext).getWindow().getDecorView();
+
+        bindedHttpResultHandlers = new HashSet<>();
     }
 
     @Override
@@ -94,8 +98,19 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         }
     }
 
+    private void setState(View executor, boolean enabled){
+        if(httpResultHandler != null){
+            httpResultHandler.setState(executor, enabled);
+        }
+        //分发到多个结果处理器上
+        for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+            httpResultHandler.setState(executor,enabled);
+        }
+    }
+
+    @Deprecated
     @Override
-    public <T> void realRequestDataWithOutConvert(View executor, int requestCode, Class<T> serviceClass, String methodName, Object[] params) {
+    public  <T> void realRequestDataWithOutConvert(View executor, int requestCode, Class<T> serviceClass, String methodName, Object[] params) {
         if (progressView != null) {
             progressView.onShowProgressDialog();
         }
@@ -269,6 +284,60 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
 
     //Retrofit的请求结果
     @NonNull
+    private <K> TagRxObserver<Object> getObserver(final View executor, final int requestCode,final Class<K> convertedClass, final boolean[] isTargetBeanAsList) {
+
+        return new TagRxObserver<Object>(executor, requestCode) {
+            @Override
+            public void onCompleted() {
+                //TODO
+                TLog.i(TAG, "getObserver onCompleted");
+                setState(executor,true);
+                hideProgressView();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //TODO
+                TLog.i(TAG, "getObserver onError");
+                setState(executor,true);
+                hideProgressView();
+                ToastUtil.shortT(mContext,"解析数据异常!");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Object targetBean) {
+                TLog.i(TAG, "getObserver onNext");
+                setState(executor,true);
+                hideProgressView();
+                if (targetBean != null) {
+                    if(isTargetBeanAsList == null){
+                        httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                        //分发到多个结果处理器上
+                        for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+                            httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                        }
+                    }else{
+                        BaseHttpResultBean resultBean = (BaseHttpResultBean) targetBean;
+                        if(isTargetBeanAsList[0]){      //将data解析为数组
+                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
+                            for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
+                            }
+                        }else{                          //将data解析为对象
+                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSON.parseObject(resultBean.getData(), convertedClass));
+                            for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSON.parseObject(resultBean.getData(), convertedClass));
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    //Retrofit的请求结果（没有中间转换处理）
+    @NonNull
     private TagRxObserver<Object> getObserver(final View executor, final int requestCode) {
 
         return new TagRxObserver<Object>(executor, requestCode) {
@@ -296,36 +365,23 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 httpResultHandler.setState(executor, true);
                 hideProgressView();
                 if (targetBean != null) {
-                    httpResultHandler.onSuccess(getRequestCode(), targetBean);
+                    httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
                 }
             }
         };
     }
 
-    //服务器返回的json可能需要进一步转换
-    @NonNull
-    private <K> Func1<BaseHttpResultBean, Object> getFunc(final Class<K> convertedClass, final boolean[] isTargetBeanAsList) {
-        return new Func1<BaseHttpResultBean, Object>() {             //Result-List<BannerListSQL>
-            @Override
-            public Object call(BaseHttpResultBean result) {
-                String dataJson = result.getData();
-                TLog.i(TAG, "BaseAppCompatActivity解析的json串：" + dataJson);
-
-                //如果返回的结果不合法，则程序不往后进行。
-                if (!result.OK()) {
-                    ToastUtil.shortT(mContext,"请求数据失败!");
-                    return null;
-                }
-
-                //isTargetBeanAsList 判断json是按照List解析还是单个的bean来解析
-                if (isTargetBeanAsList != null && isTargetBeanAsList[0]) {
-                    return JSONUtil.getArray(dataJson, convertedClass);
-                } else {
-                    return JSON.parseObject(dataJson, convertedClass);
-                }
-            }
-        };
-    }
+//    //服务器返回的json可能需要进一步转换
+//    @NonNull
+//    private <K> Func1<BaseHttpResultBean, Object> getFunc(final Class<K> convertedClass, final boolean[] isTargetBeanAsList) {
+//        return new Func1<BaseHttpResultBean, Object>() {             //Result-List<BannerListSQL>
+//            @Override
+//            public Object call(BaseHttpResultBean result) {
+//                String dataJson = result.getData();
+//                TLog.i(TAG, "BaseAppCompatActivity解析的json串：" + dataJson);
+//            }
+//        };
+//    }
 
     //反射出Service里的方法
     @Nullable
@@ -342,7 +398,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
     private <T> void executeServiceWithoutConvert(final View executor, int requestCode, Class<T> serviceClass, Object[] params, Method serviceExecuteMethod) throws IllegalAccessException, InvocationTargetException {
-        httpResultHandler.setState(executor, false);
+        setState(executor, false);;
         if (params != null) {     //有参
             ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), params)))
                     .subscribeOn(Schedulers.io())
@@ -357,24 +413,24 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
     private <T, K> void executeService(final View executor, int requestCode, Class<T> serviceClass, Class<K> convertedClass, Object[] params, Method serviceExecuteMethod, boolean[] isTargetBeanAsList) throws IllegalAccessException, InvocationTargetException {
-        httpResultHandler.setState(executor, false);
+        setState(executor, false);
         if (params != null) {         //有参
             ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), params)))
-                    .map(getFunc(convertedClass, isTargetBeanAsList))
+//                    .map(getFunc(convertedClass, isTargetBeanAsList))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getObserver(executor, requestCode));
+                    .subscribe(getObserver(executor, requestCode,convertedClass,isTargetBeanAsList));
         } else {                      //无参
             ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass))))
-                    .map(getFunc(convertedClass, isTargetBeanAsList))
+//                    .map(getFunc(convertedClass, isTargetBeanAsList))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(getObserver(executor, requestCode));
+                    .subscribe(getObserver(executor, requestCode,convertedClass,isTargetBeanAsList));
         }
     }
 
     private <T> void executeService(final View executor, int requestCode, Class<T> serviceClass, Method serviceExecuteMethod, List<UploadFileWrapper> parts) throws IllegalAccessException, InvocationTargetException {
-        httpResultHandler.setState(executor, false);
+        setState(executor, false);
         ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(parts))))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -382,4 +438,8 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
 
+    @Override
+    public void bindHttpResultHandler(I_HttpResultHandler i_httpResultHandler) {
+        bindedHttpResultHandlers.add(i_httpResultHandler);
+    }
 }
