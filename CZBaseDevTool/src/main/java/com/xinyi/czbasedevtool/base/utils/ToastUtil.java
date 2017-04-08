@@ -29,6 +29,14 @@ public class ToastUtil {
         show(context,msg,Toast.LENGTH_LONG);
     }
 
+    public static void shortT(Context context, int msgRes){
+        show(context,ResourceUtil.getString(msgRes),Toast.LENGTH_SHORT);
+    }
+
+    public static void longT(Context context, int msgRes){
+        show(context,ResourceUtil.getString(msgRes),Toast.LENGTH_LONG);
+    }
+
     public static void show(Context context, String msg, int showTime){
         if(toastInstance == null){
             toastInstance= Toast.makeText(context, "", Toast.LENGTH_SHORT);

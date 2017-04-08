@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
  * function:
  */
 public class RegularUtil {
-
     public static boolean isPhoneNumber(String input){
         String regex="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
         Pattern p = Pattern.compile(regex);
