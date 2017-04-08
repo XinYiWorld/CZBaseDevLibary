@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xinyi.czbasedevtool.base.R;
-import com.xinyi.czbasedevtool.base.interfaces.net_about.I_HttpResultHandler;
+import com.xinyi.czbasedevtool.base.utils.ResourceUtil;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.TitleViewHolder;
 
@@ -162,7 +162,7 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
         if(titleView == null){
             Log.e(TAG, "initTitleLayout: getTitleView() return null,if you use the right id in the ids.xml?");
         }else{
-            titleView.setText(getTitleString());
+            titleView.setText(getTitleStringRes() == -1 ? getTitleString() : ResourceUtil.getString(getTitleStringRes()));
         }
 
 
@@ -171,8 +171,8 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
         if(rightTxtView == null){
             Log.e(TAG, "initTitleLayout: getRightTxtView() return null,if you use the right id in the ids.xml?");
         }else{
-            rightTxtView.setText(getRightTextString());
-            rightTxtView.setVisibility(TextUtils.isEmpty(getRightTextString()) ? View.GONE : View.VISIBLE);
+            rightTxtView.setText(getRightTextStringRes() == -1 ?  getRightTextString() : ResourceUtil.getString(getRightTextStringRes()));
+            rightTxtView.setVisibility(TextUtils.isEmpty(getRightTextString()) || getRightTextStringRes() == -1 ? View.GONE : View.VISIBLE);
         }
 
         TextView leftTxtView = getLeftTxtView();
@@ -180,8 +180,8 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
         if(leftTxtView == null){
             Log.e(TAG, "initTitleLayout: getLeftTxtView() return null,if you use the right id in the ids.xml?");
         }else{
-            leftTxtView.setText(getLeftTextString());
-            leftTxtView.setVisibility(TextUtils.isEmpty(getLeftTextString()) ? View.GONE : View.VISIBLE);
+            leftTxtView.setText(getLeftTextStringRes() == -1 ? getLeftTextString() : ResourceUtil.getString(getLeftTextStringRes()));
+            leftTxtView.setVisibility(TextUtils.isEmpty(getLeftTextString()) || getLeftTextStringRes() == -1 ? View.GONE : View.VISIBLE);
         }
 
 
@@ -241,6 +241,21 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
         return "";
     }
 
+
+    @Override
+    public int getTitleStringRes() {
+        return -1;
+    }
+
+    @Override
+    public int getRightTextStringRes() {
+        return -1;
+    }
+
+    @Override
+    public int getLeftTextStringRes() {
+        return -1;
+    }
 
     @Override
     public int getLeftImageResId() {

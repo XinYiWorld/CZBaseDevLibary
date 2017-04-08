@@ -28,6 +28,10 @@ public interface TitleView {
     String getLeftTextString();
     String getRightTextString();
 
+    int getTitleStringRes();
+    int getLeftTextStringRes();
+    int getRightTextStringRes();
+
     //init image
     int getLeftImageResId();
     int getRightImageResId();
