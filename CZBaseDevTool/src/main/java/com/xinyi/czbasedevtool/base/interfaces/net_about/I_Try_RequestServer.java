@@ -6,16 +6,12 @@ import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 
 import java.util.List;
 
-import retrofit2.http.GET;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
-
 /**
  * 准备发起一系列的网络请求接口，不过都需要判断网络状态。
  * author:Created by ChenZhang on 2016/6/22 0022.
  * function:
  */
-public interface I_Try_RequestServer {
+public interface I_Try_RequestServer extends  I_BindHttpResultHandler{
     //对服务器原始请求结果进行map映射
     /**
      * @param executor                  发起某个操作的view，有可能为null

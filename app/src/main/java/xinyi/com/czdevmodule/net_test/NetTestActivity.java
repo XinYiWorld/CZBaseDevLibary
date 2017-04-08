@@ -53,8 +53,7 @@ public class NetTestActivity extends DefaultBaseAppCompatActivity {
         Log.i(TAG, "onClick: ");
         RetrofitClient.setHasToken(true);
         RetrofitClient.setBaseUrl("http://app.bestbeijing.top/");
-        requestData(view,200,SimpleRequestService.class,"regist",TestBean.class,new Object[]{"13121116227",1,"5613659"},false);
-
+        requestData(view,200,SimpleRequestService.class,"regist",TestBean.class,new Object[]{"13121116226",1,"5613659"},false);
     }
 
     @Override

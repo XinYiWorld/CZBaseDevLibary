@@ -10,7 +10,6 @@ import android.view.View;
 import com.alibaba.fastjson.JSON;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResultBean;
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
-import com.xinyi.czbasedevtool.base.interfaces.net_about.I_BindHttpResultHandler;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_HttpResultHandler;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_Real_RequestServer;
 import com.xinyi.czbasedevtool.base.interfaces.net_about.I_Try_RequestServer;
@@ -39,7 +38,7 @@ import rx.schedulers.Schedulers;
  * author:Created by ChenZhang on 2016/6/23 0023.
  * function:
  */
-public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer,I_BindHttpResultHandler {
+public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private String TAG = "HttpMaster";
     private Context mContext;
     private I_HttpResultHandler httpResultHandler;

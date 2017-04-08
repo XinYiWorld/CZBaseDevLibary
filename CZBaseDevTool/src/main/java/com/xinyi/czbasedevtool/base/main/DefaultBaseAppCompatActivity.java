@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xinyi.czbasedevtool.base.R;
+import com.xinyi.czbasedevtool.base.interfaces.net_about.I_HttpResultHandler;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.TitleViewHolder;
 
@@ -64,6 +65,7 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
 
     }
+
 
     @Override
     public void setState(View v, boolean b) {

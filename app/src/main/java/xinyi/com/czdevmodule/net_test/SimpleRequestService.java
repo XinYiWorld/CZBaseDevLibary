@@ -18,6 +18,11 @@ public interface SimpleRequestService {
     @POST("index.php?g=people&m=user&a=register")
     Observable<BaseHttpResultBean> regist(@Field("phone") String phone, @Field("cat") int cat, @Field("passwd") String passwd);
 
+
+//    @POST("index.php?g=people&m=user&a=register")
+//    Observable<BaseHttpResultBean> regist(@Query("phone") String phone, @Query("cat") int cat, @Query("passwd") String passwd);
+
+
     @GET("index.php?g=apps&m=user&a=getAddressList")
     Observable<BaseHttpResultBean> test(@Query("uid") String uid);
 //

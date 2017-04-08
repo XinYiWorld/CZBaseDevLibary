@@ -270,6 +270,13 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
         httpMaster.downloadFile(executor, requestCode, fileUrl);
     }
 
+
+    @Override
+    public void bindHttpResultHandler(I_HttpResultHandler i_httpResultHandler) {
+        httpMaster.bindHttpResultHandler(i_httpResultHandler);
+    }
+
+
     //navigateMaster 负责页面跳转层
     @Override
     public void readyGo(Class<?> clazz) {

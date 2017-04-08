@@ -234,6 +234,12 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
         httpMaster.downloadFile(executor, requestCode, fileUrl);
     }
 
+    //绑定结果处理器
+    @Override
+    public void bindHttpResultHandler(I_HttpResultHandler i_httpResultHandler) {
+        httpMaster.bindHttpResultHandler(i_httpResultHandler);
+    }
+
     //navigateMaster 负责页面跳转层
     @Override
     public void readyGo(Class<?> clazz) {
