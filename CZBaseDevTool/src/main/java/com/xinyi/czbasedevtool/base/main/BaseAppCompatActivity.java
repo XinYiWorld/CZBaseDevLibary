@@ -60,6 +60,10 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
         mContext = this;
         mSupportFragmentManager = getSupportFragmentManager();
 
+        //分层 合成聚合原则
+        httpMaster = new HttpMaster(this, this,this);
+        dialogMaster = new DialogMaster(this);
+        navigateMaster = new NavigateMaster(this);
 
         Log.i(TAG, "onCreate: ");
         try{
@@ -76,10 +80,6 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
 
             initTitleLayout();
 
-            //分层 合成聚合原则
-            httpMaster = new HttpMaster(this, this,this);
-            dialogMaster = new DialogMaster(this);
-            navigateMaster = new NavigateMaster(this);
             mWindowDecorView = this.getWindow().getDecorView();     //注意要在setContenView之后调用
 
             //取参数

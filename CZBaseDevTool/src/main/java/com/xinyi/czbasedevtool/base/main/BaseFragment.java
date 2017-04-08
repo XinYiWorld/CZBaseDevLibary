@@ -52,6 +52,11 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
 
+        //分层 合成聚合原则
+        httpMaster = new HttpMaster(mContext, this,this);
+        dialogMaster = new DialogMaster(mContext);
+        navigateMaster = new NavigateMaster(mContext);
+
 
         Log.i(TAG, "onCreateView: ");
         try{
@@ -61,12 +66,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
             initTitleLayout();
 
-            //分层 合成聚合原则
-            httpMaster = new HttpMaster(mContext, this,this);
-            dialogMaster = new DialogMaster(mContext);
-            navigateMaster = new NavigateMaster(mContext);
             mWindowDecorView = getActivity().getWindow().getDecorView();
-
 
             //取参数
             Bundle extras = getArguments();

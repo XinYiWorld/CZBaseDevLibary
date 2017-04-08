@@ -10,7 +10,7 @@
         android:name=".MApplication"
         >
 
-        <activity android:name=".net_test.NetTestActivity">
+        <activity android:name=".DefaultLaunchActivity">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
