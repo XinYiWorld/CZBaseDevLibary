@@ -1,6 +1,5 @@
 package com.xinyi.czbasedevtool.base.manager.net_about;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -43,7 +42,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private Context mContext;
     private I_HttpResultHandler httpResultHandler;
     private ProgressView progressView;
-    private View mWindowDecorView;
     private Set<I_HttpResultHandler>  bindedHttpResultHandlers;
 
     public HttpMaster(Context mContext, I_HttpResultHandler httpResultHandler, ProgressView progressView) {
@@ -51,8 +49,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         this.httpResultHandler = httpResultHandler;
         this.progressView = progressView;                   //progress传入null，代表不需要UI显示网络请求的状态。
         TAG = mContext.getClass().getName();
-        if (mContext instanceof Activity)
-            mWindowDecorView = ((Activity) mContext).getWindow().getDecorView();
 
         bindedHttpResultHandlers = new HashSet<>();
     }
