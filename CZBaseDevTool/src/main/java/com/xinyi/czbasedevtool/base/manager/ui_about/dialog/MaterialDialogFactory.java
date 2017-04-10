@@ -62,13 +62,14 @@ public class MaterialDialogFactory{
 
     //可以定制取消按钮的文字
     public  MaterialDialog createMaterialDialog(Context context,String title,String msg,String pText,String nText,MaterialDialog.SingleButtonCallback pListener,MaterialDialog.SingleButtonCallback nListener ,int ... iconRes){
-        if(normalMaterialDialogBuilder == null){
-            normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
-        }else{
-            if(normalMaterialDialogBuilder.getContext() != context){
-                normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
-            }
-        }
+//        if(normalMaterialDialogBuilder == null){
+//            normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
+//        }else{
+//            if(normalMaterialDialogBuilder.getContext() != context){
+//                normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
+//            }
+//        }
+        normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
 
         normalMaterialDialogBuilder.backgroundColorRes(android.R.color.white);
         normalMaterialDialogBuilder.cancelable(true);
@@ -106,13 +107,15 @@ public class MaterialDialogFactory{
      * @param pListener
      */
     public  MaterialDialog createListMaterialDialog(String title,int itemRes,String pText,MaterialDialog.ListCallback listCallback,MaterialDialog.SingleButtonCallback pListener){
-        if(listMaterialDialogBuilder == null){
-            listMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-        }else{
-            if(listMaterialDialogBuilder.getContext() != mContext){
-                listMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-            }
-        }
+//        if(listMaterialDialogBuilder == null){
+//            listMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//        }else{
+//            if(listMaterialDialogBuilder.getContext() != mContext){
+//                listMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//            }
+//        }
+
+        listMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
 
         if(!TextUtils.isEmpty(title)){
             listMaterialDialogBuilder.title(title);
@@ -147,13 +150,15 @@ public class MaterialDialogFactory{
      * @param pListener
      */
     public  MaterialDialog createChoiceListMaterialDialog(String title,int itemRes,String pText,MaterialDialog.ListCallbackSingleChoice listCallback,int selectIndex,MaterialDialog.SingleButtonCallback pListener){
-        if(choiceMaterialDialogBuilder == null){
-            choiceMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-        }else{
-            if(choiceMaterialDialogBuilder.getContext() != mContext){
-                choiceMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-            }
-        }
+//        if(choiceMaterialDialogBuilder == null){
+//            choiceMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//        }else{
+//            if(choiceMaterialDialogBuilder.getContext() != mContext){
+//                choiceMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//            }
+//        }
+
+        choiceMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
 
         if(!TextUtils.isEmpty(title)){
             choiceMaterialDialogBuilder.title(title);
@@ -183,13 +188,15 @@ public class MaterialDialogFactory{
      * @param content
      */
     public  MaterialDialog createProgressMaterialDialog(String title,String content){
-        if(progressMaterialDialogBuilder== null){
-            progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-        }else{
-            if(progressMaterialDialogBuilder.getContext() != mContext){
-                progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-            }
-        }
+//        if(progressMaterialDialogBuilder== null){
+//            progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//        }else{
+//            if(progressMaterialDialogBuilder.getContext() != mContext){
+//                progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+//            }
+//        }
+        progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
+
 
         if(progressMaterialDialog != null){
             progressMaterialDialog.setTitle(title);
