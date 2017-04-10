@@ -13,12 +13,16 @@ import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
 import java.io.IOException;
 
+import xinyi.com.czdevmodule.net_test.retrofit.UserBean;
+import xinyi.com.czdevmodule.net_test.retrofit.callback.IUserRegistCallBack;
+import xinyi.com.czdevmodule.net_test.retrofit.service.UserService;
+
 /**
  * Created by 陈章 on 2017/2/14 0014.
  * func:
  */
 
-public class Fragment1 extends DefaultBaseFragment {
+public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBack {
     @Override
     public boolean useDataBinding() {
         return false;
@@ -36,6 +40,7 @@ public class Fragment1 extends DefaultBaseFragment {
 
     }
 
+
     @Override
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
         super.bindView(contentViewHolder);
@@ -48,10 +53,16 @@ public class Fragment1 extends DefaultBaseFragment {
         roundTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         roundTextView.setEnabled(true);
 
+
+        final UserService userService = new UserService(mContext, this);
+        userService.setRegistCallBack(this);
+
+
+
         roundTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                roundTextView.setText(dataCleanManager.getTotalCachedSize());
+                userService.regist(v,new UserBean("13121116227", 1, "5613659"));
             }
         });
 
@@ -60,7 +71,7 @@ public class Fragment1 extends DefaultBaseFragment {
         contentViewHolder.findViewById(R.id.test2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataCleanManager.clean();
+
             }
         });
     }
@@ -78,6 +89,17 @@ public class Fragment1 extends DefaultBaseFragment {
 
     @Override
     public <T> void onSuccess(int requestCode, BaseHttpResponseBean codeInfoBean, T successBean) {
+
+    }
+
+
+    @Override
+    public void onRegistSucess(UserBean userBean) {
+
+    }
+
+    @Override
+    public void onRegistFailure() {
 
     }
 }

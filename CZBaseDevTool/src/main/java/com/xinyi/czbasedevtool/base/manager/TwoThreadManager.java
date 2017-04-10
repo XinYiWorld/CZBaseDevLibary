@@ -1,7 +1,5 @@
 package com.xinyi.czbasedevtool.base.manager;
 
-import android.util.Log;
-
 import com.xinyi.czbasedevtool.base.interfaces.I_TwoThread;
 
 import java.util.concurrent.TimeUnit;
@@ -28,13 +26,28 @@ public class TwoThreadManager implements I_TwoThread{
     @Override
     public void runOnUiThread(Runnable runnable) {
         Observable.just(runnable)
-                .subscribeOn(AndroidSchedulers.mainThread()); // 指定 subscribe() 发生在 ui  线程
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Runnable>() {
+                    @Override
+                    public void call(Runnable runnable) {
+                        runnable.run();
+                    }
+                })
+        ; // 指定 subscribe() 发生在 ui  线程
+
     }
 
     @Override
     public void runOnBackThread(Runnable runnable) {
         Observable.just(runnable)
-                .subscribeOn(Schedulers.io()); // 指定 subscribe() 发生在 IO 线程
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action1<Runnable>() {
+                    @Override
+                    public void call(Runnable runnable) {
+                        runnable.run();
+                    }
+                })
+        ; // 指定 subscribe() 发生在 IO 线程
     }
 
     //延时操作

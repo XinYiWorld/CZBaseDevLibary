@@ -6,6 +6,7 @@ import android.util.Log;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseAppCompatActivity;
 import com.xinyi.czbasedevtool.base.manager.PermissionManager;
+import com.xinyi.czbasedevtool.base.manager.ui_about.FragmentMaster;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import java.io.IOException;
@@ -59,13 +60,13 @@ public class DefaultLaunchActivity extends DefaultBaseAppCompatActivity {
 
     @Override
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
-//        FragmentMaster aa = new FragmentMaster(this,getSupportFragmentManager());
-//        aa.begin();
-//        aa.showFragment(R.id.content,new Fragment1());
-//        aa.commit();
-//
-//
-//        PermissionManager.getInstance(this).requestFloatWindowPermission(100);
+        FragmentMaster aa = new FragmentMaster(this,getSupportFragmentManager());
+        aa.begin();
+        aa.showFragment(R.id.content,new Fragment1());
+        aa.commit();
+
+
+        PermissionManager.getInstance(this).requestFloatWindowPermission(100);
     }
 
     @Override

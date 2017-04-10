@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CZDevModule</string>
+
+    <string name="warn_input_phone_empty">手机号不能为空</string>
+    <string name="warn_input_code_empty">验证码不能为空</string>
+    <string name="warn_input_password_empty">密码不能为空</string>
+    <string name="warn_input_phone_illegal">手机号格式不正确</string>
+    <string name="warn_input_phone_min_length">密码最少输入6位</string>
+    <string name="warn_input_phone_max_length">密码最多输入12位</string>
+    <string name="open_network_first">请先链接网络!</string>
+    <string name="warn_wrong_code">验证码不正确!</string>
+    <string name="request_send_sms_for_you">正在请求为您发送短信...</string>
 </resources>
