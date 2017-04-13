@@ -284,7 +284,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         return new TagRxObserver<Object>(executor, requestCode) {
             @Override
             public void onCompleted() {
-                //TODO
                 TLog.i(TAG, "getObserver onCompleted");
                 setState(executor,true);
                 hideProgressView();
@@ -292,8 +291,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
 
             @Override
             public void onError(Throwable e) {
-                //TODO
-                TLog.i(TAG, "getObserver onError");
+                TLog.e(TAG, "getObserver onError:" + e.toString());
                 setState(executor,true);
                 hideProgressView();
                 ToastUtil.shortT(mContext,"解析数据异常!");
