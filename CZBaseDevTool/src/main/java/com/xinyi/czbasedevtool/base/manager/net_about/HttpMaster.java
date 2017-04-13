@@ -314,6 +314,15 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                         }
                     }else{
                         BaseHttpResultBean resultBean = (BaseHttpResultBean) targetBean;
+                        if(convertedClass == null){     //data没有返回任何数据，不需要解析。
+                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),null);
+                            for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),null);
+                            }
+                            return;
+                        }
+
+
                         if(isTargetBeanAsList[0]){      //将data解析为数组
                             httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
                             for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
