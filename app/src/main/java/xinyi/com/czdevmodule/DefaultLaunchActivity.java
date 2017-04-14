@@ -46,12 +46,16 @@ public class DefaultLaunchActivity extends DefaultBaseAppCompatActivity {
         return R.layout.activity_demo;
     }
 
-
+    @Override
+    public String getLeftTextString() {
+        return "dfafasdf";
+    }
 
     @Override
-    public int getTitleStringRes() {
-        return R.string.appbar_scrolling_view_behavior;
+    public String getRightTextString() {
+        return "gfdsgdsg";
     }
+
 
     @Override
     public <BindingObj> void bindView(BindingObj binding) throws IOException {

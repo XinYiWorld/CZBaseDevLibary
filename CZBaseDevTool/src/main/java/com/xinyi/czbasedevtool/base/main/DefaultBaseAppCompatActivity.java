@@ -163,6 +163,7 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
             Log.e(TAG, "initTitleLayout: getTitleView() return null,if you use the right id in the ids.xml?");
         }else{
             titleView.setText(getTitleStringRes() == -1 ? getTitleString() : ResourceUtil.getString(getTitleStringRes()));
+            titleView.setVisibility(TextUtils.isEmpty(getTitleString()) && getTitleStringRes() == -1 ? View.GONE : View.VISIBLE);
         }
 
 
@@ -172,7 +173,7 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
             Log.e(TAG, "initTitleLayout: getRightTxtView() return null,if you use the right id in the ids.xml?");
         }else{
             rightTxtView.setText(getRightTextStringRes() == -1 ?  getRightTextString() : ResourceUtil.getString(getRightTextStringRes()));
-            rightTxtView.setVisibility(TextUtils.isEmpty(getRightTextString()) || getRightTextStringRes() == -1 ? View.GONE : View.VISIBLE);
+            rightTxtView.setVisibility(TextUtils.isEmpty(getRightTextString()) && getRightTextStringRes() == -1 ? View.GONE : View.VISIBLE);
         }
 
         TextView leftTxtView = getLeftTxtView();
@@ -181,7 +182,7 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
             Log.e(TAG, "initTitleLayout: getLeftTxtView() return null,if you use the right id in the ids.xml?");
         }else{
             leftTxtView.setText(getLeftTextStringRes() == -1 ? getLeftTextString() : ResourceUtil.getString(getLeftTextStringRes()));
-            leftTxtView.setVisibility(TextUtils.isEmpty(getLeftTextString()) || getLeftTextStringRes() == -1 ? View.GONE : View.VISIBLE);
+            leftTxtView.setVisibility(TextUtils.isEmpty(getLeftTextString()) && getLeftTextStringRes() == -1 ? View.GONE : View.VISIBLE);
         }
 
 

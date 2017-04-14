@@ -9,7 +9,7 @@ import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
 import com.xinyi.czbasedevtool.base.manager.TwoThreadManager;
-import com.xinyi.czbasedevtool.base.utils.TLog;
+import com.xinyi.czbasedevtool.base.utils.ToastUtil;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
@@ -64,14 +64,21 @@ public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBac
         roundTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TwoThreadManager.getInstantce().postDelay(new Runnable() {
+//                TwoThreadManager.getInstantce().postDelay(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        ToastUtil.shortT(mContext,"fdsafdasfsf");
+//
+//                        TLog.e("fdasfdsadgfdasgsg" + ":" + Thread.currentThread().getName());
+//                    }
+//                },3000);
+
+                TwoThreadManager.getInstantce().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        ToastUtil.shortT(mContext,"fdsafdasfsf");
-
-                        TLog.e("fdasfdsadgfdasgsg" + ":" + Thread.currentThread().getName());
+                        ToastUtil.shortT(mContext,"fdsafdasfsf");
                     }
-                },3000);
+                });
             }
         });
 
