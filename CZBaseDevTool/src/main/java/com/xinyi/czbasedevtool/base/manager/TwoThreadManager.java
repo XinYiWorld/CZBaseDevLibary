@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -53,12 +54,23 @@ public class TwoThreadManager implements I_TwoThread{
     //延时操作
     @Override
     public void postDelay(final Runnable runnable, long delayedTimeMillis) {
-        Observable.timer(delayedTimeMillis,TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-                        runnable.run();
-                    }
-                });
+
+        //此种写法有问题
+//        Observable.timer(delayedTimeMillis,TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<Long>() {
+//                    @Override
+//                    public void call(Long aLong) {
+//                        runnable.run();
+//                    }
+//                });
+
+        //subscribeOn(AndroidSchedulers.mainThread()) 对于delay方法无效，要在delay方法参数里加UI线程控制。
+        Observable.empty().delay(delayedTimeMillis,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread())
+                .doOnCompleted(new Action0() {
+            @Override
+            public void call() {
+                runnable.run();
+            }
+        }).subscribe();
     }
 }

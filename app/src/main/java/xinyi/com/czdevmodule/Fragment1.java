@@ -8,6 +8,8 @@ import android.view.View;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
+import com.xinyi.czbasedevtool.base.manager.TwoThreadManager;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
@@ -62,7 +64,14 @@ public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBac
         roundTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userService.regist(v,new UserBean("13121116227", 1, "5613659"));
+                TwoThreadManager.getInstantce().postDelay(new Runnable() {
+                    @Override
+                    public void run() {
+//                        ToastUtil.shortT(mContext,"fdsafdasfsf");
+
+                        TLog.e("fdasfdsadgfdasgsg" + ":" + Thread.currentThread().getName());
+                    }
+                },3000);
             }
         });
 
