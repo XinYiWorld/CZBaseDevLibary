@@ -53,18 +53,12 @@ public class TwoThreadManager implements I_TwoThread{
     //延时操作
     @Override
     public void postDelay(final Runnable runnable, long delayedTimeMillis) {
-        Observable.timer(delayedTimeMillis,TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread())
+        Observable.timer(delayedTimeMillis,TimeUnit.MILLISECONDS).subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
                         runnable.run();
                     }
                 });
-
-
-
     }
-
-
-
 }
