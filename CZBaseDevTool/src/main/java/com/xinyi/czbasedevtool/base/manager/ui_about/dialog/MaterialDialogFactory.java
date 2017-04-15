@@ -20,10 +20,10 @@ import com.xinyi.czbasedevtool.base.utils.ResourceUtil;
  */
 public class MaterialDialogFactory{
     private static final String TAG = "MaterialDialogFactory";
-    private static MaterialDialog.Builder normalMaterialDialogBuilder = null;
-    private static MaterialDialog.Builder listMaterialDialogBuilder = null;
-    private static MaterialDialog.Builder choiceMaterialDialogBuilder = null;
-    private static MaterialDialog.Builder progressMaterialDialogBuilder = null;
+    private  MaterialDialog.Builder normalMaterialDialogBuilder = null;
+    private  MaterialDialog.Builder listMaterialDialogBuilder = null;
+    private  MaterialDialog.Builder choiceMaterialDialogBuilder = null;
+    private  MaterialDialog.Builder progressMaterialDialogBuilder = null;
 
     private static final int DEFAULT_TITLE_COLORRES = R.color.black;
 
@@ -48,7 +48,6 @@ public class MaterialDialogFactory{
 
     /**
      * MaterialDialog
-     * @param context
      * @param title
      * @param msg
      * @param pText
@@ -56,12 +55,12 @@ public class MaterialDialogFactory{
      * @param nListener
      */
     //默认取消按钮是”取消"两个字
-    public  MaterialDialog createMaterialDialog(Context context,String title,String msg,String pText,MaterialDialog.SingleButtonCallback pListener,MaterialDialog.SingleButtonCallback nListener ,int ... iconRes){
-        return createMaterialDialog(context,title,msg,pText,"取消",pListener,nListener,iconRes);
+    public  MaterialDialog createMaterialDialog(String title,String msg,String pText,MaterialDialog.SingleButtonCallback pListener,MaterialDialog.SingleButtonCallback nListener ,int ... iconRes){
+        return createMaterialDialog(title,msg,pText,"取消",pListener,nListener,iconRes);
     }
 
     //可以定制取消按钮的文字
-    public  MaterialDialog createMaterialDialog(Context context,String title,String msg,String pText,String nText,MaterialDialog.SingleButtonCallback pListener,MaterialDialog.SingleButtonCallback nListener ,int ... iconRes){
+    public  MaterialDialog createMaterialDialog(String title,String msg,String pText,String nText,MaterialDialog.SingleButtonCallback pListener,MaterialDialog.SingleButtonCallback nListener ,int ... iconRes){
 //        if(normalMaterialDialogBuilder == null){
 //            normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
 //        }else{
@@ -69,7 +68,7 @@ public class MaterialDialogFactory{
 //                normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
 //            }
 //        }
-        normalMaterialDialogBuilder = new MaterialDialog.Builder(context);
+        normalMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
 
         normalMaterialDialogBuilder.backgroundColorRes(android.R.color.white);
         normalMaterialDialogBuilder.cancelable(true);
