@@ -10,14 +10,20 @@ import java.util.regex.Pattern;
  */
 public class RegularUtil {
     public static boolean isPhoneNumber(String input){
-        String regex="^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-        Pattern p = Pattern.compile(regex);
-        return p.matcher(input).matches();
+        return check(input,"^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
     }
 
     public static boolean isNumeric(String str){
-        Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(str);
+        return check(str,"[0-9]*");
+    }
+
+    public static boolean isEmail(String email){
+        return check(email,"/^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$/");
+    }
+
+    public static boolean check(String input ,String reg){
+        Pattern pattern = Pattern.compile(reg);
+        Matcher isNum = pattern.matcher(input);
         if( !isNum.matches() ){
             return false;
         }
