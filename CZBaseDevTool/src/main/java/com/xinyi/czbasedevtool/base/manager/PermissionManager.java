@@ -85,7 +85,7 @@ public class PermissionManager {
         //关闭之前可能重复出现的Dialog。
         closeAllDialog();
 
-        MaterialDialog materialDialog = MaterialDialogFactory.getInstance(context).createMaterialDialog(context, "权限申请", "接下来的权限提示请点击同意，否则无法往后执行！", "同意", new MaterialDialog.SingleButtonCallback() {
+        MaterialDialog materialDialog = MaterialDialogFactory.getInstance(context).createMaterialDialog( "权限申请", "接下来的权限提示请点击同意，否则无法往后执行！", "同意", new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                 myDialogStack.remove(dialog);
@@ -163,7 +163,7 @@ public class PermissionManager {
 
         } else {
             MaterialDialogFactory.getInstance(mContext)
-                    .createMaterialDialog(mContext, "重要提示:", "检测到您未开启悬浮窗权限,可能影响APP的部分功能使用，建议立即开启！", "立即开启", "取消",
+                    .createMaterialDialog("重要提示:", "检测到您未开启悬浮窗权限,可能影响APP的部分功能使用，建议立即开启！", "立即开启", "取消",
                             new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
