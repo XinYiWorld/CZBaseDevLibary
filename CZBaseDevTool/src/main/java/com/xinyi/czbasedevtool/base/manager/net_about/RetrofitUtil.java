@@ -18,10 +18,10 @@ public class RetrofitUtil {
     public static OkHttpClient generateOkHttpClient(String token) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if(RetrofitClient.isHasToken()){
+            builder.addInterceptor(new TokenAddInterceptor(token == null ? TokenGenerator.getToken() : token));
             CommonParamsInterceptor commonParamsInterceptor = new CommonParamsInterceptor();
             commonParamsInterceptor.addParams("token",token == null ? TokenGenerator.getToken() : token);
              builder.addInterceptor(commonParamsInterceptor);
-            builder.addInterceptor(new TokenAddInterceptor(token == null ? TokenGenerator.getToken() : token));
         }
         builder.addInterceptor(new HeaderAttachInterceptor());
         builder.addInterceptor(new MyLogInterceptor());
