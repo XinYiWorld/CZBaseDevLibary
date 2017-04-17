@@ -21,6 +21,7 @@ public class RetrofitUtil {
             CommonParamsInterceptor commonParamsInterceptor = new CommonParamsInterceptor();
             commonParamsInterceptor.addParams("token",token == null ? TokenGenerator.getToken() : token);
              builder.addInterceptor(commonParamsInterceptor);
+            builder.addInterceptor(new TokenAddInterceptor(token == null ? TokenGenerator.getToken() : token));
         }
         builder.addInterceptor(new HeaderAttachInterceptor());
         builder.addInterceptor(new MyLogInterceptor());

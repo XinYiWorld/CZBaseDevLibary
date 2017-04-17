@@ -35,7 +35,7 @@ public class CommonParamsInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
 
         Request orgRequest = chain.request();
-
+        String method = orgRequest.method();
 
         RequestBody body = orgRequest.body();
         //收集请求参数，方便调试
@@ -58,7 +58,7 @@ public class CommonParamsInterceptor implements Interceptor {
 
                 Request newRequest = orgRequest.newBuilder()
                         .url(orgRequest.url())
-                        .method(orgRequest.method(), newBody)
+                        .method(method, newBody)
                         .build();
 
                 return chain.proceed(newRequest);
