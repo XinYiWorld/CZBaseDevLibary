@@ -16,64 +16,37 @@ import com.xinyi.czbasedevtool.base.utils.ResourceUtil;
 public class DialogMaster implements ProgressView {
     private Context mContext;
     private MaterialDialogFactory materialDialogFactory;
-    private String customProgressMsg  ;               //定制进度提示信息，不同场景要求可能不一样。
-    private ProgressView progressView;
+    private String customProgressMsg;               //定制进度提示信息，不同场景要求可能不一样。
 
     public DialogMaster(Context mContext) {
         this.mContext = mContext;
         materialDialogFactory = MaterialDialogFactory.getInstance(mContext);
-        customProgressMsg = ResourceUtil.getString(mContext,R.string.loading);
-    }
-
-    public DialogMaster(Context mContext, ProgressView progressView) {
-        this.mContext = mContext;
-        this.progressView = progressView;
-        customProgressMsg = ResourceUtil.getString(mContext,R.string.loading);
+        customProgressMsg = ResourceUtil.getString(mContext, R.string.loading);
     }
 
     @Override
     public void onShowProgressDialog() {
-        if(progressView != null){
-            progressView.onShowProgressDialog();
-        }else{
-            materialDialogFactory.createMsgProgressMaterialDialog(customProgressMsg);
-        }
+        materialDialogFactory.createMsgProgressMaterialDialog(customProgressMsg);
     }
 
     @Override
     public void onHideProgressDialog() {
-        if(progressView != null){
-            progressView.onHideProgressDialog();
-        }else{
-            materialDialogFactory.hideProgressMaterialDialog();
-        }
+        materialDialogFactory.hideProgressMaterialDialog();
     }
 
     @Override
     public void onShowMessageDiaolg(@NonNull String msg) {
-        if(progressView != null){
-            progressView.onShowMessageDiaolg(msg);
-        }else{
-            materialDialogFactory.createMsgProgressMaterialDialog(msg);
-        }
+        materialDialogFactory.createMsgProgressMaterialDialog(msg);
     }
 
     @Override
     public void customProgressMsg(int msgRes) {
-        if(progressView != null){
-            progressView.customProgressMsg(msgRes);
-        }else{
-            customProgressMsg = ResourceUtil.getString(msgRes);
-        }
+        customProgressMsg = ResourceUtil.getString(msgRes);
     }
 
     @Override
     public void customProgressMsg(String msg) {
-        if(progressView != null){
-            progressView.customProgressMsg(msg);
-        }else{
-            customProgressMsg = msg;
-        }
+        customProgressMsg = msg;
     }
 
     @Override

@@ -62,7 +62,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
 
         //分层 合成聚合原则
         httpMaster = new HttpMaster(this, this,this);
-        dialogMaster = new DialogMaster(this,this);
+        dialogMaster = new DialogMaster(this);
         navigateMaster = new NavigateMaster(this);
 
         TLog.i(TAG, "onCreate: ");

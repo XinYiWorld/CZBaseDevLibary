@@ -54,7 +54,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
         //分层 合成聚合原则
         httpMaster = new HttpMaster(mContext, this,this);
-        dialogMaster = new DialogMaster(mContext,this);
+        dialogMaster = new DialogMaster(mContext);
         navigateMaster = new NavigateMaster(mContext);
 
 
