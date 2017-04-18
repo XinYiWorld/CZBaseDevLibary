@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +28,7 @@ import com.xinyi.czbasedevtool.base.manager.ActivityManager;
 import com.xinyi.czbasedevtool.base.manager.net_about.HttpMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.DialogMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.NavigateMaster;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import java.util.List;
@@ -62,10 +62,10 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
 
         //分层 合成聚合原则
         httpMaster = new HttpMaster(this, this,this);
-        dialogMaster = new DialogMaster(this);
+        dialogMaster = new DialogMaster(this,this);
         navigateMaster = new NavigateMaster(this);
 
-        Log.i(TAG, "onCreate: ");
+        TLog.i(TAG, "onCreate: ");
         try{
             requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏系统自带的标题栏目;
 
@@ -141,7 +141,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume: ");
+        TLog.i(TAG, "onResume: ");
         notifyViewAndDataChangedLinkedWithUser();
         if(!isOnResumeExecuted){
             doOnLazyResume();
@@ -152,7 +152,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
     @Override
     public void finish() {
         super.finish();
-        Log.i(TAG, "finish: ");
+        TLog.i(TAG, "finish: ");
         ActivityManager.getInstance().removeActivity(this);
     }
 
@@ -163,7 +163,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i(TAG, "onRestart: ");
+        TLog.i(TAG, "onRestart: ");
     }
 
 
@@ -171,27 +171,27 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG, "onStart: ");
+        TLog.i(TAG, "onStart: ");
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(TAG, "onPause: ");
+        TLog.i(TAG, "onPause: ");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(TAG, "onStop: ");
+        TLog.i(TAG, "onStop: ");
     }
 
     @Override
     protected void onDestroy() {
         annotationsUnbind(this,null);
         super.onDestroy();
-        Log.i(TAG, "onDestroy: ");
+        TLog.i(TAG, "onDestroy: ");
     }
 
     //状态栏设置

@@ -27,9 +27,9 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ImageView;
 
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.utils.io.FileUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -255,7 +255,7 @@ public class ImageCommonUtil {
      */
 
     public static Bitmap drawable2bitmap(Drawable drawable) {
-        Log.i(TAG, "drawable2bitmap: drawable name = " + drawable.getClass().getName());
+        TLog.i(TAG, "drawable2bitmap: drawable name = " + drawable.getClass().getName());
         if (null == drawable) {
 
             return null;
@@ -541,7 +541,7 @@ public class ImageCommonUtil {
             Uri uri = Uri.fromFile(file);
             intent.setData(uri);
             context.sendBroadcast(intent);
-            Log.v(TAG, "------>通知相册更新成功");
+            TLog.v(TAG, "------>通知相册更新成功");
             return true;
         }
 

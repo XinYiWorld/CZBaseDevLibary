@@ -2,10 +2,10 @@ package com.xinyi.czbasedevtool.base.manager;
 
 import android.content.Context;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.xinyi.czbasedevtool.base.utils.ExceptionUtil;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.utils.io.FileUtil;
 
 import java.io.File;
@@ -77,7 +77,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                Log.e(TAG, "error : ", e);
+                TLog.e(TAG, e.getMessage());
             }
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -100,7 +100,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         File saveFile = new File(FileUtil.SAVE_ROOT_DIR + "Crash.html");
         File tempFile = new File(FileUtil.SAVE_ROOT_DIR + "CrashTemp.html");
         double fileSize = FileUtil.getFileOrFolderSize(saveFile.getPath(), FileUtil.SIZETYPE_KB);
-        Log.i(TAG, "handleException: fileSize=" + fileSize);
+        TLog.i(TAG, "handleException: fileSize=" + fileSize);
         if(saveFile.exists() && fileSize > 3000){
             saveFile.deleteOnExit();
         }
@@ -121,7 +121,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
         // 收集设备参数信息 \日志信息
         String errInfo = ExceptionUtil.collectExceptionInfo(ex);
-        Log.e(TAG, "handleException: " + errInfo );
+        TLog.e(TAG, "handleException: " + errInfo );
         FileUtil.if_append = false;
         FileUtil.copy(saveFile,tempFile);
         // 保存日志文件

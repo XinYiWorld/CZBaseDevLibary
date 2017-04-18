@@ -2,12 +2,12 @@ package xinyi.com.czdevmodule.net_test;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseAppCompatActivity;
 import com.xinyi.czbasedevtool.base.manager.net_about.RetrofitClient;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 
 import java.io.IOException;
 
@@ -50,7 +50,7 @@ public class NetTestActivity extends DefaultBaseAppCompatActivity {
 
     @OnClick(R.id.btn_regsiter)
     public void onClick(View view) {
-        Log.i(TAG, "onClick: ");
+        TLog.i(TAG, "onClick: ");
         RetrofitClient.setHasToken(true);
         RetrofitClient.setBaseUrl("http://app.bestbeijing.top/");
         requestData(view,200,SimpleRequestService.class,"regist",TestBean.class,new Object[]{"13121116226",1,"5613659"},false);

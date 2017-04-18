@@ -1,12 +1,12 @@
 package xinyi.com.czdevmodule;
 
 import android.content.Intent;
-import android.util.Log;
 
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseAppCompatActivity;
 import com.xinyi.czbasedevtool.base.manager.PermissionManager;
 import com.xinyi.czbasedevtool.base.manager.ui_about.FragmentMaster;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import java.io.IOException;
@@ -29,9 +29,9 @@ public class DefaultLaunchActivity extends DefaultBaseAppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
             if (PermissionManager.getInstance(this).isFloatWindowOpAllowed(this)) {//已经开启
-                Log.i(TAG, "onActivityResult:开启悬浮窗成功");
+                TLog.i(TAG, "onActivityResult:开启悬浮窗成功");
             } else {
-                Log.i(TAG, "onActivityResult:开启悬浮窗失败");
+                TLog.i(TAG, "onActivityResult:开启悬浮窗失败");
             }
         }
     }

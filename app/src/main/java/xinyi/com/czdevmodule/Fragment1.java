@@ -8,11 +8,14 @@ import android.view.View;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
+import com.xinyi.czbasedevtool.base.manager.net_about.RetrofitClient;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
 import java.io.IOException;
 
+import xinyi.com.czdevmodule.net_test.SimpleRequestService;
+import xinyi.com.czdevmodule.net_test.retrofit.DegreeBean;
 import xinyi.com.czdevmodule.net_test.retrofit.UserBean;
 import xinyi.com.czdevmodule.net_test.retrofit.callback.IUserRegistCallBack;
 import xinyi.com.czdevmodule.net_test.retrofit.service.UserService;
@@ -62,7 +65,10 @@ public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBac
         roundTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String BASE_URL = "http://app.bestbeijing.top/";
+                RetrofitClient.setHasToken(true);
+                RetrofitClient.setBaseUrl(BASE_URL);
+                requestData(v,100, SimpleRequestService.class,"getDegreeList",DegreeBean.class,new Object[]{"fdsaf"},true);
             }
         });
 

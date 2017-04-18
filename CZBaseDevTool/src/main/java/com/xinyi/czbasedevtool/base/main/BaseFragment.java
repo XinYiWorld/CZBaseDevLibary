@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import com.xinyi.czbasedevtool.base.interfaces.view_about.TitleView;
 import com.xinyi.czbasedevtool.base.manager.net_about.HttpMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.DialogMaster;
 import com.xinyi.czbasedevtool.base.manager.ui_about.NavigateMaster;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import java.util.List;
@@ -54,11 +54,11 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
 
         //分层 合成聚合原则
         httpMaster = new HttpMaster(mContext, this,this);
-        dialogMaster = new DialogMaster(mContext);
+        dialogMaster = new DialogMaster(mContext,this);
         navigateMaster = new NavigateMaster(mContext);
 
 
-        Log.i(TAG, "onCreateView: ");
+        TLog.i(TAG, "onCreateView: ");
         try{
             doOnCreateInit();
 
@@ -116,7 +116,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(TAG, "onViewCreated: ");
+        TLog.i(TAG, "onViewCreated: ");
         requestDataOnCreate();
     }
 
@@ -131,7 +131,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume: ");
+        TLog.i(TAG, "onResume: ");
         notifyViewAndDataChangedLinkedWithUser();
         if(!isOnResumeExecuted){
             doOnLazyResume();
@@ -142,25 +142,25 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     //打印生命周期，便于调试
     public BaseFragment() {
         super();
-        Log.i(TAG, "构造: ");
+        TLog.i(TAG, "构造: ");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.i(TAG, "onStart: ");
+        TLog.i(TAG, "onStart: ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(TAG, "onPause: ");
+        TLog.i(TAG, "onPause: ");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.i(TAG, "onStop: ");
+        TLog.i(TAG, "onStop: ");
     }
 
     @Override
@@ -172,7 +172,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy: ");
+        TLog.i(TAG, "onDestroy: ");
     }
 
 

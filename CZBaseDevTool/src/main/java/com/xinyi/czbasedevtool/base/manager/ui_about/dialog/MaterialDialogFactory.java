@@ -3,11 +3,11 @@ package com.xinyi.czbasedevtool.base.manager.ui_about.dialog;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.xinyi.czbasedevtool.base.R;
 import com.xinyi.czbasedevtool.base.utils.ResourceUtil;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 
 /**
  * author:Created by ChenZhang on 2016/6/21 0021.
@@ -33,7 +33,7 @@ public class MaterialDialogFactory{
     private MaterialDialog progressMaterialDialog;
 
     private MaterialDialogFactory(){
-        Log.i(TAG, "MaterialDialogFactory inited");
+        TLog.i(TAG, "MaterialDialogFactory inited");
     }
 
     public static MaterialDialogFactory getInstance() {

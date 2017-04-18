@@ -28,4 +28,7 @@ public interface SimpleRequestService {
 //
 //    @GET("?g=apps&m=index&a=getPatch")
 //    Observable<BaseHttpResultBean> test();
+
+    @GET("index.php?g=people&m=common&a=degree_get")
+    Observable<BaseHttpResultBean> getDegreeList(@Query("name") String name);
 }

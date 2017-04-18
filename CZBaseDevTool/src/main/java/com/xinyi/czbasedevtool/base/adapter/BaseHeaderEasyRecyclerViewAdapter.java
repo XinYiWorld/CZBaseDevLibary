@@ -2,10 +2,10 @@ package com.xinyi.czbasedevtool.base.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.camnter.easyrecyclerview.adapter.EasyRecyclerViewAdapter;
 import com.camnter.easyrecyclerview.holder.EasyRecyclerViewHolder;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public abstract  class BaseHeaderEasyRecyclerViewAdapter<T,K> extends EasyRecycl
     protected abstract void bindHeadData(K data,EasyRecyclerViewHolder viewHolder);
 
     public void set(List<T> list) {
-        Log.i(TAG, "set: " + list.size());
+        TLog.i(TAG, "set: " + list.size());
         if (list == null) return;
         this.mData = list;
         notifyDataSetChanged();

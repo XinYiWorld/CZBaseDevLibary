@@ -18,25 +18,24 @@ import okhttp3.Response;
 /**
  * Created by CZ on 2017/4/7 0007.
  * func:
- * 公共参数添加拦截器
+ * POST请求公共参数添加拦截器
  */
 public class CommonParamsInterceptor implements Interceptor {
     private static final String TAG = "CommonParamsInterceptor";
-    private Map<String,String> paramsMap ;
+    private Map<String, String> paramsMap;
+
     public CommonParamsInterceptor() {
         paramsMap = new HashMap<>();
     }
 
-    public void addParams(String key,String value){
-        paramsMap.put(key,value);
+    public void addParams(String key, String value) {
+        paramsMap.put(key, value);
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-
         Request orgRequest = chain.request();
         String method = orgRequest.method();
-
         RequestBody body = orgRequest.body();
         //收集请求参数，方便调试
         StringBuilder paramsBuilder = new StringBuilder();
@@ -64,9 +63,7 @@ public class CommonParamsInterceptor implements Interceptor {
                 return chain.proceed(newRequest);
             }
         }
-
         return chain.proceed(orgRequest);
-
     }
 
     /**
@@ -80,7 +77,7 @@ public class CommonParamsInterceptor implements Interceptor {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         Set<String> keySet = paramsMap.keySet();
-        for (Iterator<String> it = keySet.iterator(); it.hasNext();){
+        for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
             String key = it.next();
             String value = paramsMap.get(key);
             builder.addFormDataPart(key, value);
@@ -105,7 +102,7 @@ public class CommonParamsInterceptor implements Interceptor {
         FormBody.Builder builder = new FormBody.Builder();
 
         Set<String> keySet = paramsMap.keySet();
-        for (Iterator<String> it = keySet.iterator(); it.hasNext();){
+        for (Iterator<String> it = keySet.iterator(); it.hasNext(); ) {
             String key = it.next();
             String value = paramsMap.get(key);
             builder.add(key, value);

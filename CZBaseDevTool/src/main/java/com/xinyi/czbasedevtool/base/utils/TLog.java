@@ -51,7 +51,7 @@ public class TLog {
     public static final void e(String log) {
         LOG_TAG = getRuntimeClassName();
         if (DEBUG)
-            Log.e(LOG_TAG, "" + log);
+            TLog.e(LOG_TAG, "" + log);
     }
 
 

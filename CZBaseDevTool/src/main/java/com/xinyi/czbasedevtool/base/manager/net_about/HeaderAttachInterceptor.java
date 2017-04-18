@@ -11,6 +11,7 @@ import okhttp3.Response;
  * function:
  */
 public class HeaderAttachInterceptor implements Interceptor {
+    private static final String TAG = "HeaderAttachInterceptor";
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request()

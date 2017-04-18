@@ -30,7 +30,7 @@ public class TokenGenerator {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String MD5String = formatter.format(curDate);
-        //KLog.e("日期:" + MD5String);
+        //KTLog.e("日期:" + MD5String);
         MD5String = "haopeixun" + MD5String + "#$@%!";
         try {
             MD5String = encode(MD5String);

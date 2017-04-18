@@ -10,7 +10,6 @@ import android.os.Binder;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -18,6 +17,7 @@ import com.xinyi.czbasedevtool.base.R;
 import com.xinyi.czbasedevtool.base.interfaces.listener.OnTaskDoneListener;
 import com.xinyi.czbasedevtool.base.manager.ui_about.dialog.MaterialDialogFactory;
 import com.xinyi.czbasedevtool.base.utils.SystemUtil;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class PermissionManager {
                 Method method = manager.getClass().getDeclaredMethod("checkOp", int.class, int.class, String.class);
                 int property = (Integer) method.invoke(manager, op,
                         Binder.getCallingUid(), context.getPackageName());
-                Log.e("399", " property: " + property);
+                TLog.e("399", " property: " + property);
                 if (AppOpsManager.MODE_ALLOWED == property) {
                     return true;
                 } else {
@@ -149,7 +149,7 @@ public class PermissionManager {
                 e.printStackTrace();
             }
         } else {
-            Log.e("399", "Below API 19 cannot invoke!");
+            TLog.e("399", "Below API 19 cannot invoke!");
         }
         return false;
     }

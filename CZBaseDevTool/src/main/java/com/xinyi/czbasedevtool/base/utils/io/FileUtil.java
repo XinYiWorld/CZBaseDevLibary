@@ -1,20 +1,17 @@
 package com.xinyi.czbasedevtool.base.utils.io;
 
-import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.xinyi.czbasedevtool.base.interfaces.listener.OnTaskDoneListener;
 import com.xinyi.czbasedevtool.base.manager.SystemStaticInstanceManager;
 import com.xinyi.czbasedevtool.base.utils.ExceptionUtil;
+import com.xinyi.czbasedevtool.base.utils.TLog;
 import com.xinyi.czbasedevtool.base.utils.io.concrete.PrintWriterStrategyWrite;
 import com.xinyi.czbasedevtool.base.utils.io.concrete.StreamStrategyWrite;
 import com.xinyi.czbasedevtool.base.utils.io.interfaces.Abs_StrategyWrite;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,7 +21,6 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 
 /**文件操作工具类 (注意读写权限的添加)
@@ -139,7 +135,7 @@ public class FileUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("获取文件大小","获取失败!");
+            TLog.e("获取文件大小","获取失败!");
         }
         return formatFileSize(blockSize, sizeType);
     }
@@ -161,7 +157,7 @@ public class FileUtil {
         }
         else{
             file.createNewFile();
-            Log.e("获取文件大小", "文件不存在!");
+            TLog.e("获取文件大小", "文件不存在!");
         }
         if(sizeType ==  null || sizeType.length == 0) {
             return size;
@@ -260,7 +256,7 @@ public class FileUtil {
         executor.copy(sourceFile, targetFile, new OnTaskDoneListener() {
             @Override
             public void done(Object obj) {
-                Log.i(TAG, "done: ");
+                TLog.i(TAG, "done: ");
                 if(deleteSourceFile != null && deleteSourceFile.length >0 && deleteSourceFile[0]){
                     sourceFile.deleteOnExit();
                 }
