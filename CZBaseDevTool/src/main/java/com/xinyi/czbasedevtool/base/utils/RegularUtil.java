@@ -18,9 +18,9 @@ public class RegularUtil {
     }
 
     public static boolean isEmail(String email){
-        return check(email,"/^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$/");
+        return check(email,"^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
     }
-
+    
     public static boolean check(String input ,String reg){
         Pattern pattern = Pattern.compile(reg);
         Matcher isNum = pattern.matcher(input);
