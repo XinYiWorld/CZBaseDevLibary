@@ -187,30 +187,18 @@ public class MaterialDialogFactory{
      * @param content
      */
     public  MaterialDialog createProgressMaterialDialog(String title,String content){
-//        if(progressMaterialDialogBuilder== null){
-//            progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-//        }else{
-//            if(progressMaterialDialogBuilder.getContext() != mContext){
-//                progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
-//            }
-//        }
         progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
 
-
-        if(progressMaterialDialog != null){
-            progressMaterialDialog.setTitle(title);
-            progressMaterialDialog.setContent(content);
-
-            if(!progressMaterialDialog.isShowing()){
-                progressMaterialDialog.show();
-            }
-            return progressMaterialDialog;
-        }
-
-        progressMaterialDialog = progressMaterialDialogBuilder.title(title)
+        MaterialDialog.Builder builder = progressMaterialDialogBuilder.title(title)
                 .content(content)
                 .progress(true, 0)
-                .show();
+                .title(title)
+                .content(content);
+        progressMaterialDialog = builder.build();
+        if(!progressMaterialDialog.isShowing()){
+            progressMaterialDialog.show();
+        }
+
         return progressMaterialDialog;
     }
 

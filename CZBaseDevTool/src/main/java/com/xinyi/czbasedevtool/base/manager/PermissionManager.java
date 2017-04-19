@@ -120,11 +120,12 @@ public class PermissionManager {
         if (version >= 19) {
             return checkOp(context, 24);  // AppOpsManager.OP_SYSTEM_ALERT_WINDOW
         } else {
-            if ((context.getApplicationInfo().flags & 1 << 27) == 1 << 27) {
-                return true;
-            } else {
-                return false;
-            }
+//            if ((context.getApplicationInfo().flags & 1 << 27) == 1 << 27) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+            return true;
         }
     }
 
