@@ -29,10 +29,15 @@ public class MaterialDialogFactory{
 
 
     private static MaterialDialogFactory mInstance = new MaterialDialogFactory();
-    private static Context mContext;
+    private  Context mContext;
     private MaterialDialog progressMaterialDialog;
 
     private MaterialDialogFactory(){
+        TLog.i(TAG, "MaterialDialogFactory inited");
+    }
+
+    private MaterialDialogFactory(Context context){
+        this.mContext = context;
         TLog.i(TAG, "MaterialDialogFactory inited");
     }
 
@@ -41,10 +46,8 @@ public class MaterialDialogFactory{
     }
     
     public static MaterialDialogFactory getInstance(Context context) {
-        mContext = context;
-        return mInstance;
+        return new MaterialDialogFactory(context);
     }
-
 
     /**
      * MaterialDialog
