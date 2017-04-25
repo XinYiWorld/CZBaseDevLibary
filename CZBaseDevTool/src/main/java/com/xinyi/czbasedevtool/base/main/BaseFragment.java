@@ -236,12 +236,12 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     }
 
     @Override
-    public <T, K> void uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String, String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
+    public <T, K> void uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
         httpMaster.uploadOneFileAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrapper,isTargetBeanAsList);
     }
 
     @Override
-    public <T, K> void uploadFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String, String> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
+    public <T, K> void uploadFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
         httpMaster.uploadFilesAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,isTargetBeanAsList);
     }
 
