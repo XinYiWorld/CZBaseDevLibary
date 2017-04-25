@@ -39,8 +39,8 @@ public interface I_Try_RequestServer extends  I_BindHttpResultHandler{
     void  downloadFile(View executor,int requestCode,String fileUrl);
 
     //上传单个文件(同时可以上传字段参数)
-    <T,K> void  uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList);
+    <T,K> void  uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass, Map<String,Object> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList);
 
     //上传多个文件(同时可以上传字段参数)
-    <T,K> void  uploadFilesAndData(View executor,int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass,  Map<String,String> params,List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList);
+    <T,K> void  uploadFilesAndData(View executor,int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass,  Map<String,Object> params,List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList);
 }

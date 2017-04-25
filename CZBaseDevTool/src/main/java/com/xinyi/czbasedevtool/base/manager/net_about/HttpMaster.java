@@ -190,14 +190,14 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
     @Override
-    public <T, K> void uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
+    public <T, K> void uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
         ArrayList<UploadFileWrapper> uploadFileWrappers = new ArrayList<>();
         uploadFileWrappers.add(uploadFileWrapper);
         uploadFilesAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,isTargetBeanAsList);
     }
 
     @Override
-    public <T, K> void uploadFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
+    public <T, K> void uploadFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
         checkNetStateAndDecideIfGoNext(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,true,isTargetBeanAsList);
     }
 
@@ -216,14 +216,14 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
     @Override
-    public <T, K> void realUpOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
+    public <T, K> void realUpOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
         List<UploadFileWrapper> uploadFileWrappers  = new ArrayList<>();
         uploadFileWrappers.add(uploadFileWrapper);
         realUpFilesAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,isTargetBeanAsList);
     }
 
     @Override
-    public <T, K> void realUpFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
+    public <T, K> void realUpFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,Object> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
         if (progressView != null) {
             progressView.onShowProgressDialog();
         }
@@ -303,7 +303,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         }
     }
 
- private <T, K> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final Class<K> convertedClass, final Map<String,String> params, final List<UploadFileWrapper> uploadFileWrappers , final boolean needConvert, final boolean... isTargetBeanAsList) {
+ private <T, K> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final Class<K> convertedClass, final Map<String,Object> params, final List<UploadFileWrapper> uploadFileWrappers , final boolean needConvert, final boolean... isTargetBeanAsList) {
         //网络环境判断
         if (!NetUtil.isConnected(mContext)) {
             ToastUtil.shortT(mContext,"请开启网络!");
@@ -501,7 +501,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
 
-    private <T, K> void executeService(final View executor, int requestCode, Class<T> serviceClass, Class<K> convertedClass,Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, Method serviceExecuteMethod, boolean[] isTargetBeanAsList) throws IllegalAccessException, InvocationTargetException {
+    private <T, K> void executeService(final View executor, int requestCode, Class<T> serviceClass, Class<K> convertedClass,Map<String,Object> params, List<UploadFileWrapper> uploadFileWrappers, Method serviceExecuteMethod, boolean[] isTargetBeanAsList) throws IllegalAccessException, InvocationTargetException {
         setState(executor, false);
         ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(params,uploadFileWrappers))))
                 .subscribeOn(Schedulers.io())
