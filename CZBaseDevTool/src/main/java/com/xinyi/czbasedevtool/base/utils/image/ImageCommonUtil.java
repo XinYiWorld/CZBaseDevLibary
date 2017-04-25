@@ -548,6 +548,15 @@ public class ImageCommonUtil {
         return false;
     }
 
+    public static Bitmap getBitmapFromPath(String path) {
+        try {
+            FileInputStream fis = new FileInputStream(path);
+            return BitmapFactory.decodeStream(fis); // /把流转化为Bitmap图片
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     // 专为Android4.4设计的从Uri(如Intent拍照或者选取图片)获取文件绝对路径，以前的方法已不好使

@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import com.xinyi.czbasedevtool.base.utils.ExceptionUtil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
@@ -193,4 +195,83 @@ public class ImageCompressUtil {
         return BitmapFactory.decodeByteArray(bts, 0, bts.length, options);
     }
 
+
+    public static BitmapFactory.Options getBitmapSize(String sFile) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(sFile, options);
+        return options;
+    }
+
+    // 按比例缩放
+    public static BitmapFactory.Options getBitmapSize(BitmapFactory.Options options, int dWidth, int dHeight) {
+        float scale = getBitmapScale(options, dWidth, dHeight);
+        BitmapFactory.Options newOptions = new BitmapFactory.Options();
+        newOptions.outWidth = (int) (newOptions.outWidth * scale);
+        newOptions.outHeight = (int) (newOptions.outHeight * scale);
+        return newOptions;
+    }
+
+    // 按比例缩放
+    public static float getBitmapScale(BitmapFactory.Options options, int dWidth, int dHeight) {
+        float scale = 0;
+        if (options.outHeight > dHeight || options.outWidth > dWidth) {
+            if ((options.outWidth * dHeight) > (options.outHeight * dWidth)) {
+                scale = (float) dWidth / (float) options.outWidth;
+                // scaleHeight = (float) options.outHeight / (float) options.outWidth;
+            } else {
+                scale = (float) dHeight / (float) options.outHeight;
+                // scaleWidth = (float) options.outWidth / (float) options.outHeight;
+            }
+        } else {
+            scale = 1;
+        }
+        return scale;
+    }
+
+
+    /**
+     * 无损压缩图片
+     *
+     * @param sFile
+     *            原图片位置
+     * @param dFile
+     *            压缩后保存位置
+     * @param dWidth
+     *            宽度
+     * @param dHeight
+     *            高度
+     * @param flag
+     *            压缩质量 1-100
+     * @throws IOException
+     */
+    public static void getPicThumbnail(String sFile, String dFile, int dWidth, int dHeight, int flag) throws IOException {
+        BitmapFactory.Options options = getBitmapSize(sFile);
+        Bitmap bitmap = BitmapFactory.decodeFile(sFile);
+        FileOutputStream fos = new FileOutputStream(dFile);
+        float scale = getBitmapScale(options, dWidth, dHeight);
+        if (scale != 1.0f) {
+            Matrix m = new Matrix();
+            m.postScale(scale, scale);
+            Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, options.outWidth, options.outHeight, m, true);
+            newBitmap.compress(Bitmap.CompressFormat.JPEG, flag, fos);
+            if (!newBitmap.isRecycled()) {
+                newBitmap.recycle();
+                newBitmap = null;
+            }
+        } else {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, flag, fos);
+        }
+        fos.flush();
+        fos.close();
+        if (!bitmap.isRecycled()) {
+            bitmap.recycle();
+            bitmap = null;
+        }
+
+    }
+
+    public static void getPicThumbnail(String sFile, String dFile) throws IOException {
+        getPicThumbnail(sFile, dFile, 1280, 1280, 100);
+    }
 }
