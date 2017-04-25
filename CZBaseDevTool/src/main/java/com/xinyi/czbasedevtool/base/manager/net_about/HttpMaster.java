@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import okhttp3.ResponseBody;
@@ -188,6 +189,18 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         checkNetStateAndDecideIfGoNext(executor, requestCode, fileUrl);
     }
 
+    @Override
+    public <T, K> void uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
+        ArrayList<UploadFileWrapper> uploadFileWrappers = new ArrayList<>();
+        uploadFileWrappers.add(uploadFileWrapper);
+        uploadFilesAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,isTargetBeanAsList);
+    }
+
+    @Override
+    public <T, K> void uploadFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
+        checkNetStateAndDecideIfGoNext(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,true,isTargetBeanAsList);
+    }
+
 
     @Override
     public void realDownloadFile(View executor, int requestCode, String fileUrl) {
@@ -200,6 +213,36 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(executor, requestCode));
 
+    }
+
+    @Override
+    public <T, K> void realUpOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList) {
+        List<UploadFileWrapper> uploadFileWrappers  = new ArrayList<>();
+        uploadFileWrappers.add(uploadFileWrapper);
+        realUpFilesAndData(executor,requestCode,serviceClass,methodName,convertedClass,params,uploadFileWrappers,isTargetBeanAsList);
+    }
+
+    @Override
+    public <T, K> void realUpFilesAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, Class<K> convertedClass, Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList) {
+        if (progressView != null) {
+            progressView.onShowProgressDialog();
+        }
+        Method serviceExecuteMethod = reflectServiceMethod(serviceClass, methodName);
+
+        //如果方法名不存在抛出异常
+        ExceptionUtil.throwNullPointerException(serviceExecuteMethod, new ExceptionUtil.ExceptionHappenListener() {
+            @Override
+            public void doNext() {
+                hideProgressView();
+            }
+        });
+
+        try {
+            executeService(executor, requestCode, serviceClass, convertedClass, params, uploadFileWrappers,serviceExecuteMethod, isTargetBeanAsList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            hideProgressView();
+        }
     }
 
 
@@ -256,6 +299,32 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 realRequestData(executor, requestCode, serviceClass, methodName, convertedClass, params, isTargetBeanAsList);
             } else {
                 realRequestDataWithOutConvert(executor, requestCode, serviceClass, methodName, params);
+            }
+        }
+    }
+
+ private <T, K> void checkNetStateAndDecideIfGoNext(final View executor, final int requestCode, final Class<T> serviceClass, final String methodName, final Class<K> convertedClass, final Map<String,String> params, final List<UploadFileWrapper> uploadFileWrappers , final boolean needConvert, final boolean... isTargetBeanAsList) {
+        //网络环境判断
+        if (!NetUtil.isConnected(mContext)) {
+            ToastUtil.shortT(mContext,"请开启网络!");
+        } else if (!NetUtil.isWifi(mContext)) {
+            SystemDialogFactory.getConfirmDialog(mContext, "您确认在非Wifi状态下请求数据吗？", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (needConvert) {
+                        realUpFilesAndData(executor, requestCode, serviceClass, methodName, convertedClass, params, uploadFileWrappers,isTargetBeanAsList);
+                    } else {
+                        //TODO
+//                        realRequestDataWithOutConvert(executor, requestCode, serviceClass, methodName, params);
+                    }
+                }
+            }).show();
+        } else {
+            if (needConvert) {
+                realUpFilesAndData(executor, requestCode, serviceClass, methodName, convertedClass, params, uploadFileWrappers,isTargetBeanAsList);
+            } else {
+                //TODO
+//                realRequestDataWithOutConvert(executor, requestCode, serviceClass, methodName, params);
             }
         }
     }
@@ -417,7 +486,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     private <T, K> void executeService(final View executor, int requestCode, Class<T> serviceClass, Class<K> convertedClass, Object[] params, Method serviceExecuteMethod, boolean[] isTargetBeanAsList) throws IllegalAccessException, InvocationTargetException {
         setState(executor, false);
         if (params != null) {         //有参
-            ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), params)))
+                    ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), params)))
 //                    .map(getFunc(convertedClass, isTargetBeanAsList))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -431,9 +500,18 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         }
     }
 
-    private <T> void executeService(final View executor, int requestCode, Class<T> serviceClass, Method serviceExecuteMethod, List<UploadFileWrapper> parts) throws IllegalAccessException, InvocationTargetException {
+
+    private <T, K> void executeService(final View executor, int requestCode, Class<T> serviceClass, Class<K> convertedClass,Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers, Method serviceExecuteMethod, boolean[] isTargetBeanAsList) throws IllegalAccessException, InvocationTargetException {
         setState(executor, false);
-        ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(parts))))
+        ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(params,uploadFileWrappers))))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver(executor, requestCode));
+    }
+
+    private <T> void executeService(final View executor, int requestCode, Class<T> serviceClass, Method serviceExecuteMethod, List<UploadFileWrapper> uploadFileWrappers) throws IllegalAccessException, InvocationTargetException {
+        setState(executor, false);
+        ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(uploadFileWrappers))))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(executor, requestCode));

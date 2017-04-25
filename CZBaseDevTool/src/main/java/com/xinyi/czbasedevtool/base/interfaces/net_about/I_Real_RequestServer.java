@@ -5,6 +5,7 @@ import android.view.View;
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发起一系列的网络请求接口,不用判断网络状态。
@@ -36,4 +37,10 @@ public interface I_Real_RequestServer {
 
     //下载文件
     void  realDownloadFile(View executor,int requestCode,String fileUrl);
+
+    //上传单个文件(同时可以上传字段参数)
+    <T,K> void  realUpOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList);
+
+    //上传多个文件(同时可以上传字段参数)
+    <T,K> void  realUpFilesAndData(View executor,int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass, Map<String,String> params,List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList);
 }

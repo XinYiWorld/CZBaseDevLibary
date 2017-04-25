@@ -5,6 +5,7 @@ import android.view.View;
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 准备发起一系列的网络请求接口，不过都需要判断网络状态。
@@ -28,12 +29,18 @@ public interface I_Try_RequestServer extends  I_BindHttpResultHandler{
     //不对服务器原始请求结果进行map映射
     <T> void  requestDataWithOutConvert(View executor,int requestCode,Class<T> serviceClass, String methodName, Object[] params);
 
-    //上传多个文件
+    //上传多个文件(只限于上传文件，没有上传字段参数)
     <T> void  uploadFiles(View executor,int requestCode,Class<T> serviceClass, String methodName, List<UploadFileWrapper> uploadFileWrappers);
 
-    //上传单个文件
+    //上传单个文件(只限于上传文件，没有上传字段参数)
     <T> void  uploadOneFile(View executor,int requestCode,Class<T> serviceClass, String methodName, UploadFileWrapper uploadFileWrapper);
 
     //下载文件
     void  downloadFile(View executor,int requestCode,String fileUrl);
+
+    //上传单个文件(同时可以上传字段参数)
+    <T,K> void  uploadOneFileAndData(View executor, int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass, Map<String,String> params, UploadFileWrapper uploadFileWrapper, boolean... isTargetBeanAsList);
+
+    //上传多个文件(同时可以上传字段参数)
+    <T,K> void  uploadFilesAndData(View executor,int requestCode, Class<T> serviceClass, String methodName, final Class<K> convertedClass,  Map<String,String> params,List<UploadFileWrapper> uploadFileWrappers, boolean... isTargetBeanAsList);
 }

@@ -1,12 +1,12 @@
 package com.xinyi.czbasedevtool.base.manager.net_about;
 
-import android.os.Environment;
-
 import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -28,6 +28,7 @@ public class MultipartGenerator {
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), uploadFileWrapper.getFile());
+
         return  MultipartBody.Part.createFormData(uploadFileWrapper.getFormName(), uploadFileWrapper.getFile().getName(), requestFile);
     }
 
@@ -39,4 +40,26 @@ public class MultipartGenerator {
         }
         return parts;
     }
+
+    public static List<MultipartBody.Part> generate(Map<String,String> params, List<UploadFileWrapper> uploadFileWrappers){
+        List<MultipartBody.Part> parts = new ArrayList<>(uploadFileWrappers.size());
+        //添加字段part
+        if(params != null){
+            Set<String> keySet = params.keySet();
+            for (Iterator<String> it = keySet.iterator(); it.hasNext();){
+                String key = it.next();
+                String value = params.get(key);
+                parts.add(MultipartBody.Part.createFormData(key,value));
+            }
+        }
+
+        if (uploadFileWrappers == null || uploadFileWrappers.size() == 0) return parts;     //不传图片
+
+        //添加图片part
+        for (int i = 0; i <uploadFileWrappers.size(); i++) {
+            parts.add(generate(uploadFileWrappers.get(i)));
+        }
+        return parts;
+    }
+
 }
