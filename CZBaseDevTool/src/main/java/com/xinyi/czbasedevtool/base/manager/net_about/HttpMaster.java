@@ -506,7 +506,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
         ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), MultipartGenerator.generate(params,uploadFileWrappers))))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver(executor, requestCode));
+                .subscribe(getObserver(executor, requestCode,convertedClass,isTargetBeanAsList));
     }
 
     private <T> void executeService(final View executor, int requestCode, Class<T> serviceClass, Method serviceExecuteMethod, List<UploadFileWrapper> uploadFileWrappers) throws IllegalAccessException, InvocationTargetException {
