@@ -29,13 +29,15 @@ public class TokenAddInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
+        HttpUrl originalUrl = originalRequest.url();
+        Request newRequest = originalRequest.newBuilder().build();
+
         String method = originalRequest.method();
-//        if (method.equals("GET")) {
-            HttpUrl originalUrl = originalRequest.url();
-        Request newRequest = originalRequest.newBuilder()
+        if (method.equals("GET")) {
+             newRequest = originalRequest.newBuilder()
                 .url(originalUrl + "&token=" + (token == null ? getToken() : token))
                 .build();
-//        }
+        }
         TLog.v(TAG, "intercept: url = " + newRequest.url());
         return chain.proceed(newRequest);
     }
