@@ -17,6 +17,7 @@ public interface BaseView {
     <BindingObj> void bindView(BindingObj binding) throws IOException;
     void bindView(ContentViewHolder contentViewHolder) throws IOException;                            //传统findViewById
     void doOnCreateInit();      //onCreate方法的最前面执行，比findViewById早.
+    void doAfterCreate();       //onCreate方法的后面执行
     void requestDataOnCreate();
     void getBundleExtras(Bundle extras);
     void doOnLazyResume();

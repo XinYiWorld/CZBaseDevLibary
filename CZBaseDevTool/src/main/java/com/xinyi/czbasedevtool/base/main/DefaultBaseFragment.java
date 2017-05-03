@@ -75,6 +75,11 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     }
 
     @Override
+    public void doAfterCreate() {
+
+    }
+
+    @Override
     public void requestDataOnCreate() {
 
     }

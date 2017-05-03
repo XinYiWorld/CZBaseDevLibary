@@ -13,8 +13,13 @@ import com.xinyi.czbasedevtool.base.R;
  * function:
  */
 public class GlideMaster {
-    private final static int placeHolderRes = R.mipmap.ic_launcher;
-    private final static int errorHolderRes = R.mipmap.ic_launcher;
+    private  static int placeHolderRes = R.mipmap.ic_launcher;
+    private  static int errorHolderRes = R.mipmap.ic_launcher;
+
+    public static void init(int placeHolderRes2,int errorHolderRes2){
+        placeHolderRes =  placeHolderRes2;
+        errorHolderRes = errorHolderRes2;
+    }
 
 
     public static void display(Context mContext,String url, ImageView img){

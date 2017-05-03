@@ -88,7 +88,7 @@ public   abstract class BaseAppCompatActivity<BindingObj> extends AppCompatActiv
             if (null != extras) {
                 getBundleExtras(extras);
             }
-
+            doAfterCreate();
             requestDataOnCreate();
             isOnResumeExecuted = false;
         }catch (Exception e){

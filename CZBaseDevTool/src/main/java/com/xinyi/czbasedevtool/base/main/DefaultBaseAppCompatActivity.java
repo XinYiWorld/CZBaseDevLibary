@@ -78,6 +78,12 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     }
 
+
+    @Override
+    public void doAfterCreate() {
+
+    }
+
     @Override
     public void requestDataOnCreate() {
 

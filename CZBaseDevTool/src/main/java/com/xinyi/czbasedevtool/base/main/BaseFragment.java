@@ -75,6 +75,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
                 getBundleExtras(extras);
             }
 
+
             isOnResumeExecuted = false;
             if(useDataBinding()){
                 return viewDataBinding.getRoot();
@@ -118,6 +119,7 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TLog.i(TAG, "onViewCreated: ");
+        doAfterCreate();
         requestDataOnCreate();
     }
 
