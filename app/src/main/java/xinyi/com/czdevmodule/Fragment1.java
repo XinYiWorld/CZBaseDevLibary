@@ -1,13 +1,11 @@
 package xinyi.com.czdevmodule;
 
 import android.graphics.Color;
-import android.os.Environment;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
-import com.xinyi.czbasedevtool.base.bean.UploadFileWrapper;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
 import com.xinyi.czbasedevtool.base.manager.net_about.RetrofitClient;
@@ -15,10 +13,10 @@ import com.xinyi.czbasedevtool.base.utils.ToastUtil;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
+import xinyi.com.czdevmodule.net_test.retrofit.FJHomeBean;
+import xinyi.com.czdevmodule.net_test.retrofit.RequestBean_FJHome;
 import xinyi.com.czdevmodule.net_test.retrofit.UserBean;
 import xinyi.com.czdevmodule.net_test.retrofit.action.UserAction;
 import xinyi.com.czdevmodule.net_test.retrofit.callback.IUserRegistCallBack;
@@ -68,11 +66,8 @@ public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBac
             @Override
             public void onClick(View v) {
                 RetrofitClient.setHasToken(true);
-                RetrofitClient.setBaseUrl("http://app.bestbeijing.top/");
-                HashMap<String, String> map = new HashMap<>();
-                map.put("user_id","402");
-                UploadFileWrapper logo = new UploadFileWrapper(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/123.jpg"), "logo");
-                uploadOneFileAndData(v,100,UserAction.class,"getOrSaveCompanyInfo",Object.class,map,logo,false);
+                RetrofitClient.setBaseUrl("http://personnel.haopeixun.org/");
+                requestData(v,100, UserAction.class,"fjHome", FJHomeBean.class,new Object[]{new RequestBean_FJHome()},false);
             }
         });
 

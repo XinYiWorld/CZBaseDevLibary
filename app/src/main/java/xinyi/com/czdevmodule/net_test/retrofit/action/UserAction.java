@@ -5,12 +5,14 @@ import com.xinyi.czbasedevtool.base.bean.BaseHttpResultBean;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import rx.Observable;
+import xinyi.com.czdevmodule.net_test.retrofit.RequestBean_FJHome;
 
 /**
  * Created by 陈章 on 2017/4/8 0008.
@@ -29,4 +31,7 @@ public interface UserAction {
     @Multipart
     @POST("index.php?g=people&m=company&a=company_save")
     Observable<BaseHttpResultBean> getOrSaveCompanyInfo(@Part() List<MultipartBody.Part> parts);
+
+    @POST("index.php?g=people&m=index&a=index_get_job")
+    Observable<BaseHttpResultBean> fjHome(@Body RequestBean_FJHome requestBean_fjHome);
 }

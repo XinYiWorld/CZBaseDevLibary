@@ -117,7 +117,7 @@ public class PermissionManager {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public   boolean isFloatWindowOpAllowed(Context context) {
         final int version = Build.VERSION.SDK_INT;
-        if (version >= 19) {
+        if (version >= 21) {
             return checkOp(context, 24);  // AppOpsManager.OP_SYSTEM_ALERT_WINDOW
         } else {
 //            if ((context.getApplicationInfo().flags & 1 << 27) == 1 << 27) {

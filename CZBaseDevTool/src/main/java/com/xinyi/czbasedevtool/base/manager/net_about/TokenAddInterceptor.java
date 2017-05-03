@@ -36,7 +36,9 @@ public class TokenAddInterceptor implements Interceptor {
         if (method.equals("GET")) {
              newRequest = originalRequest.newBuilder()
                 .url(originalUrl + "&token=" + (token == null ? getToken() : token))
-                .build();
+                .build()
+
+             ;
         }
         TLog.v(TAG, "intercept: url = " + newRequest.url());
         return chain.proceed(newRequest);
