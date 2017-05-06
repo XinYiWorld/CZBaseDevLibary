@@ -26,7 +26,7 @@ public class RetrofitUtil {
         builder.addInterceptor(new HeaderAttachInterceptor());
         builder.addInterceptor(new MyLogInterceptor());
         builder.addInterceptor(new ProgressInterceptor());
-        builder.addInterceptor(new CacheInterceptor());
+//        builder.addInterceptor(new CacheInterceptor());
         return  builder.build();
     }
 }

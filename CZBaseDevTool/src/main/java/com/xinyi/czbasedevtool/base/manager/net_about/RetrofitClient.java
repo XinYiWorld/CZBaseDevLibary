@@ -1,6 +1,9 @@
 package com.xinyi.czbasedevtool.base.manager.net_about;
 
+import android.content.Context;
+
 import com.xinyi.czbasedevtool.base.utils.ExceptionUtil;
+import com.xinyi.czbasedevtool.base.utils.SPUtil;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -61,6 +64,22 @@ public class RetrofitClient {
         RetrofitClient.token = token;
         onRetrofitSetChanged();
     }
+
+    //开启缓存
+    public static void openCache(Context context){
+        SPUtil.getInstance(context).put(context,"cache_data",true);
+    }
+
+    //关闭缓存
+    public static void closeCache(Context context){
+        SPUtil.getInstance(context).put(context,"cache_data",false);
+    }
+
+    //是否有缓存判断
+    public static boolean hasCache(Context context){
+        return (boolean) SPUtil.getInstance(context).get(context,"cache_data",false);
+    }
+
 
     public static void onRetrofitSetChanged(){
         if(retrofitBuilder == null ) return;
