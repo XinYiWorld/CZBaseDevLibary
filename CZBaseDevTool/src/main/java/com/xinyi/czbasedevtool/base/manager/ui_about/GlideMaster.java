@@ -35,7 +35,12 @@ public class GlideMaster {
                     @Override
                     public void onResourceReady(GlideDrawable resource,
                                                 GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        img.setImageDrawable(resource);
+                        try {
+                            img.setImageDrawable(resource);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            img.setImageResource(errorHolderRes);
+                        }
                     }
                 });
     }
@@ -50,7 +55,12 @@ public class GlideMaster {
                     @Override
                     public void onResourceReady(GlideDrawable resource,
                                                 GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        img.setImageDrawable(resource);
+                        try {
+                            img.setImageDrawable(resource);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            img.setImageResource(errorHolderRes);
+                        }
                     }
                 });
     }
