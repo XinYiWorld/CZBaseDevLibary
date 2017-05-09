@@ -4,10 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.xinyi.czbasedevtool.base.R;
 
 /**
@@ -26,23 +23,26 @@ public class GlideMaster {
     }
 
 
-    public static void display(Context mContext, String url, final ImageView img){
+    public static void display(final Context mContext, String url, final ImageView img){
         Glide.with(mContext)
                 .load(url)
                 .placeholder(placeHolderRes)
                 .error(errorHolderRes)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource,
-                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        try {
-                            img.setImageDrawable(resource);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            img.setImageResource(errorHolderRes);
-                        }
-                    }
-                });
+                .dontAnimate()
+                .into(img);
+//                .into(new SimpleTarget<GlideDrawable>() {
+//                    @Override
+//                    public void onResourceReady(GlideDrawable resource,
+//                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                        try {
+//                            img.setImageDrawable(resource);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            img.setImageResource(errorHolderRes);
+//                        }
+//                    }
+//                });
+
     }
 
     public static void display(Context mContext, String url, final ImageView img, RequestListener listener){
@@ -51,17 +51,19 @@ public class GlideMaster {
                 .listener(listener)
                 .placeholder(placeHolderRes)
                 .error(errorHolderRes)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource,
-                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        try {
-                            img.setImageDrawable(resource);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            img.setImageResource(errorHolderRes);
-                        }
-                    }
-                });
+                .dontAnimate()
+                .into(img);
+//                .into(new SimpleTarget<GlideDrawable>() {
+//                    @Override
+//                    public void onResourceReady(GlideDrawable resource,
+//                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                        try {
+//                            img.setImageDrawable(resource);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            img.setImageResource(errorHolderRes);
+//                        }
+//                    }
+//                });
     }
 }
