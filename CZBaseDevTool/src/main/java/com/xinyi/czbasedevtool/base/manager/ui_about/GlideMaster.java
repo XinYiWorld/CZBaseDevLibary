@@ -26,9 +26,9 @@ public class GlideMaster {
     public static void display(final Context mContext, String url, final ImageView img){
         Glide.with(mContext)
                 .load(url)
+                .dontAnimate()
                 .placeholder(placeHolderRes)
                 .error(errorHolderRes)
-                .dontAnimate()
                 .into(img);
 //                .into(new SimpleTarget<GlideDrawable>() {
 //                    @Override
@@ -48,10 +48,10 @@ public class GlideMaster {
     public static void display(Context mContext, String url, final ImageView img, RequestListener listener){
         Glide.with(mContext)
                 .load(url)
+                .dontAnimate()
                 .listener(listener)
                 .placeholder(placeHolderRes)
                 .error(errorHolderRes)
-                .dontAnimate()
                 .into(img);
 //                .into(new SimpleTarget<GlideDrawable>() {
 //                    @Override
