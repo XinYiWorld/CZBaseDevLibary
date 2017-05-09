@@ -65,7 +65,7 @@ public class PermissionManager {
 
         List<String> result = null;
         for(String plan : planToRequestPermissions){
-            if(ContextCompat.checkSelfPermission(context, plan) == PackageManager.PERMISSION_DENIED){
+            if(ContextCompat.checkSelfPermission(context, plan) != PackageManager.PERMISSION_GRANTED){
                 if(result == null){
                     result = new ArrayList<>();
                 }
