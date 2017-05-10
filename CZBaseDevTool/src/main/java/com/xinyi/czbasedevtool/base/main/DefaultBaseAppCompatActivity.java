@@ -120,6 +120,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     }
 
     @Override
+    public View getTitleWrapperView() {
+        return findViewById(R.id.title_layout_center_wrapper);
+    }
+
+    @Override
     public ImageView getTitleImageView() {
         return (ImageView) findViewById(R.id.title_layout_center_image);
     }
@@ -167,6 +172,21 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
                 }
             });
         }
+
+
+        View titleWrapperView = getTitleWrapperView();
+        titleViewHolder.titleWrapperView = titleWrapperView;
+        if(titleWrapperView == null){
+            TLog.e(TAG, "initTitleLayout: getTitleWrapperView() return null,if you use the right id in the ids.xml?");
+        }else{
+            titleWrapperView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onTitleWrapperViewClick();
+                }
+            });
+        }
+
 
         TextView titleView = getTitleView();
         titleViewHolder.titleView = titleView;
@@ -250,6 +270,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     @Override
     public void onRightWrapperViewClick() {
+
+    }
+
+    @Override
+    public void onTitleWrapperViewClick() {
 
     }
 

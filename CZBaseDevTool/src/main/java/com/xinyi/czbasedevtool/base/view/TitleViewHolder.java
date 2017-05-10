@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class TitleViewHolder {
     public View leftWrapperView;
     public View rightWrapperView;
+    public View titleWrapperView;
     public TextView titleView;
     public TextView rightTxtView;
     public TextView leftTxtView;

@@ -16,6 +16,7 @@ public interface TitleView {
     ImageView getLeftImageView();
     TextView getTitleView();
     ImageView getTitleImageView();
+    View getTitleWrapperView();
     View getRightWrapperView();
     View getRightTxtView();
     ImageView getRightImageView();
@@ -24,6 +25,7 @@ public interface TitleView {
     //bind event
     void onLeftWrapperViewClick();
     void onRightWrapperViewClick();
+    void onTitleWrapperViewClick();
 
     //init title
     String getTitleString();

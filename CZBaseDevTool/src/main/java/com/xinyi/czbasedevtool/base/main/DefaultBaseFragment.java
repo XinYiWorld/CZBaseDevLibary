@@ -166,6 +166,20 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
             });
         }
 
+        View titleWrapperView = getTitleWrapperView();
+        titleViewHolder.titleWrapperView = titleWrapperView;
+        if(titleWrapperView == null){
+            TLog.e(TAG, "initTitleLayout: getTitleWrapperView() return null,if you use the right id in the ids.xml?");
+        }else{
+            titleWrapperView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onTitleWrapperViewClick();
+                }
+            });
+        }
+
+
         TextView titleView = getTitleView();
         titleViewHolder.titleView = titleView;
         if(titleView == null){
@@ -247,6 +261,11 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
 
     @Override
     public void onRightWrapperViewClick() {
+
+    }
+
+    @Override
+    public void onTitleWrapperViewClick() {
 
     }
 

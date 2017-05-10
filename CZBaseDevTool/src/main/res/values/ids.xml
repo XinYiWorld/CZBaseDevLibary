@@ -5,6 +5,7 @@
     <item type="id" name="title_layout_left_image"/>
     <item type="id" name="title_layout_center_title"/>
     <item type="id" name="title_layout_center_image"/>
+    <item type="id" name="title_layout_center_wrapper"/>
     <item type="id" name="title_layout_right_wrapper"/>
     <item type="id" name="title_layout_right_txt"/>
     <item type="id" name="title_layout_right_image"/>
