@@ -1,6 +1,7 @@
 package com.xinyi.czbasedevtool.base.interfaces.view_about;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -12,11 +13,12 @@ public interface TitleView {
     //find view
     View getLeftWrapperView();
     View getLeftTxtView();
-    View getLeftImageView();
+    ImageView getLeftImageView();
     TextView getTitleView();
+    ImageView getTitleImageView();
     View getRightWrapperView();
     View getRightTxtView();
-    View getRightImageView();
+    ImageView getRightImageView();
     void initTitleLayout();
 
     //bind event
@@ -35,4 +37,7 @@ public interface TitleView {
     //init image
     int getLeftImageResId();
     int getRightImageResId();
+
+    int getTitleImageResId();
+
 }

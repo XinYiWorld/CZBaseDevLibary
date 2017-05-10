@@ -18,4 +18,5 @@ public class TitleViewHolder {
     public TextView leftTxtView;
     public ImageView leftImageView;
     public ImageView rightImageView;
+    public ImageView titleImageView;
 }

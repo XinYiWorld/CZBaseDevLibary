@@ -120,6 +120,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     }
 
     @Override
+    public ImageView getTitleImageView() {
+        return (ImageView) findViewById(R.id.title_layout_center_image);
+    }
+
+    @Override
     public final View getRightWrapperView() {
         return findViewById(R.id.title_layout_right_wrapper);
     }
@@ -220,6 +225,21 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
             }
         }
 
+
+        ImageView titleImageView = getTitleImageView();
+        titleViewHolder.titleImageView = titleImageView;
+        if(titleImageView == null){
+            TLog.e(TAG, "initTitleLayout: getTitleImageView() return null,if you use the right id in the ids.xml?");
+        }else{
+            int titleImageResId = getTitleImageResId();
+            if(titleImageResId != -1){
+                titleImageView.setImageResource(titleImageResId);
+                titleImageView.setVisibility(View.VISIBLE);
+            }else{
+                titleImageView.setVisibility(View.GONE);
+            }
+        }
+
         //you can override the method and do something else here
     }
 
@@ -271,6 +291,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     @Override
     public int getRightImageResId() {
+        return -1;
+    }
+
+    @Override
+    public int getTitleImageResId() {
         return -1;
     }
 }
