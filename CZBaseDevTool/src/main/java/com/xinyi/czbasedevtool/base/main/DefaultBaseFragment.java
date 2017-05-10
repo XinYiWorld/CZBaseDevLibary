@@ -289,4 +289,9 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     public int getRightImageResId() {
         return -1;
     }
+
+    @Override
+    public int getTitleImageResId() {
+        return -1;
+    }
 }
