@@ -118,6 +118,11 @@ public  abstract class DefaultBaseFragment extends BaseFragment {
     }
 
     @Override
+    public View getTitleWrapperView() {
+        return findViewById(R.id.title_layout_center_wrapper);
+    }
+
+    @Override
     public ImageView getTitleImageView() {
         return (ImageView) findViewById(R.id.title_layout_center_image);
     }
