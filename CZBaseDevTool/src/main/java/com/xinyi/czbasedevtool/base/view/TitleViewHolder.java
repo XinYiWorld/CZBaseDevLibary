@@ -11,6 +11,7 @@ import android.widget.TextView;
  */
 
 public class TitleViewHolder {
+    public View titleRootView;
     public View leftWrapperView;
     public View rightWrapperView;
     public View titleWrapperView;

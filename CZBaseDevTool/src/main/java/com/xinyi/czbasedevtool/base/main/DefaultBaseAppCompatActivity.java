@@ -26,8 +26,6 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     protected TitleViewHolder titleViewHolder;
 
-
-
     //是否使用databinding
     @Override
     public boolean useDataBinding() {
@@ -100,6 +98,11 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
 
     //标题模板方法
     @Override
+    public View getTitleRootView() {
+        return findViewById(R.id.title_layout_root);
+    }
+
+    @Override
     public final View getLeftWrapperView() {
         return findViewById(R.id.title_layout_left_wrapper);
     }
@@ -147,6 +150,14 @@ public  abstract class DefaultBaseAppCompatActivity extends BaseAppCompatActivit
     @Override
     public  void initTitleLayout() {
         titleViewHolder = new TitleViewHolder();
+        titleViewHolder.titleRootView = getTitleRootView();
+        if(titleViewHolder.titleRootView == null){
+            TLog.e(TAG, "initTitleLayout: getTitleRootView() return null ,if you use the right id in the ids.xml?");
+        }else{
+
+        }
+
+
         View leftWrapperView = getLeftWrapperView();
         titleViewHolder.leftWrapperView = leftWrapperView;
         if(leftWrapperView == null){

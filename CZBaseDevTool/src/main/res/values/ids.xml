@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item type="id" name="title_layout_root"/>
     <item type="id" name="title_layout_left_wrapper"/>
     <item type="id" name="title_layout_left_txt"/>
     <item type="id" name="title_layout_left_image"/>

@@ -11,6 +11,7 @@ import android.widget.TextView;
  */
 public interface TitleView {
     //find view
+    View getTitleRootView();
     View getLeftWrapperView();
     View getLeftTxtView();
     ImageView getLeftImageView();
