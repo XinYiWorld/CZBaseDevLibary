@@ -83,7 +83,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             executeService(executor, requestCode, serviceClass, convertedClass, params, serviceExecuteMethod, isTargetBeanAsList);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             hideProgressView();
         }
     }
@@ -124,7 +123,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             executeServiceWithoutConvert(executor, requestCode, serviceClass, params, serviceExecuteMethod);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             hideProgressView();
         }
     }
@@ -152,7 +150,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             executeService(executor, requestCode, serviceClass, serviceExecuteMethod, uploadFileWrappers);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             hideProgressView();
         }
     }
@@ -183,7 +180,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             executeService(executor, requestCode, serviceClass, serviceExecuteMethod, parts);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             hideProgressView();
         }
     }
@@ -245,7 +241,6 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             executeService(executor, requestCode, serviceClass, convertedClass, params, uploadFileWrappers,serviceExecuteMethod, isTargetBeanAsList);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
             hideProgressView();
         }
     }
@@ -474,7 +469,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
     }
 
     private <T> void executeServiceWithoutConvert(final View executor, int requestCode, Class<T> serviceClass, Object[] params, Method serviceExecuteMethod) throws IllegalAccessException, InvocationTargetException {
-        setState(executor, false);;
+        setState(executor, false);
         if (params != null) {     //有参
             ((Observable<BaseHttpResultBean>) (serviceExecuteMethod.invoke(RetrofitClient.getService(serviceClass), params)))
                     .subscribeOn(Schedulers.io())

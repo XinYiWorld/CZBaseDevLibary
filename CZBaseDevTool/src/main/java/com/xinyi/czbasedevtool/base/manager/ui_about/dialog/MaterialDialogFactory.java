@@ -229,7 +229,7 @@ public class MaterialDialogFactory{
      * 关闭进度对话框
      */
     public  void hideProgressMaterialDialog(){
-       if(progressMaterialDialog != null && progressMaterialDialog.isShowing()){
+       if(progressMaterialDialog != null){
            progressMaterialDialog.dismiss();        //注意是dimiss而不是hide，hide仅仅是Visibility的改变，不会改变isShowing的变化.
        }
     }
