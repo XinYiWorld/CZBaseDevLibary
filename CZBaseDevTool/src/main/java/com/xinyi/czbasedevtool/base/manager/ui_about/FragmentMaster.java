@@ -61,6 +61,23 @@ public class FragmentMaster {
         }
     }
 
+    public void showFragment(int fillId,Fragment fragment,String tag, OnTaskDoneListener onTaskDoneListener){
+        if(!fragment.isAdded()){
+            transaction.add(fillId, fragment,tag);
+            addedFragments.add(fragment);
+        }else {
+            transaction.show(fragment);
+        }
+        if(onTaskDoneListener != null){
+            onTaskDoneListener.done(null);
+        }
+    }
+
+    public Fragment findFragmentByTag(String tag){
+        return mFragmentManager.findFragmentByTag(tag);
+    }
+
+
     //移除所有的Fragment
     public void removeAllFragment(){
         begin();
