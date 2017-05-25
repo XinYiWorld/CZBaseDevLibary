@@ -3,6 +3,7 @@ package com.xinyi.czbasedevtool.base.utils.io;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.xinyi.czbasedevtool.base.interfaces.listener.OnTaskDoneListener;
 import com.xinyi.czbasedevtool.base.manager.SystemStaticInstanceManager;
@@ -56,6 +57,20 @@ public class FileUtil {
         ExceptionUtil.throwRunmtimeExcpetionInPrivateConstructor(FileUtil.class);
     }
 
+    /**
+     * 文件是否合法，微信热补丁。
+     * @param file
+     * @return
+     */
+    public  static  boolean isLegalFile(File file) {
+        boolean c1 = file != null;
+        boolean c2 = file.exists();
+        boolean c3 = file.canRead();
+        boolean c4 = file.isFile();
+        long c5 = file.length();
+        Log.d(TAG, "isLegalFile: " + c1 + "," + c2 + "," + c3 + "," + c4 + "," + c5);
+        return c1 && c2 && c3 && c4 && c5 > 0;
+    }
 
     //文件读写操作
     /**
