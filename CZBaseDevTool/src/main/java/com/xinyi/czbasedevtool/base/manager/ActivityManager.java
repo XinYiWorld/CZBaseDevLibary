@@ -3,6 +3,7 @@ package com.xinyi.czbasedevtool.base.manager;
 import android.app.Activity;
 import android.content.Context;
 
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -100,9 +101,10 @@ public class ActivityManager {
      * 结束所有Activity,除了。
      */
     public void finishAllActivityExcept(Class<?> cls) {
-        for (int i = 0, size = activityStack.size(); i < size; i++) {
-            if (null != activityStack.get(i) && !activityStack.get(i).getClass().equals(cls)) {
-                finishActivity(activityStack.get(i));
+        for (Iterator<Activity> it = activityStack.iterator(); it.hasNext();){
+            Activity activity = it.next();
+            if (null != activity && !activity.getClass().equals(cls)) {
+                finishActivity(activity);
             }
         }
     }
