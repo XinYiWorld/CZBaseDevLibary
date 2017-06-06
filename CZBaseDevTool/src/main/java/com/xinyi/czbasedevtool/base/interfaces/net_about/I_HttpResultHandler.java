@@ -11,5 +11,6 @@ import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
  */
 public interface I_HttpResultHandler{
     <T> void onSuccess(int requestCode, BaseHttpResponseBean codeInfoBean,T successBean);
+    void onFailure(int requestCode,Throwable e);
     void setState(View v, boolean b);               //设置发起http的view是否可以点击
 }

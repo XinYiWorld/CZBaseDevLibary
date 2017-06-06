@@ -365,6 +365,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 hideProgressView();
                 ToastUtil.shortT(mContext,"解析数据异常!");
                 e.printStackTrace();
+                httpResultHandler.onFailure(getRequestCode(), e);
             }
 
             @Override
@@ -428,6 +429,7 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 hideProgressView();
                 ToastUtil.shortT(mContext,"解析数据异常!");
                 e.printStackTrace();
+                httpResultHandler.onFailure(getRequestCode(), e);
             }
 
             @Override

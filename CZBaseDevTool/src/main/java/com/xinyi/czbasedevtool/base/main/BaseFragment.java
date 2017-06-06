@@ -284,4 +284,9 @@ public   abstract class BaseFragment<BindingObj> extends Fragment implements I_B
     public void readyGoForResult(Class<?> clazz, int requestCode, Bundle bundle) {
         navigateMaster.readyGoForResult(clazz, requestCode, bundle);
     }
+
+    @Override
+    public void onFailure(int requestCode, Throwable e) {
+
+    }
 }

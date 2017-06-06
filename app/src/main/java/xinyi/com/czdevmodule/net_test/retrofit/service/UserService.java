@@ -53,6 +53,11 @@ public class UserService extends BaseService {
         }
     }
 
+    @Override
+    public void onFailure(int requestCode, Throwable e) {
+
+    }
+
 
     //注册回调成功处理站
     public <T> void onRegistSuccess(BaseHttpResponseBean codeInfoBean, UserBean user) {
