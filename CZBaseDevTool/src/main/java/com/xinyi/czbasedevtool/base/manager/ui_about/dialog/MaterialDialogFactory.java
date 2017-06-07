@@ -190,6 +190,12 @@ public class MaterialDialogFactory{
      * @param content
      */
     public  MaterialDialog createProgressMaterialDialog(String title,String content){
+        //先关闭可能没有关闭的对话框，防止多个请求导致前面的对话框失去引用无法关闭。
+        if(progressMaterialDialog != null){
+            if(progressMaterialDialog.isShowing()){
+                progressMaterialDialog.dismiss();
+            }
+        }
         progressMaterialDialogBuilder = new MaterialDialog.Builder(mContext);
 
           progressMaterialDialogBuilder.title(title)
