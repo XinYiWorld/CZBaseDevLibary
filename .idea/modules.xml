@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CZBaseDevTool/CZBaseDevTool.iml" filepath="$PROJECT_DIR$/CZBaseDevTool/CZBaseDevTool.iml" />
       <module fileurl="file://$PROJECT_DIR$/CZDevModule.iml" filepath="$PROJECT_DIR$/CZDevModule.iml" />
+      <module fileurl="file://$PROJECT_DIR$/XDBUtils/XDBUtils.iml" filepath="$PROJECT_DIR$/XDBUtils/XDBUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
