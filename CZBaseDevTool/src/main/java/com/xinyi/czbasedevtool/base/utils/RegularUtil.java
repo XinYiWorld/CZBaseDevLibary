@@ -10,7 +10,11 @@ import java.util.regex.Pattern;
  */
 public class RegularUtil {
     public static boolean isPhoneNumber(String input){
-        return check(input,"^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+        boolean check = check(input, "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,2,5-9])|(177))\\d{8}$");
+        if(!check){
+            check = (input.length() == 11);
+        }
+        return check;
     }
 
     public static boolean isNumeric(String str){
