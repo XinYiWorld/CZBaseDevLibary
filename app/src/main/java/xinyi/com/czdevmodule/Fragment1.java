@@ -1,6 +1,7 @@
 package xinyi.com.czdevmodule;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -8,17 +9,16 @@ import android.view.View;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseFragment;
 import com.xinyi.czbasedevtool.base.manager.DataCleanManager;
-import com.xinyi.czbasedevtool.base.manager.net_about.RetrofitClient;
 import com.xinyi.czbasedevtool.base.utils.ToastUtil;
+import com.xinyi.czbasedevtool.base.utils.download.DownloadManager;
+import com.xinyi.czbasedevtool.base.utils.download.DownloadTargetInfo;
+import com.xinyi.czbasedevtool.base.utils.download.DownloadTaskInfo;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 import com.xinyi.czbasedevtool.base.view.round.RoundTextView;
 
 import java.io.IOException;
 
-import xinyi.com.czdevmodule.net_test.retrofit.FJHomeBean;
-import xinyi.com.czdevmodule.net_test.retrofit.RequestBean_FJHome;
 import xinyi.com.czdevmodule.net_test.retrofit.UserBean;
-import xinyi.com.czdevmodule.net_test.retrofit.action.UserAction;
 import xinyi.com.czdevmodule.net_test.retrofit.callback.IUserRegistCallBack;
 import xinyi.com.czdevmodule.net_test.retrofit.service.UserService;
 
@@ -65,9 +65,9 @@ public class Fragment1 extends DefaultBaseFragment implements IUserRegistCallBac
         roundTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RetrofitClient.setHasToken(true);
-                RetrofitClient.setBaseUrl("http://personnel.haopeixun.org/");
-                requestData(v,100, UserAction.class,"fjHome", FJHomeBean.class,new Object[]{new RequestBean_FJHome()},false);
+
+
+
             }
         });
 

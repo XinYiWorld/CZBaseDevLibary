@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        >
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ProgressBar
+                    android:id="@+id/prg1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                    />
+                <TextView
+                    android:id="@+id/tv_progress1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前进度0%"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_state1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载状态"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/btn_download1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:textColor="@color/white"
+                android:text="开始下载"
+                />
+            <Button
+                android:id="@+id/btn_del_task1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:text="只删除任务"
+                />
+            <Button
+                android:id="@+id/btn_del_task_and_file1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/sandybrown"
+                android:textColor="@color/white"
+                android:text="删除任务及文件"
+                />
+            <Button
+                android:id="@+id/btn_re_download1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/brown"
+                android:textColor="@color/white"
+                android:text="重新下载"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        >
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ProgressBar
+                    android:id="@+id/prg2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                    />
+                <TextView
+                    android:id="@+id/tv_progress2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前进度0%"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_state2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载状态"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/btn_download2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:textColor="@color/white"
+                android:text="开始下载"
+                />
+            <Button
+                android:id="@+id/btn_del_task2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:text="只删除任务"
+                />
+            <Button
+                android:id="@+id/btn_del_task_and_file2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/sandybrown"
+                android:textColor="@color/white"
+                android:text="删除任务及文件"
+                />
+            <Button
+                android:id="@+id/btn_re_download2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/brown"
+                android:textColor="@color/white"
+                android:text="重新下载"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:layout_marginTop="10dp"
+        >
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <ProgressBar
+                    android:id="@+id/prg3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                    />
+                <TextView
+                    android:id="@+id/tv_progress3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前进度0%"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_state3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载状态"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            >
+            <Button
+                android:id="@+id/btn_download3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:textColor="@color/white"
+                android:text="开始下载"
+                />
+            <Button
+                android:id="@+id/btn_del_task3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/green"
+                android:textColor="@color/white"
+                android:text="只删除任务"
+                />
+            <Button
+                android:id="@+id/btn_del_task_and_file3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/sandybrown"
+                android:textColor="@color/white"
+                android:text="删除任务及文件"
+                />
+            <Button
+                android:id="@+id/btn_re_download3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@color/brown"
+                android:textColor="@color/white"
+                android:text="重新下载"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

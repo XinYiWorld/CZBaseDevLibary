@@ -56,7 +56,7 @@ dependencies {
     }
     //状态栏变色
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-    compile project(':XDBUtils')
+    compile project(':XDbUtils')
 }
 
 

@@ -11,6 +11,13 @@
         >
 
         <activity android:name=".DefaultLaunchActivity">
+
+        </activity>
+        <activity android:name=".download.SimpleDownloadActivity">
+
+        </activity>
+
+        <activity android:name=".download.ManyTasksDownloadActivity">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

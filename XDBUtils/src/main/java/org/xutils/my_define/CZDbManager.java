@@ -15,8 +15,6 @@ import java.io.File;
  */
 
 public class CZDbManager {
-
-
     public static class Builder {
         boolean isOnline;           //是否是线上环境
         Application app;            //项目的Application

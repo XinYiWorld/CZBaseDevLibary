@@ -1,5 +1,8 @@
 package com.xinyi.czbasedevtool.base.utils.download;
 
+import org.xutils.db.annotation.Column;
+import org.xutils.db.annotation.Table;
+
 import java.io.File;
 
 /**
@@ -7,14 +10,22 @@ import java.io.File;
  * @author Administrator
  *
  */
+@Table(name = "downloadtaskinfo" )
 public class DownloadTaskInfo {
+	@Column(name = "id",isId = true,autoGen = false)
 	private int id;//下载任务的唯一标识
+	@Column(name = "baseUrl")
 	private String baseUrl;
+	@Column(name = "downloadUrl")
 	private String downloadUrl;//下载的url后缀
+	@Column(name = "state")
 	private int state;//当前任务的下载状态
+	@Column(name = "currentLength")
 	private long currentLength;//当前已经下载的长度
+	@Column(name = "size")
 	private long size;//总长度
-	private String path;//apk文件的保存的绝对路径
+	@Column(name = "path")
+	private String path;//文件的保存的绝对路径
 	
 	/**
 	 * 根据传入的AppInfo生成对应的DownloadInfo
@@ -28,10 +39,10 @@ public class DownloadTaskInfo {
 		downloadInfo.setSize(downloadTargetInfo.getSize());
 		downloadInfo.setState(DownloadManager.STATE_NONE);//未下载的状态
 		downloadInfo.setCurrentLength(0);
-		
-		// /mnt/sdcard/包名/download/有缘网.apk
+		downloadInfo.setBaseUrl(DownloadManager.getBASE_URL());
+		// /mnt/sdcard/包名/download/文件名（有后缀）
 		downloadInfo.setPath(DownloadManager.DOWNLOAD_DIR + File.separator
-				+downloadTargetInfo.getName()+".apk" );
+				+downloadTargetInfo.getName());
 		
 		return downloadInfo;
 	}
