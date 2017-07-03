@@ -17,6 +17,9 @@ import com.xinyi.czbasedevtool.base.utils.download.DownloadTargetInfo;
 import com.xinyi.czbasedevtool.base.utils.download.DownloadTaskInfo;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
+import org.xutils.DbManager;
+import org.xutils.my_define.CZDbManager;
+
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -109,6 +112,7 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
     private DownloadTargetInfo downloadTargetInfo1;
     private DownloadTargetInfo downloadTargetInfo2;
     private DownloadTargetInfo downloadTargetInfo3;
+    private DbManager dbManager;
 
     @Override
     public void annotationBind(@NonNull Activity target, View view) {
@@ -139,18 +143,29 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
     @Override
     public void bindView(ContentViewHolder contentViewHolder) throws IOException {
         super.bindView(contentViewHolder);
+        dbManager = CZDbManager.getDefaultDb();
         prg1.setMax(100);
         prg2.setMax(100);
         prg3.setMax(100);
 
-        downloadTargetInfo1 = new DownloadTargetInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
-        downloadTargetInfo1.setId(0);
+        downloadTargetInfo1 = dbManager.selector(DownloadTargetInfo.class).where("id","=",1).findFirst();
+        if(downloadTargetInfo1 == null){
+            downloadTargetInfo1 = new DownloadTargetInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
+            downloadTargetInfo1.setId(1);
+        }
 
-        downloadTargetInfo2 = new DownloadTargetInfo("images/huaxin.flv", "图片1", "画心.flv", 6862755);
-        downloadTargetInfo2.setId(1);
+        downloadTargetInfo2 = dbManager.selector(DownloadTargetInfo.class).where("id","=",2).findFirst();
+        if(downloadTargetInfo2 == null){
+            downloadTargetInfo2 = new DownloadTargetInfo("images/huaxin.flv", "图片1", "画心.flv", 6862755);
+            downloadTargetInfo2.setId(2);
+        }
 
-        downloadTargetInfo3 = new DownloadTargetInfo("images/qinshi.mp4", "图片1", "琴师.mp4", 19274609);
-        downloadTargetInfo3.setId(2);
+        downloadTargetInfo3 = dbManager.selector(DownloadTargetInfo.class).where("id","=",3).findFirst();
+        if(downloadTargetInfo3 == null){
+            downloadTargetInfo3 = new DownloadTargetInfo("images/qinshi.mp4", "图片1", "琴师.mp4", 19274609);
+            downloadTargetInfo3.setId(3);
+        }
+
 
         downloadManager = DownloadManager.getInstance(mContext.getApplicationContext());
         downloadManager.setBASE_URL("http://192.168.56.1/");
@@ -167,6 +182,7 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
                     Log.i(TAG, "ONDOWNLOADSTATECHANGE3: " + downloadInfo.getState());
                     mHandler.obtainMessage(ONDOWNLOADSTATECHANGE3, getDownloadTxt(downloadInfo.getState())).sendToTarget();
                 }
+
             }
 
             @Override

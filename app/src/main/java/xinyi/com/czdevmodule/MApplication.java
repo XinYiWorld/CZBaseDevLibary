@@ -9,7 +9,12 @@ import com.xinyi.czbasedevtool.base.main.DefaultBaseApplication;
 
 public class MApplication extends DefaultBaseApplication {
     @Override
-    public void initDependentSDK(boolean isOnline) {
+    public boolean isOnlineEnvironment() {
+        return false;
+    }
 
+    @Override
+    public void initDependentSDK(boolean isOnline) {
+        super.initDependentSDK(isOnline);
     }
 }
