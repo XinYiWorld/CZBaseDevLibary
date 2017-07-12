@@ -24,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.schedulers.Schedulers;
 
 /**
@@ -143,10 +144,13 @@ public class DownloadManager implements IStateObserver {
                 notifyDownloadStateChange(downloadInfo);
 
                 //再取出对应的downloadTask对象，及时从线程池中移除，为等待的任务及时腾出系统资源
-                ThreadPoolManager.getInstance().remove(downloadTaskMap.get(downloadInfo.getId()));
+                DownloadTask downloadTask = downloadTaskMap.get(downloadInfo.getId());
+                downloadTask.stop();
+                ThreadPoolManager.getInstance().remove(downloadTask);
             }
         } catch (DbException e) {
             e.printStackTrace();
+
         } finally {
         }
     }
@@ -267,9 +271,20 @@ public class DownloadManager implements IStateObserver {
 
     class DownloadTask implements Runnable {
         private DownloadTaskInfo downloadInfo;
+        private Subscription subscribe;
+
 
         public DownloadTask(DownloadTaskInfo downloadInfo) {
             this.downloadInfo = downloadInfo;
+        }
+
+        /**
+         * 结束网络执行,因为线程池remove一个task之后，网络请求并不会自动暂停。
+         */
+        public void stop() {
+            if (subscribe != null && !subscribe.isUnsubscribed()) {
+                subscribe.unsubscribe();
+            }
         }
 
         @Override
@@ -296,8 +311,7 @@ public class DownloadManager implements IStateObserver {
                 observable = downloadService.download("bytes=" + downloadInfo.getCurrentLength() + "-", downloadInfo.getDownloadUrl());
             }
 
-
-            observable.subscribeOn(Schedulers.io())
+            subscribe = observable.subscribeOn(Schedulers.io())
                     .unsubscribeOn(Schedulers.io())
                     .subscribe(new Subscriber<ResponseBody>() {
                         @Override

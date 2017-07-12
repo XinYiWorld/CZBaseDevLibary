@@ -365,7 +365,9 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 hideProgressView();
                 ToastUtil.shortT(mContext,"解析数据异常!");
                 e.printStackTrace();
-                httpResultHandler.onFailure(getRequestCode(), e);
+                if(httpResultHandler != null){
+                    httpResultHandler.onFailure(getRequestCode(), e);
+                }
             }
 
             @Override
@@ -375,7 +377,9 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 hideProgressView();
                 if (targetBean != null) {
                     if(isTargetBeanAsList == null){
-                        httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                        if(httpResultHandler != null){
+                            httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                        }
                         //分发到多个结果处理器上
                         for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
                             httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
@@ -383,7 +387,9 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                     }else{
                         BaseHttpResultBean resultBean = (BaseHttpResultBean) targetBean;
                         if(convertedClass == null){     //data没有返回任何数据，不需要解析。
-                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),null);
+                            if(httpResultHandler != null){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),null);
+                            }
                             for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
                                 httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),null);
                             }
@@ -392,12 +398,16 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
 
 
                         if(isTargetBeanAsList[0]){      //将data解析为数组
-                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
+                            if(httpResultHandler != null){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
+                            }
                             for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
                                 httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSONUtil.getArray(resultBean.getData(), convertedClass));
                             }
                         }else{                          //将data解析为对象
-                            httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSON.parseObject(resultBean.getData(), convertedClass));
+                            if(httpResultHandler != null){
+                                httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSON.parseObject(resultBean.getData(), convertedClass));
+                            }
                             for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
                                 httpResultHandler.onSuccess(getRequestCode(), resultBean.getSimpleResultInfoBean(),JSON.parseObject(resultBean.getData(), convertedClass));
                             }
@@ -417,7 +427,9 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             public void onCompleted() {
                 //TODO
                 TLog.i(TAG, "getObserver onCompleted");
-                httpResultHandler.setState(executor, true);
+                if(httpResultHandler != null){
+                    httpResultHandler.setState(executor, true);
+                }
                 hideProgressView();
             }
 
@@ -425,19 +437,25 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
             public void onError(Throwable e) {
                 //TODO
                 TLog.i(TAG, "getObserver onError");
-                httpResultHandler.setState(executor, true);
+                if(httpResultHandler != null){
+                    httpResultHandler.setState(executor, true);
+                }
                 hideProgressView();
                 ToastUtil.shortT(mContext,"解析数据异常!");
                 e.printStackTrace();
-                httpResultHandler.onFailure(getRequestCode(), e);
+                if(httpResultHandler != null){
+                    httpResultHandler.onFailure(getRequestCode(), e);
+                }
             }
 
             @Override
             public void onNext(Object targetBean) {
                 TLog.i(TAG, "getObserver onNext");
-                httpResultHandler.setState(executor, true);
+                if(httpResultHandler != null){
+                    httpResultHandler.setState(executor, true);
+                }
                 hideProgressView();
-                if (targetBean != null) {
+                if (targetBean != null && httpResultHandler != null) {
                     httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
                 }
             }
