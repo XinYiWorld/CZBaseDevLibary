@@ -152,6 +152,8 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
         if(downloadTargetInfo1 == null){
             downloadTargetInfo1 = new DownloadTargetInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
             downloadTargetInfo1.setId(1);
+        }else{
+
         }
 
         downloadTargetInfo2 = dbManager.selector(DownloadTargetInfo.class).where("id","=",2).findFirst();
@@ -257,9 +259,11 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
             case R.id.btn_del_task_and_file1:
                 downloadManager.removeTaskAndFile(downloadTargetInfo1);
                 prg1.setProgress(0);
+                btnDownload1.setText("开始下载");
                 break;
             case R.id.btn_re_download1:
                 downloadManager.reDownload(downloadTargetInfo1);
+                btnDownload1.setText("开始下载");
                 break;
         }
     }

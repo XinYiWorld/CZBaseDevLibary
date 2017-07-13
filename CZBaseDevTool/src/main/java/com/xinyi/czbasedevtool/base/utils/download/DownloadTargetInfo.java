@@ -16,11 +16,16 @@ public class DownloadTargetInfo {
 	private String iconUrl;//文件图标的url地址的后缀
 	@Column(name = "name")
 	private String name;//文件的名称
+	@Column(name = "state")
+	private int state;//当前任务的下载状态
+	@Column(name = "currentLength")
+	private long currentLength;//当前已经下载的长度
 	@Column(name = "size")
-	private long size;//文件的体积大小
+	private long size;//总长度
+	@Column(name = "path")
+	private String path;//文件的保存的绝对路径
 
 	public DownloadTargetInfo() {
-//		 id = Integer.parseInt(UUID.randomUUID().toString().replaceAll("-", ""));
 	}
 
 	public DownloadTargetInfo(String downloadUrl, String des, String name, long size) {
@@ -29,6 +34,9 @@ public class DownloadTargetInfo {
 		this.des = des;
 		this.name = name;
 		this.size = size;
+		this.state = DownloadManager.STATE_NONE;
+		this.currentLength = 0;
+		this.path = "";
 	}
 
 	public int getId() {
@@ -68,4 +76,27 @@ public class DownloadTargetInfo {
 		this.size = size;
 	}
 
+	public long getCurrentLength() {
+		return currentLength;
+	}
+
+	public void setCurrentLength(long currentLength) {
+		this.currentLength = currentLength;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 }

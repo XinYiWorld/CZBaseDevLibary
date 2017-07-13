@@ -120,6 +120,7 @@ public class DownloadManager implements IStateObserver {
 
                 //因为downloadTask可能会放入缓存队列等待，所以讲它的state设置waiting
                 downloadInfo.setState(STATE_WAITING);//更改下载状态
+
                 notifyDownloadStateChange(downloadInfo);//通知所有监听器状态改变
 
                 //将下载任务交给线程池管理
@@ -372,11 +373,16 @@ public class DownloadManager implements IStateObserver {
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
-                                //如果出现异常，属于下载失败的情况
-                                file.delete();//删除失败文件
-                                downloadInfo.setCurrentLength(0);//情况已经下载的长度
-                                downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
-                                notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+//                                if(e instanceof InterruptedIOException){    //占暂停会走此
+                                    downloadInfo.setState(DownloadManager.STATE_PAUSE);//设置状态为下载失败
+                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+//                                }else{
+//                                    //如果出现异常，属于下载失败的情况
+//                                    file.delete();//删除失败文件
+//                                    downloadInfo.setCurrentLength(0);//情况已经下载的长度
+//                                    downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
+//                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+//                                }
                             } finally {
                                 //关闭流和链接
                                 try {
