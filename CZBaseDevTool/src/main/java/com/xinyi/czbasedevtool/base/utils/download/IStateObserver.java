@@ -9,10 +9,10 @@ public interface IStateObserver {
     /**
      * 通知监听器状态改变的回调
      */
-    void notifyDownloadStateChange(DownloadTaskInfo downloadInfo);
+    void notifyDownloadStateChange(DownloadInfo downloadInfo);
 
     /**
      * 通知监听器下载进度改变的回调
      */
-    void notifyDownloadProgressChange(DownloadTaskInfo downloadInfo);
+    void notifyDownloadProgressChange(DownloadInfo downloadInfo);
 }

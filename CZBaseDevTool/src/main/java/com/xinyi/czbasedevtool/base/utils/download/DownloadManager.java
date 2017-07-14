@@ -65,9 +65,9 @@ public class DownloadManager implements IStateObserver {
         dbManager = CZDbManager.getDefaultDb();
     }
 
-    public DownloadTaskInfo getDownloadInfo(DownloadTargetInfo targetDownloadInfo) {
+    public DownloadInfo getDownloadInfo(DownloadInfo targetDownloadInfo) {
         try {
-            return dbManager.selector(DownloadTaskInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
+            return dbManager.selector(DownloadInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
         } catch (DbException e) {
             e.printStackTrace();
         }
@@ -98,14 +98,14 @@ public class DownloadManager implements IStateObserver {
     /**
      * 下载的方法
      */
-    public void download(DownloadTargetInfo targetDownloadInfo) {
+    public void download(DownloadInfo targetDownloadInfo) {
+        DownloadInfo downloadInfo = null;
         try {
             //1.首先获取当前任务对应的DownloadINfo数据
-            DownloadTaskInfo downloadInfo = dbManager.selector(DownloadTaskInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
+            downloadInfo = dbManager.selector(DownloadInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
             if (downloadInfo == null) {
                 //说明是第一次下载，需要创建DownloadInfo，并存放到downloadInfoMap中
-                downloadInfo = DownloadTaskInfo.create(targetDownloadInfo);
-                dbManager.save(downloadInfo);
+                downloadInfo = targetDownloadInfo;
             }
             //2.根据downloadInfo的state判断是否能够进行下载，在这些状态下才能下载：none,pause,error
             if (downloadInfo.getState() == STATE_NONE || downloadInfo.getState() == STATE_PAUSE
@@ -120,6 +120,8 @@ public class DownloadManager implements IStateObserver {
 
                 //因为downloadTask可能会放入缓存队列等待，所以讲它的state设置waiting
                 downloadInfo.setState(STATE_WAITING);//更改下载状态
+                downloadInfo.setPath(DownloadManager.DOWNLOAD_DIR + File.separator
+                        +downloadInfo.getName());
 
                 notifyDownloadStateChange(downloadInfo);//通知所有监听器状态改变
 
@@ -129,6 +131,11 @@ public class DownloadManager implements IStateObserver {
         } catch (DbException e) {
             e.printStackTrace();
         } finally {
+            try {
+                dbManager.saveOrUpdate(downloadInfo);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -136,16 +143,18 @@ public class DownloadManager implements IStateObserver {
     /**
      * 暂停的方法
      */
-    public void pause(DownloadTargetInfo targetDownloadInfo) {
+    public void pause(DownloadInfo targetDownloadInfo) {
         try {
-            DownloadTaskInfo downloadInfo = dbManager.selector(DownloadTaskInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
+            DownloadInfo downloadInfo = dbManager.selector(DownloadInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
             if (downloadInfo != null && downloadInfo.getState() != STATE_FINISH) {
                 //首先将状态设置为pause，然后通知监听器状态更改
                 downloadInfo.setState(STATE_PAUSE);
+                dbManager.saveOrUpdate(downloadInfo);
                 notifyDownloadStateChange(downloadInfo);
 
                 //再取出对应的downloadTask对象，及时从线程池中移除，为等待的任务及时腾出系统资源
                 DownloadTask downloadTask = downloadTaskMap.get(downloadInfo.getId());
+                if(downloadTask == null) return;
                 downloadTask.stop();
                 ThreadPoolManager.getInstance().remove(downloadTask);
             }
@@ -159,12 +168,16 @@ public class DownloadManager implements IStateObserver {
     /**
      * 只移除任务的方法
      */
-    public void removeOnlyTask(DownloadTargetInfo targetDownloadInfo) {
+    public void removeOnlyTask(DownloadInfo targetDownloadInfo) {
         try {
-            DownloadTaskInfo downloadInfo = dbManager.selector(DownloadTaskInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
+            DownloadInfo downloadInfo = dbManager.selector(DownloadInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
             if (downloadInfo != null) {
                 //再取出对应的downloadTask对象，及时从线程池中移除，为等待的任务及时腾出系统资源
-                DownloadTask downloadTask = dbManager.selector(DownloadTask.class).where("id", "=", downloadInfo.getId()).findFirst();
+                DownloadTask downloadTask = downloadTaskMap.get(downloadInfo.getId());
+                if(downloadTask != null){
+                    downloadTask.stop(DownloadManager.STATE_NONE);
+                }
+                dbManager.delete(DownloadInfo.class,WhereBuilder.b("id", "=", targetDownloadInfo.getId()));
                 ThreadPoolManager.getInstance().remove(downloadTask);
             }
         } catch (DbException e) {
@@ -176,16 +189,19 @@ public class DownloadManager implements IStateObserver {
     /**
      * 移除任务和文件的方法
      */
-    public void removeTaskAndFile(DownloadTargetInfo targetDownloadInfo) {
+    public void removeTaskAndFile(DownloadInfo targetDownloadInfo) {
         try {
-            DownloadTaskInfo downloadInfo = dbManager.selector(DownloadTaskInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
+            DownloadInfo downloadInfo = dbManager.selector(DownloadInfo.class).where("id", "=", targetDownloadInfo.getId()).findFirst();
             if (downloadInfo == null) return;
             File file = new File(downloadInfo.getPath());
-            dbManager.delete(DownloadTaskInfo.class, WhereBuilder.b("id", "=", targetDownloadInfo.getId()));
+            dbManager.delete(DownloadInfo.class, WhereBuilder.b("id", "=", downloadInfo.getId()));
             file.deleteOnExit();
             if (downloadInfo != null) {
                 //再取出对应的downloadTask对象，及时从线程池中移除，为等待的任务及时腾出系统资源
-                DownloadTask downloadTask = dbManager.selector(DownloadTask.class).where("id", "=", downloadInfo.getId()).findFirst();
+                DownloadTask downloadTask = downloadTaskMap.get(downloadInfo.getId());
+                if(downloadTask != null){
+                    downloadTask.stop(DownloadManager.STATE_NONE);
+                }
                 ThreadPoolManager.getInstance().remove(downloadTask);
             }
         } catch (DbException e) {
@@ -197,7 +213,7 @@ public class DownloadManager implements IStateObserver {
     /**
      * 重新下载的方法
      */
-    public void reDownload(DownloadTargetInfo targetDownloadInfo) {
+    public void reDownload(DownloadInfo targetDownloadInfo) {
         //1.首先获取当前任务对应的DownloadINfo数据
         removeTaskAndFile(targetDownloadInfo);
         download(targetDownloadInfo);
@@ -205,10 +221,19 @@ public class DownloadManager implements IStateObserver {
 
 
     /**
+     * 进度和状态同时回调改变
+     * @param downloadInfo
+     */
+    private void notifyDownloadChange(DownloadInfo downloadInfo){
+        notifyDownloadStateChange(downloadInfo);
+        notifyDownloadProgressChange(downloadInfo);
+    }
+
+    /**
      * 通知监听器状态改变的回调
      */
     @Override
-    public void notifyDownloadStateChange(DownloadTaskInfo downloadInfo) {
+    public void notifyDownloadStateChange(DownloadInfo downloadInfo) {
         for (DownloadObserver observer : downloadObserverList) {
             observer.onDownloadStateChange(downloadInfo);
         }
@@ -218,7 +243,7 @@ public class DownloadManager implements IStateObserver {
      * 通知监听器下载进度改变的回调
      */
     @Override
-    public void notifyDownloadProgressChange(DownloadTaskInfo downloadInfo) {
+    public void notifyDownloadProgressChange(DownloadInfo downloadInfo) {
         for (DownloadObserver observer : downloadObserverList) {
             observer.onDownloadProgressChange(downloadInfo);
         }
@@ -254,12 +279,12 @@ public class DownloadManager implements IStateObserver {
         /**
          * 当下载状态改变的回调
          */
-        void onDownloadStateChange(DownloadTaskInfo downloadInfo);
+        void onDownloadStateChange(DownloadInfo downloadInfo);
 
         /**
          * 当下载进度改变的回调
          */
-        void onDownloadProgressChange(DownloadTaskInfo downloadInfo);
+        void onDownloadProgressChange(DownloadInfo downloadInfo);
     }
 
     public static String getBASE_URL() {
@@ -271,137 +296,177 @@ public class DownloadManager implements IStateObserver {
     }
 
     class DownloadTask implements Runnable {
-        private DownloadTaskInfo downloadInfo;
+        private DownloadInfo downloadInfo;
         private Subscription subscribe;
+        private int stop_state =  STATE_PAUSE;     //关闭后期望任务所处的状态, 暂停、重新下载之后需要设置。
 
-
-        public DownloadTask(DownloadTaskInfo downloadInfo) {
+        public DownloadTask(DownloadInfo downloadInfo) {
             this.downloadInfo = downloadInfo;
+            this.downloadInfo.setBaseUrl(BASE_URL);
+            this.stop_state =downloadInfo.getState();
         }
 
         /**
          * 结束网络执行,因为线程池remove一个task之后，网络请求并不会自动暂停。
          */
         public void stop() {
+            this.stop_state =  STATE_PAUSE;
             if (subscribe != null && !subscribe.isUnsubscribed()) {
                 subscribe.unsubscribe();
             }
         }
 
+        /**
+         * 结束网络执行,因为线程池remove一个task之后，网络请求并不会自动暂停。
+         */
+        public void stop(int stop_state) {
+            //如果移除任务之前，已经是暂停状态，只需要改变状态即可，无需取消订阅。
+            if(this.stop_state == STATE_PAUSE){
+                new File(downloadInfo.getPath()).delete();//删除失败文件
+                downloadInfo.setCurrentLength(0);//情况已经下载的长度
+                downloadInfo.setState(DownloadManager.STATE_NONE);//设置状态为下载失败
+                notifyDownloadChange(downloadInfo);//通知监听器状态更改
+                this.stop_state = stop_state;
+                return;
+            }
+            this.stop_state = stop_state;
+            if (subscribe != null && !subscribe.isUnsubscribed()) {
+                subscribe.unsubscribe();
+            }
+        }
+
+
+
         @Override
         public void run() {
-            //3.一旦run方法执行，说明进入下载中的状态，所以要更改状态
-            downloadInfo.setState(DownloadManager.STATE_DOWNLOADING);//设置为下载中的状态
-            notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+            try {
+                //3.一旦run方法执行，说明进入下载中的状态，所以要更改状态
+                downloadInfo.setState(DownloadManager.STATE_DOWNLOADING);//设置为下载中的状态
+                notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
 
-            Retrofit.Builder builder = new Retrofit.Builder();
-            builder.baseUrl(downloadInfo.getBaseUrl());
-            builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());  //添加 RxJava 适配器
-            Retrofit retrofit = builder.build();
-            DownloadService downloadService = retrofit.create(DownloadService.class);
-            Observable<ResponseBody> observable;
-            //4.开始真正的下载操作,分2种情况：a.从头下载    b.断点下载
-            final File file = new File(downloadInfo.getPath());
-            if (!file.exists() || file.length() != downloadInfo.getCurrentLength()) {
-                //没有下载或者文件保存出错,都是需要重新下载的情况
-                file.delete();//删除无效文件
-                downloadInfo.setCurrentLength(0);//清空已经下载的长度
-                observable = downloadService.download(downloadInfo.getDownloadUrl());
-            } else {
-                //属于断点下载的情况,
-                observable = downloadService.download("bytes=" + downloadInfo.getCurrentLength() + "-", downloadInfo.getDownloadUrl());
-            }
+                Retrofit.Builder builder = new Retrofit.Builder();
+                builder.baseUrl(downloadInfo.getBaseUrl());
+                builder.addCallAdapterFactory(RxJavaCallAdapterFactory.create());  //添加 RxJava 适配器
+                Retrofit retrofit = builder.build();
+                DownloadService downloadService = retrofit.create(DownloadService.class);
+                Observable<ResponseBody> observable;
+                //4.开始真正的下载操作,分2种情况：a.从头下载    b.断点下载
+                final File file = new File(downloadInfo.getPath());
+                if (!file.exists() || file.length() != downloadInfo.getCurrentLength()) {
+                    //没有下载或者文件保存出错,都是需要重新下载的情况
+                    file.delete();//删除无效文件
+                    downloadInfo.setCurrentLength(0);//清空已经下载的长度
+                    dbManager.saveOrUpdate(downloadInfo);
+                    observable = downloadService.download(downloadInfo.getDownloadUrl());
+                } else {
+                    //属于断点下载的情况,
+                    observable = downloadService.download("bytes=" + downloadInfo.getCurrentLength() + "-", downloadInfo.getDownloadUrl());
+                }
 
-            subscribe = observable.subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .subscribe(new Subscriber<ResponseBody>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.d(TAG, "onCompleted: ");
+                subscribe = observable.subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .subscribe(new Subscriber<ResponseBody>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(TAG, "onCompleted: ");
 
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e(TAG, "onError: ");
-                            e.printStackTrace();
-                            //说明请求文件数据失败,属于下载失败的情况
-                            file.delete();//删除失败文件
-                            downloadInfo.setCurrentLength(0);//情况已经下载的长度
-                            downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
-                            notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
-                            try {
-                                dbManager.saveOrUpdate(downloadInfo);
-                            } catch (DbException e1) {
-                                e1.printStackTrace();
                             }
-                        }
 
-                        @Override
-                        public void onNext(ResponseBody responseBody) {
-                            //4.可以根据服务器返回的数据进行IO操作
-                            InputStream is = responseBody.byteStream();
-                            FileOutputStream fos = null;
-                            try {
-                                fos = new FileOutputStream(file, true);
-                                byte[] buffer = new byte[1024 * 8];//8k的缓冲区
-                                int len = -1;
-                                while ((len = is.read(buffer)) != -1 && downloadInfo.getState() == DownloadManager.STATE_DOWNLOADING) {
-                                    fos.write(buffer, 0, len);
-                                    //需要实时更新currentLength
-                                    downloadInfo.setCurrentLength(downloadInfo.getCurrentLength() + len);
-                                    notifyDownloadProgressChange(downloadInfo);//通知下载进度更新
-                                }
-
-                                //5.走到这里有几种情况:a.finish  b.pause c.失败的情况,加这个情况可以增强代码的健壮性
-                                if (file.length() == downloadInfo.getSize() && downloadInfo.getState() == DownloadManager.STATE_DOWNLOADING) {
-                                    //属于下载完成的情况
-                                    downloadInfo.setState(DownloadManager.STATE_FINISH);//将状态设置为下载完成
-                                    notifyDownloadStateChange(downloadInfo);
-                                    //当run方法结束了，需要将downloadTask从downloadTaskMap中移除，因为没有必要维护了
-                                    downloadTaskMap.remove(downloadInfo.getId());
-                                } else if (downloadInfo.getState() == DownloadManager.STATE_PAUSE) {
-                                    //通知监听器状态更改
-                                    notifyDownloadStateChange(downloadInfo);
-                                } else if (file.length() != downloadInfo.getCurrentLength()) {
-                                    //说明保存文件出错
-                                    file.delete();//删除失败文件
-                                    downloadInfo.setCurrentLength(0);//情况已经下载的长度
-
-                                    downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
-                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
-                                }
-                            } catch (IOException e) {
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e(TAG, "onError: ");
                                 e.printStackTrace();
-//                                if(e instanceof InterruptedIOException){    //占暂停会走此
-                                    downloadInfo.setState(DownloadManager.STATE_PAUSE);//设置状态为下载失败
-                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
-//                                }else{
-//                                    //如果出现异常，属于下载失败的情况
-//                                    file.delete();//删除失败文件
-//                                    downloadInfo.setCurrentLength(0);//情况已经下载的长度
-//                                    downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
-//                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
-//                                }
-                            } finally {
-                                //关闭流和链接
+                                //说明请求文件数据失败,属于下载失败的情况
+                                file.delete();//删除失败文件
+                                downloadInfo.setCurrentLength(0);//情况已经下载的长度
+                                downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
+                                notifyDownloadChange(downloadInfo);//通知监听器状态更改
                                 try {
-                                    if (fos != null) {
-                                        fos.close();
+                                    dbManager.saveOrUpdate(downloadInfo);
+                                } catch (DbException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onNext(ResponseBody responseBody) {
+                                //4.可以根据服务器返回的数据进行IO操作
+                                InputStream is = responseBody.byteStream();
+                                FileOutputStream fos = null;
+                                try {
+                                    fos = new FileOutputStream(file, true);
+                                    byte[] buffer = new byte[1024 * 8];//8k的缓冲区
+                                    int len = -1;
+                                    while ((len = is.read(buffer)) != -1 && downloadInfo.getState() == DownloadManager.STATE_DOWNLOADING) {
+                                        fos.write(buffer, 0, len);
+                                        //需要实时更新currentLength
+                                        downloadInfo.setCurrentLength(downloadInfo.getCurrentLength() + len);
+                                        notifyDownloadProgressChange(downloadInfo);//通知下载进度更新
+                                    }
+
+                                    //5.走到这里有几种情况:a.finish  b.pause c.失败的情况,加这个情况可以增强代码的健壮性
+                                    if (file.length() == downloadInfo.getSize() && downloadInfo.getState() == DownloadManager.STATE_DOWNLOADING) {
+                                        //属于下载完成的情况
+                                        downloadInfo.setState(DownloadManager.STATE_FINISH);//将状态设置为下载完成
+                                        notifyDownloadStateChange(downloadInfo);
+                                        //当run方法结束了，需要将downloadTask从downloadTaskMap中移除，因为没有必要维护了
+                                        downloadTaskMap.remove(downloadInfo.getId());
+                                    } else if (downloadInfo.getState() == DownloadManager.STATE_PAUSE) {
+                                        //通知监听器状态更改
+                                        notifyDownloadStateChange(downloadInfo);
+                                    } else if (file.length() != downloadInfo.getCurrentLength()) {
+                                        //说明保存文件出错
+                                        file.delete();//删除失败文件
+                                        downloadInfo.setCurrentLength(0);//情况已经下载的长度
+
+                                        downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
+                                        notifyDownloadChange(downloadInfo);//通知监听器状态更改
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();
+                                    //由于暂停下载会抛出异常，所以这里做了特殊处理。
+    //                                if(e instanceof InterruptedIOException){    //占暂停会走此
+                                        if(stop_state == DownloadManager.STATE_PAUSE){
+                                            downloadInfo.setState(DownloadManager.STATE_PAUSE);//设置状态为下载失败
+                                            notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+                                        }else if(stop_state == DownloadManager.STATE_NONE){
+                                            file.delete();//删除失败文件
+                                            downloadInfo.setCurrentLength(0);//情况已经下载的长度
+                                            downloadInfo.setState(DownloadManager.STATE_NONE);//设置状态为未下载
+                                            notifyDownloadChange(downloadInfo);//通知监听器状态更改
+                                        }
+    //                                }else{
+    //                                    //如果出现异常，属于下载失败的情况
+    //                                    file.delete();//删除失败文件
+    //                                    downloadInfo.setCurrentLength(0);//情况已经下载的长度
+    //                                    downloadInfo.setState(DownloadManager.STATE_ERROR);//设置状态为下载失败
+    //                                    notifyDownloadStateChange(downloadInfo);//通知监听器状态更改
+    //                                }
                                 } finally {
+                                    //关闭流和链接
                                     try {
-                                        dbManager.saveOrUpdate(downloadInfo);
-                                    } catch (DbException e1) {
-                                        e1.printStackTrace();
+                                        if (fos != null) {
+                                            fos.close();
+                                        }
+
+                                        //注意关闭responseBody，否则 报错误：okhttp3.OkHttpClient: A connection to http://192.168.56.1/ was leaked. Did you forget to close a response body?
+                                        responseBody.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        try {
+                                            dbManager.saveOrUpdate(downloadInfo);
+                                        } catch (DbException e1) {
+                                            e1.printStackTrace();
+                                        }
                                     }
                                 }
-                            }
 
-                        }
-                    });
+                            }
+                        });
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
 
 
         }

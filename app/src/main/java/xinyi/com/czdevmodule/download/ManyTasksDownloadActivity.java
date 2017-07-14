@@ -13,8 +13,7 @@ import android.widget.TextView;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseAppCompatActivity;
 import com.xinyi.czbasedevtool.base.utils.download.DownloadManager;
-import com.xinyi.czbasedevtool.base.utils.download.DownloadTargetInfo;
-import com.xinyi.czbasedevtool.base.utils.download.DownloadTaskInfo;
+import com.xinyi.czbasedevtool.base.utils.download.DownloadInfo;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import org.xutils.DbManager;
@@ -109,9 +108,9 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
         }
     };
     private DownloadManager downloadManager;
-    private DownloadTargetInfo downloadTargetInfo1;
-    private DownloadTargetInfo downloadTargetInfo2;
-    private DownloadTargetInfo downloadTargetInfo3;
+    private DownloadInfo DownloadTaskInfo1;
+    private DownloadInfo DownloadTaskInfo2;
+    private DownloadInfo DownloadTaskInfo3;
     private DbManager dbManager;
 
     @Override
@@ -148,24 +147,31 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
         prg2.setMax(100);
         prg3.setMax(100);
 
-        downloadTargetInfo1 = dbManager.selector(DownloadTargetInfo.class).where("id","=",1).findFirst();
-        if(downloadTargetInfo1 == null){
-            downloadTargetInfo1 = new DownloadTargetInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
-            downloadTargetInfo1.setId(1);
+        DownloadTaskInfo1 = dbManager.selector(DownloadInfo.class).where("id","=",4).findFirst();
+        if(DownloadTaskInfo1 == null){
+            DownloadTaskInfo1 = new DownloadInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
+            DownloadTaskInfo1.setId(4);
         }else{
-
+            notifyStateChanged(ONDOWNLOADSTATECHANGE1,DownloadTaskInfo1);
+            notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE1,DownloadTaskInfo1);
         }
 
-        downloadTargetInfo2 = dbManager.selector(DownloadTargetInfo.class).where("id","=",2).findFirst();
-        if(downloadTargetInfo2 == null){
-            downloadTargetInfo2 = new DownloadTargetInfo("images/huaxin.flv", "图片1", "画心.flv", 6862755);
-            downloadTargetInfo2.setId(2);
+        DownloadTaskInfo2 = dbManager.selector(DownloadInfo.class).where("id","=",5).findFirst();
+        if(DownloadTaskInfo2 == null){
+            DownloadTaskInfo2 = new DownloadInfo("images/huaxin.flv", "图片1", "画心.flv", 6862755);
+            DownloadTaskInfo2.setId(5);
+        }else{
+            notifyStateChanged(ONDOWNLOADSTATECHANGE2,DownloadTaskInfo2);
+            notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE2,DownloadTaskInfo2);
         }
 
-        downloadTargetInfo3 = dbManager.selector(DownloadTargetInfo.class).where("id","=",3).findFirst();
-        if(downloadTargetInfo3 == null){
-            downloadTargetInfo3 = new DownloadTargetInfo("images/qinshi.mp4", "图片1", "琴师.mp4", 19274609);
-            downloadTargetInfo3.setId(3);
+        DownloadTaskInfo3 = dbManager.selector(DownloadInfo.class).where("id","=",6).findFirst();
+        if(DownloadTaskInfo3 == null){
+            DownloadTaskInfo3 = new DownloadInfo("images/qinshi.mp4", "图片1", "琴师.mp4", 19274609);
+            DownloadTaskInfo3.setId(6);
+        }else{
+            notifyStateChanged(ONDOWNLOADSTATECHANGE3,DownloadTaskInfo3);
+            notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE3,DownloadTaskInfo3);
         }
 
 
@@ -173,45 +179,48 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
         downloadManager.setBASE_URL("http://192.168.56.1/");
         downloadManager.registerDownloadObserver(new DownloadManager.DownloadObserver() {
             @Override
-            public void onDownloadStateChange(DownloadTaskInfo downloadInfo) {
-                if(downloadInfo.getId() == downloadTargetInfo1.getId()){
+            public void onDownloadStateChange(DownloadInfo downloadInfo) {
+                if(downloadInfo.getId() == DownloadTaskInfo1.getId()){
                     Log.i(TAG, "ONDOWNLOADSTATECHANGE1: " + downloadInfo.getState());
-                    mHandler.obtainMessage(ONDOWNLOADSTATECHANGE1, getDownloadTxt(downloadInfo.getState())).sendToTarget();
-                }else if(downloadInfo.getId() == downloadTargetInfo2.getId()){
+                    notifyStateChanged(ONDOWNLOADSTATECHANGE1,downloadInfo);
+                }else if(downloadInfo.getId() == DownloadTaskInfo2.getId()){
                     Log.i(TAG, "ONDOWNLOADSTATECHANGE2: " + downloadInfo.getState());
-                    mHandler.obtainMessage(ONDOWNLOADSTATECHANGE2, getDownloadTxt(downloadInfo.getState())).sendToTarget();
-                }else if(downloadInfo.getId() == downloadTargetInfo3.getId()){
+                    notifyStateChanged(ONDOWNLOADSTATECHANGE2,downloadInfo);
+                }else if(downloadInfo.getId() == DownloadTaskInfo3.getId()){
                     Log.i(TAG, "ONDOWNLOADSTATECHANGE3: " + downloadInfo.getState());
-                    mHandler.obtainMessage(ONDOWNLOADSTATECHANGE3, getDownloadTxt(downloadInfo.getState())).sendToTarget();
+                    notifyStateChanged(ONDOWNLOADSTATECHANGE3,downloadInfo);
                 }
 
             }
 
             @Override
-            public void onDownloadProgressChange(DownloadTaskInfo downloadInfo) {
-                if(downloadInfo.getId() == downloadTargetInfo1.getId()){
-                    long currentLength = downloadInfo.getCurrentLength();
-                    long size = downloadInfo.getSize();
-
-                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE1: " + currentLength);
-                    mHandler.obtainMessage(ONDOWNLOADPROGRESSCHANGE1, (int) (currentLength * 100.0 / size)).sendToTarget();
-                }else if(downloadInfo.getId() == downloadTargetInfo2.getId()){
-                    long currentLength = downloadInfo.getCurrentLength();
-                    long size = downloadInfo.getSize();
-
-                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE2 " + currentLength);
-                    mHandler.obtainMessage(ONDOWNLOADPROGRESSCHANGE2, (int) (currentLength * 100.0 / size)).sendToTarget();
-                }else if(downloadInfo.getId() == downloadTargetInfo3.getId()){
-                    long currentLength = downloadInfo.getCurrentLength();
-                    long size = downloadInfo.getSize();
-
-                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE3: " + currentLength);
-                    mHandler.obtainMessage(ONDOWNLOADPROGRESSCHANGE3, (int) (currentLength * 100.0 / size)).sendToTarget();
+            public void onDownloadProgressChange(DownloadInfo downloadInfo) {
+                if(downloadInfo.getId() == DownloadTaskInfo1.getId()){
+                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE1: " + downloadInfo.getCurrentLength());
+                    notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE1,downloadInfo);
+                }else if(downloadInfo.getId() == DownloadTaskInfo2.getId()){
+                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE2: " + downloadInfo.getCurrentLength());
+                    notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE2,downloadInfo);
+                }else if(downloadInfo.getId() == DownloadTaskInfo3.getId()){
+                    Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE3: " + downloadInfo.getCurrentLength());
+                    notifyProgressChanged(ONDOWNLOADPROGRESSCHANGE3,downloadInfo);
                 }
             }
         });
 
 
+    }
+
+    private void notifyStateChanged(int which,DownloadInfo downloadInfo) {
+        mHandler.obtainMessage(which, getDownloadTxt(downloadInfo.getState())).sendToTarget();
+    }
+
+    private void notifyProgressChanged(int which,DownloadInfo downloadInfo) {
+        long currentLength = downloadInfo.getCurrentLength();
+        long size = downloadInfo.getSize();
+
+        Log.i(TAG, "ONDOWNLOADPROGRESSCHANGE1: " + currentLength);
+        mHandler.obtainMessage(which, (int) (currentLength * 100.0 / size)).sendToTarget();
     }
 
 
@@ -246,23 +255,23 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
             case R.id.btn_download1:
                 if (btnDownload1.getText().equals("开始下载")) {
                     btnDownload1.setText("暂停");
-                    downloadManager.download(downloadTargetInfo1);
+                    downloadManager.download(DownloadTaskInfo1);
                 } else {
                     btnDownload1.setText("开始下载");
-                    downloadManager.pause(downloadTargetInfo1);
+                    downloadManager.pause(DownloadTaskInfo1);
                 }
                 break;
             case R.id.btn_del_task1:
-                downloadManager.removeOnlyTask(downloadTargetInfo1);
+                downloadManager.removeOnlyTask(DownloadTaskInfo1);
                 prg1.setProgress(0);
                 break;
             case R.id.btn_del_task_and_file1:
-                downloadManager.removeTaskAndFile(downloadTargetInfo1);
+                downloadManager.removeTaskAndFile(DownloadTaskInfo1);
                 prg1.setProgress(0);
                 btnDownload1.setText("开始下载");
                 break;
             case R.id.btn_re_download1:
-                downloadManager.reDownload(downloadTargetInfo1);
+                downloadManager.reDownload(DownloadTaskInfo1);
                 btnDownload1.setText("开始下载");
                 break;
         }
@@ -274,22 +283,24 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
             case R.id.btn_download2:
                 if (btnDownload2.getText().equals("开始下载")) {
                     btnDownload2.setText("暂停");
-                    downloadManager.download(downloadTargetInfo2);
+                    downloadManager.download(DownloadTaskInfo2);
                 } else {
                     btnDownload2.setText("开始下载");
-                    downloadManager.pause(downloadTargetInfo2);
+                    downloadManager.pause(DownloadTaskInfo2);
                 }
                 break;
             case R.id.btn_del_task2:
-                downloadManager.removeOnlyTask(downloadTargetInfo2);
+                downloadManager.removeOnlyTask(DownloadTaskInfo2);
                 prg2.setProgress(0);
+                btnDownload2.setText("开始下载");
                 break;
             case R.id.btn_del_task_and_file2:
-                downloadManager.removeTaskAndFile(downloadTargetInfo2);
+                downloadManager.removeTaskAndFile(DownloadTaskInfo2);
+                btnDownload2.setText("开始下载");
                 prg2.setProgress(0);
                 break;
             case R.id.btn_re_download2:
-                downloadManager.reDownload(downloadTargetInfo2);
+                downloadManager.reDownload(DownloadTaskInfo2);
                 break;
         }
     }
@@ -301,22 +312,24 @@ public class ManyTasksDownloadActivity extends DefaultBaseAppCompatActivity {
             case R.id.btn_download3:
                 if (btnDownload3.getText().equals("开始下载")) {
                     btnDownload3.setText("暂停");
-                    downloadManager.download(downloadTargetInfo3);
+                    downloadManager.download(DownloadTaskInfo3);
                 } else {
                     btnDownload3.setText("开始下载");
-                    downloadManager.pause(downloadTargetInfo3);
+                    downloadManager.pause(DownloadTaskInfo3);
                 }
                 break;
             case R.id.btn_del_task3:
-                downloadManager.removeOnlyTask(downloadTargetInfo3);
+                downloadManager.removeOnlyTask(DownloadTaskInfo3);
                 prg3.setProgress(0);
+                btnDownload3.setText("开始下载");
                 break;
             case R.id.btn_del_task_and_file3:
-                downloadManager.removeTaskAndFile(downloadTargetInfo3);
+                downloadManager.removeTaskAndFile(DownloadTaskInfo3);
                 prg3.setProgress(0);
+                btnDownload3.setText("开始下载");
                 break;
             case R.id.btn_re_download3:
-                downloadManager.reDownload(downloadTargetInfo3);
+                downloadManager.reDownload(DownloadTaskInfo3);
                 break;
         }
     }

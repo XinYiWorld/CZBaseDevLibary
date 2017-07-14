@@ -13,8 +13,7 @@ import android.widget.TextView;
 import com.xinyi.czbasedevtool.base.bean.BaseHttpResponseBean;
 import com.xinyi.czbasedevtool.base.main.DefaultBaseAppCompatActivity;
 import com.xinyi.czbasedevtool.base.utils.download.DownloadManager;
-import com.xinyi.czbasedevtool.base.utils.download.DownloadTargetInfo;
-import com.xinyi.czbasedevtool.base.utils.download.DownloadTaskInfo;
+import com.xinyi.czbasedevtool.base.utils.download.DownloadInfo;
 import com.xinyi.czbasedevtool.base.view.ContentViewHolder;
 
 import java.io.IOException;
@@ -58,7 +57,7 @@ public class SimpleDownloadActivity extends DefaultBaseAppCompatActivity {
         }
     };
     private DownloadManager downloadManager;
-    private DownloadTargetInfo downloadTargetInfo;
+    private DownloadInfo downloadTargetInfo;
 
     @Override
     public void annotationBind(@NonNull Activity target, View view) {
@@ -91,18 +90,18 @@ public class SimpleDownloadActivity extends DefaultBaseAppCompatActivity {
         super.bindView(contentViewHolder);
         prg.setMax(100);
 
-        downloadTargetInfo = new DownloadTargetInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
+        downloadTargetInfo = new DownloadInfo("images/newl.flv", "图片1", "男儿无泪.flv", 9224820);
         downloadManager = DownloadManager.getInstance(mContext.getApplicationContext());
         downloadManager.setBASE_URL("http://192.168.56.1/");
         downloadManager.registerDownloadObserver(new DownloadManager.DownloadObserver() {
             @Override
-            public void onDownloadStateChange(DownloadTaskInfo downloadInfo) {
+            public void onDownloadStateChange(DownloadInfo downloadInfo) {
                 Log.i(TAG, "onDownloadStateChange: " + downloadInfo.getState());
                 mHandler.obtainMessage(ONDOWNLOADSTATECHANGE, getDownloadTxt(downloadInfo.getState())).sendToTarget();
             }
 
             @Override
-            public void onDownloadProgressChange(DownloadTaskInfo downloadInfo) {
+            public void onDownloadProgressChange(DownloadInfo downloadInfo) {
                 long currentLength = downloadInfo.getCurrentLength();
                 long size = downloadInfo.getSize();
 

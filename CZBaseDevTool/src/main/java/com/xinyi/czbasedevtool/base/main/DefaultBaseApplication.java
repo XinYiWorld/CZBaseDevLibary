@@ -16,7 +16,7 @@ public abstract  class DefaultBaseApplication extends BaseApplication {
     public void initDependentSDK(boolean isOnline) {
         //设置默认的数据库系统
         String dbName = isOnline ? getPackageName() + "_online.db" : getPackageName() + "_test.db";
-        String dbDir =  isOnline ? getFilesDir() + "online/db" : getFilesDir() + "test/db";
+        String dbDir =  isOnline ? getFilesDir() + "/online/db" : getFilesDir() + "/test/db";
 
         new CZDbManager.Builder()
                 .application(this)
