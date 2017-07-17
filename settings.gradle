@@ -1,1 +1,1 @@
-include ':app', ':XDbUtils', ':CZBaseDevTool'
+include ':app', ':CZBaseDevTool'

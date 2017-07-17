@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CZBaseDevTool" />
-            <option value="$PROJECT_DIR$/XDbUtils" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
