@@ -27,10 +27,10 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':CZBaseDevTool')
     //avoid findviewbyid (plugin 及依赖要写在此module里，不能写在父类里。)
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile project(':CZBaseDevTool')
 }
 
 
