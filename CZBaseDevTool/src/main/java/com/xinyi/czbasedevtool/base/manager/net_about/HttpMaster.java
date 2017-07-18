@@ -457,6 +457,10 @@ public class HttpMaster implements I_Try_RequestServer, I_Real_RequestServer {
                 hideProgressView();
                 if (targetBean != null && httpResultHandler != null) {
                     httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                    //分发到多个结果处理器上
+                    for (I_HttpResultHandler httpResultHandler: bindedHttpResultHandlers){
+                        httpResultHandler.onSuccess(getRequestCode(), null,targetBean);
+                    }
                 }
             }
         };
