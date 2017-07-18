@@ -17,26 +17,36 @@ public class DialogMaster implements ProgressView {
     private Context mContext;
     private MaterialDialogFactory materialDialogFactory;
     private String customProgressMsg;               //定制进度提示信息，不同场景要求可能不一样。
-
+    private static boolean temporaryDisableDialog;         //某些情景下，不需要显示对话框。
     public DialogMaster(Context mContext) {
         this.mContext = mContext;
         materialDialogFactory = MaterialDialogFactory.getInstance(mContext);
         customProgressMsg = ResourceUtil.getString(mContext, R.string.loading);
+        temporaryDisableDialog = false;
+    }
+
+    public static void temporaryDisableDialog(){
+        temporaryDisableDialog = true;
     }
 
     @Override
     public void onShowProgressDialog() {
-        materialDialogFactory.createMsgProgressMaterialDialog(customProgressMsg);
+        if(!temporaryDisableDialog){
+             materialDialogFactory.createMsgProgressMaterialDialog(customProgressMsg);
+        }
     }
 
     @Override
     public void onHideProgressDialog() {
+        temporaryDisableDialog = false;
         materialDialogFactory.hideProgressMaterialDialog();
     }
 
     @Override
     public void onShowMessageDiaolg(@NonNull String msg) {
-        materialDialogFactory.createMsgProgressMaterialDialog(msg);
+        if(!temporaryDisableDialog) {
+            materialDialogFactory.createMsgProgressMaterialDialog(msg);
+        }
     }
 
     @Override
@@ -52,6 +62,7 @@ public class DialogMaster implements ProgressView {
     @Override
     public void reset() {
         customProgressMsg = ResourceUtil.getString(R.string.loading);
+        temporaryDisableDialog = false;
     }
 
 }
